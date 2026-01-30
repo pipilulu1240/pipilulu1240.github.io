@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>大柴小熊寵物美容 | 專業美容・安親住宿</title>
+    
+    <link rel="icon" href="logo (2).jpg" type="image/jpeg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        /* --- 色系設定：從 logo (2).jpg 提取的莫蘭迪綠 --- */
+        const themeColors = {
+            primary: '#A5C4AE',   // Logo 的底色 (抹茶綠/鼠尾草綠)
+            dark: '#769A82',      // 漸層用的深綠色
+            text: '#4A5D50',      // 深墨綠色文字 (比純黑更有質感)
+            bg: '#F5F9F6'         // 極淡的綠白色背景
+        };
+
+        tailwind.config = { 
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            bg: themeColors.bg,
+                            primary: themeColors.primary,
+                            dark: themeColors.dark,
+                            text: themeColors.text,
+                            sub: '#8C9E92',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif TC"', 'serif'],
+                        en: ['"Cormorant Garamond"', 'serif'],
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(74, 93, 80, 0.08)',
+                        'glow': `0 0 20px ${themeColors.primary}60`,
+                    },
+                    backgroundImage: {
+                        // 精品綠色漸層 (按鈕與裝飾用)
+                        'gradient-lux': `linear-gradient(135deg, ${themeColors.primary} 0%, ${themeColors.dark} 100%)`,
+                        // 住宿按鈕用的漸層 (稍微淺一點區分)
+                        'gradient-light': `linear-gradient(135deg, ${themeColors.dark} 0%, #B8D6C0 100%)`,
+                        'shimmer': 'linear-gradient(45deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 60%)',
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                        'float': 'float 4s ease-in-out infinite',
+                        'shimmer': 'shimmer 2.5s infinite',
+                    },
+                    keyframes: {
+                        slideUp: { from: { opacity: '0', transform: 'translateY(40px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
+                        shimmer: { '0%': { backgroundPosition: '-200% center' }, '100%': { backgroundPosition: '200% center' } },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            background-color: #F5F9F6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(165, 196, 174, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(118, 154, 130, 0.15) 0%, transparent 40%);
+            font-family: 'Noto Serif TC', serif;
+            color: #4A5D50;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        
+        .font-en { font-family: 'Cormorant Garamond', serif; }
+
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8); 
+            box-shadow: 0 8px 32px 0 rgba(74, 93, 80, 0.08);
+        }
+
+        .btn-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .btn-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-4px);
+            border-color: #A5C4AE;
+        }
+        .btn-card:active { transform: scale(0.96); }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #4A5D50 30%, #769A82 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative flex flex-col">
+
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 opacity-0 pointer-events-none" id="navbar">
+        <div class="bg-white/80 backdrop-blur-xl border-b border-white/40 shadow-sm">
+            <div class="px-6 py-4 flex justify-between items-center max-w-lg mx-auto">
+                <div class="flex items-center gap-3" onclick="router('home')">
+                    <div class="w-9 h-9 rounded-full bg-theme-bg border border-theme-primary/30 flex items-center justify-center overflow-hidden">
+                         <img src="logo (2).jpg" class="w-full h-full object-cover">
+                    </div>
+                    <span class="font-bold text-lg tracking-widest text-theme-text font-serif">大柴小熊</span>
+                </div>
+                <button onclick="router('home')" class="flex items-center gap-1.5 text-xs font-bold text-theme-sub uppercase border border-transparent hover:border-theme-primary/30 px-3 py-1.5 rounded-full transition-colors">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 w-full max-w-lg mx-auto relative z-10 flex flex-col py-6 px-6">
+
+        <div id="view-home" class="flex flex-col justify-center min-h-[90vh] py-8">
+            
+            <div class="w-full glass-panel rounded-[32px] p-8 text-center relative overflow-hidden animate-slide-up z-20 mb-6 group">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-theme-primary/20 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-theme-dark/10 rounded-full blur-3xl"></div>
+
+                <div class="relative z-10 mb-6 flex justify-center">
+                    <div class="w-44 h-44 rounded-full p-2 bg-gradient-to-br from-white/90 to-white/40 shadow-xl border border-white flex items-center justify-center animate-float ring-1 ring-white/60">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center relative shadow-inner">
+                            <img src="logo (2).jpg" alt="Logo" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 space-y-2 mb-8">
+                    <h1 class="text-3xl font-black tracking-[0.2em] leading-tight text-gradient font-serif">
+                        大柴小熊
+                    </h1>
+                    <span class="text-lg font-bold text-theme-dark tracking-[0.1em] block">
+                        寵物美容
+                    </span>
+                    <div class="flex items-center justify-center gap-2 mt-2 opacity-70">
+                        <span class="h-px w-6 bg-theme-sub/50"></span>
+                        <p class="text-[10px] text-theme-sub tracking-[0.15em] font-medium font-en">
+                            Professional Pet Grooming
+                        </p>
+                        <span class="h-px w-6 bg-theme-sub/50"></span>
+                    </div>
+                    <p class="text-[10px] text-theme-sub/60 tracking-widest mt-1">
+                        特寵業字第 S1130033 號
+                    </p>
+                </div>
+
+                <div class="relative z-10 grid gap-4">
+                    
+                    <button onclick="router('form', 'grooming')" class="group relative w-full overflow-hidden rounded-xl shadow-lg hover:shadow-glow hover:-translate-y-1 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-lux opacity-90 group-hover:opacity-100 transition"></div>
+                        <div class="absolute inset-0 bg-shimmer bg-[length:200%_100%] animate-shimmer opacity-30"></div>
+                        <div class="relative py-5 px-6 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/20">
+                                    <i data-lucide="scissors" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div class="text-left text-white">
+                                    <span class="block font-bold text-lg tracking-[0.2em] font-serif">寵物美容</span>
+                                    <span class="block text-[10px] opacity-90 tracking-wider font-en">Pet Grooming</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </button>
+
+                    <button onclick="router('form', 'boarding')" class="group relative w-full overflow-hidden rounded-xl shadow-lg hover:shadow-glow hover:-translate-y-1 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-light opacity-90 group-hover:opacity-100 transition"></div>
+                        <div class="absolute inset-0 bg-shimmer bg-[length:200%_100%] animate-shimmer opacity-30"></div>
+                        <div class="relative py-5 px-6 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/20">
+                                    <i data-lucide="home" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div class="text-left text-white">
+                                    <span class="block font-bold text-lg tracking-[0.2em] font-serif">寵物住宿</span>
+                                    <span class="block text-[10px] opacity-90 tracking-wider font-en">Pet Boarding</span>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-white/80 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="w-full space-y-3 animate-slide-up" style="animation-delay: 0.15s; opacity: 0; animation-fill-mode: forwards;">
+                
+<a href="https://lin.ee/DguRzCU" target="_blank" class="btn-card flex items-center p-4 rounded-2xl group hover:border-[#06C755]/50">
+                    <div class="w-10 h-10 rounded-full bg-[#06C755]/10 text-[#06C755] flex items-center justify-center mr-4 group-hover:bg-[#06C755] group-hover:text-white transition-colors duration-300">
+                        <svg viewBox="0 0 256 256" class="w-5 h-5" fill="currentColor">
+                            <g transform="translate(1.4 1.4) scale(2.81)">
+                                <path d="M 42.685 88.018 c -0.944 0 -1.935 -0.233 -2.809 -0.929 c -2.075 -1.653 -1.61 -4.302 -1.435 -5.299 l 0.015 -0.085 c 0.097 -0.573 0.523 -3.138 0.589 -3.532 c 0.143 -1.106 0.122 -1.725 0.087 -2.032 c -0.248 -0.131 -0.736 -0.332 -1.527 -0.51 C 15.806 72.699 0 57.334 0 39.057 C 0 18.615 20.187 1.984 45 1.984 c 24.813 0 45 16.631 45 37.073 c 0 6.388 -1.921 12.34 -5.848 18.055 h 0.347 l -2.727 3.14 c -0.471 0.568 -0.964 1.135 -1.476 1.7 l -0.03 0.034 c -9.005 10.364 -29.164 23.109 -34.124 25.199 C 45.535 87.442 44.169 88.018 42.685 88.018 z M 45 7.872 c -21.566 0 -39.112 13.99 -39.112 31.185 c 0 15.321 13.716 28.255 32.614 30.754 l 0.234 0.04 c 3.099 0.668 5.056 1.964 5.817 3.853 c 0.524 1.311 0.625 2.988 0.324 5.285 l -0.015 0.099 c 0 0 -0.221 1.327 -0.399 2.397 c 5.106 -2.446 21.464 -12.945 29.972 -21.843 l 1.432 -1.571 c 5.626 -6.17 8.246 -12.212 8.246 -19.015 C 84.112 21.862 66.566 7.872 45 7.872 z"/>
+                                <path d="M 37.309 31.467 h -2.655 c -0.407 0 -0.737 0.33 -0.737 0.736 v 16.492 c 0 0.406 0.33 0.735 0.737 0.735 h 2.655 c 0.407 0 0.737 -0.329 0.737 -0.735 V 32.203 C 38.047 31.797 37.716 31.467 37.309 31.467"/>
+                                <path d="M 55.584 31.467 h -2.655 c -0.407 0 -0.737 0.33 -0.737 0.736 v 9.798 l -7.558 -10.207 c -0.017 -0.026 -0.037 -0.051 -0.057 -0.075 h -2.655 c -0.407 0 -0.737 0.33 -0.737 0.736 v 16.492 c 0 0.406 0.33 0.735 0.737 0.735 h 2.655 v -10.59 l 7.567 10.22 c 0.052 0.073 0.117 0.134 0.187 0.182 h 2.655 c 0.407 0 0.737 -0.329 0.737 -0.735 V 32.203 C 56.321 31.797 55.991 31.467 55.584 31.467"/>
+                                <path d="M 30.91 45.302 h -7.214 V 32.204 c 0 -0.407 -0.33 -0.737 -0.737 -0.737 h -2.655 c -0.407 0 -0.737 0.33 -0.737 0.737 v 16.491 c 0 0.407 0.33 0.737 0.737 0.737 H 30.91 c 0.407 0 0.736 -0.33 0.736 -0.737 v -2.655 C 31.646 45.632 31.316 45.302 30.91 45.302"/>
+                                <path d="M 70.245 35.597 c 0.407 0 0.736 -0.33 0.736 -0.737 v -2.655 c 0 -0.407 -0.329 -0.738 -0.736 -0.738 H 59.639 v 16.489 c 0 0.407 0.33 0.737 0.737 0.737 h 10.606 c 0.407 0 0.736 -0.33 0.736 -0.737 v -2.655 c 0 -0.407 -0.329 -0.737 -0.736 -0.737 h -7.213 v -2.788 h 7.213 c 0.407 0 0.736 -0.33 0.736 -0.737 v -2.655 c 0 -0.407 -0.329 -0.738 -0.736 -0.738 h -7.213 v -2.787 H 70.245 z"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                         <span class="block text-[10px] font-bold text-theme-sub tracking-widest uppercase mb-0.5">Online Booking</span>
+                         <span class="block text-sm font-bold text-theme-text group-hover:text-[#06C755] transition-colors">加入 LINE 官方帳號</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-theme-sub/50 group-hover:text-[#06C755]"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/chenpichenlu/" target="_blank" class="btn-card flex items-center p-4 rounded-2xl group hover:border-[#E1306C]/50">
+                     <div class="w-10 h-10 rounded-full bg-[#E1306C]/10 text-[#E1306C] flex items-center justify-center mr-4 group-hover:bg-[#E1306C] group-hover:text-white transition-colors duration-300">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1">
+                         <span class="block text-[10px] font-bold text-theme-sub tracking-widest uppercase mb-0.5">Instagram</span>
+                         <span class="block text-sm font-bold text-theme-text group-hover:text-[#E1306C] transition-colors">追蹤我們 @chenpichenlu</span>
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-theme-sub/50 group-hover:text-[#E1306C]"></i>
+                </a>
+
+<a href="https://maps.app.goo.gl/ZX632JTbHmaxbyLN7" target="_blank" class="btn-card flex items-center p-4 rounded-2xl group hover:border-theme-primary/50">
+                     <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mr-4 group-hover:bg-theme-primary group-hover:text-white transition-colors">
+                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1">
+                         <span class="block text-[10px] font-bold text-theme-sub tracking-widest uppercase mb-0.5">Location</span>
+                         <span class="block text-sm font-bold text-theme-text group-hover:text-theme-dark transition-colors">台中市北屯區平德路82巷5號 1樓</span>
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-theme-sub/50 group-hover:text-theme-dark"></i>
+                </a>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="tel:0981681349" class="btn-card p-4 flex flex-col items-center justify-center gap-3 rounded-2xl group hover:border-theme-primary/50">
+                        <div class="w-10 h-10 rounded-full bg-theme-primary/10 text-theme-primary flex items-center justify-center group-hover:bg-theme-primary group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="phone-call" class="w-5 h-5"></i>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-[10px] font-bold text-theme-sub tracking-widest uppercase mb-1">預約電話</span>
+                            <span class="block text-sm font-bold text-theme-text font-en tracking-wider">0981-681-349</span>
+                        </div>
+                    </a>
+
+                    <div class="btn-card p-4 flex flex-col items-center justify-center gap-3 rounded-2xl cursor-default hover:border-theme-primary/50">
+                        <div class="w-10 h-10 rounded-full bg-theme-dark/10 text-theme-dark flex items-center justify-center">
+                            <i data-lucide="clock-3" class="w-5 h-5"></i>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-[10px] font-bold text-theme-sub tracking-widest uppercase mb-1">營業時間</span>
+                            <span class="block text-sm font-bold text-theme-text font-en tracking-wider">10:00 – 19:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center space-y-1">
+                    <p class="text-[10px] text-theme-sub/60">負責人：陳亞琪 | 統編：94536765</p>
+                    <p class="text-[10px] text-theme-sub/60">© 2026 大柴小熊寵物美容 All Rights Reserved.</p>
+                </div>
+
+            </div>
+        </div>
+
+<div id="view-form" class="hidden pb-20 pt-20">
+            <header class="text-center mb-10 space-y-2 animate-fade-in">
+                <span id="form-subtitle" class="text-xs font-bold text-theme-dark tracking-[0.3em] uppercase block mb-2 font-en">Service Agreement</span>
+                <h2 id="form-title" class="text-2xl font-black text-theme-text tracking-[0.2em] font-serif">寵物美容契約書</h2>
+                <div class="flex items-center justify-center gap-2 text-theme-sub/60 mt-3">
+                    <span class="h-px w-8 bg-theme-sub/30"></span>
+                    <i id="form-icon" data-lucide="scissors" class="w-3 h-3 text-theme-primary"></i>
+                    <span class="h-px w-8 bg-theme-sub/30"></span>
+                </div>
+            </header>
+
+<div class="glass-panel p-6 rounded-2xl mb-6 text-center animate-slide-up">
+                <img src="line.png" class="w-14 h-14 mx-auto mb-3 object-contain">
+                <h3 class="text-theme-text font-bold text-lg mb-1">加入官方 LINE</h3>
+                <p class="text-theme-sub font-en tracking-wider text-sm mb-4">ID: @923hnkxg</p>
+                
+                <div class="space-y-3">
+                    <a href="https://line.me/R/ti/p/%40923hnkxg" target="_blank" class="block w-full bg-[#06C755] text-white py-3 rounded-xl font-bold shadow-lg shadow-[#06C755]/20 hover:scale-[1.02] transition-transform">
+                        1. 點擊加入好友
+                    </a>
+                    <div class="flex items-center justify-center gap-2 text-red-500 font-bold text-sm bg-red-50 py-2 rounded-lg border border-red-100">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        2. 務必傳送貼圖
+                    </div>
+                </div>
+            </div>
+
+            <form id="main-form" class="space-y-5 animate-slide-up" style="animation-delay: 0.1s;">
+                
+                <div class="glass-panel p-6 rounded-2xl relative">
+                    <div class="flex items-center gap-2 mb-6 border-b border-theme-sub/20 pb-3">
+                        <span class="text-2xl">👤</span>
+                        <h3 class="font-bold text-theme-text text-lg">飼主基本資料</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">電子郵件 (選填)</label>
+                            <input type="email" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition" placeholder="example@email.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">主人姓名*</label>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">連絡電話*</label>
+                            <div class="flex gap-2">
+                                <input type="tel" class="flex-1 w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入手機號碼" required>
+                                <button type="button" class="bg-theme-dark/10 text-theme-dark px-4 rounded-xl font-bold text-sm hover:bg-theme-dark hover:text-white transition whitespace-nowrap flex items-center gap-1">
+                                    <i data-lucide="search" class="w-4 h-4"></i>
+                                    舊客
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">身分證字號*</label>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">通訊地址*</label>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">緊急聯絡人*</label>
+                                <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">緊急電話*</label>
+                                <input type="tel" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl relative">
+                    <div class="flex items-center gap-2 mb-6 border-b border-theme-sub/20 pb-3">
+                        <span class="text-2xl">🐾</span>
+                        <h3 class="font-bold text-theme-text text-lg">寵物詳細資料</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">種類*</label>
+                            <div class="flex gap-3">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="pet_type" value="dog" class="hidden" checked>
+                                    <span class="text-lg">🐶</span>
+                                    <span class="text-sm font-bold text-theme-text">狗狗</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="pet_type" value="cat" class="hidden">
+                                    <span class="text-lg">🐱</span>
+                                    <span class="text-sm font-bold text-theme-text">貓咪</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">寵物名字*</label>
+                                <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">品種*</label>
+                                <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">體重 (kg)*</label>
+                                <input type="number" step="0.1" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            </div>
+                             <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">年齡 (歲)*</label>
+                                <input type="number" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入年齡" required>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">性別*</label>
+                                <div class="flex gap-2">
+                                    <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-300 has-[:checked]:text-blue-600 transition">
+                                        <input type="radio" name="gender" value="m" class="hidden">
+                                        <span class="text-sm font-bold">公</span>
+                                    </label>
+                                    <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-pink-50 has-[:checked]:border-pink-300 has-[:checked]:text-pink-600 transition">
+                                        <input type="radio" name="gender" value="f" class="hidden">
+                                        <span class="text-sm font-bold">母</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">結紮*</label>
+                                <div class="flex gap-2">
+                                    <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                                        <input type="radio" name="neuter" value="yes" class="hidden">
+                                        <span class="text-sm font-bold">是</span>
+                                    </label>
+                                    <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                                        <input type="radio" name="neuter" value="no" class="hidden">
+                                        <span class="text-sm font-bold">否</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">晶片狀態*</label>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                                    <input type="radio" name="microchip_status" value="yes" class="hidden" onchange="document.getElementById('chip-number-input').classList.remove('hidden')">
+                                    <span class="text-sm font-bold">有晶片</span>
+                                </label>
+                                <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                                    <input type="radio" name="microchip_status" value="unknown" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
+                                    <span class="text-sm font-bold">有晶片(不詳)</span>
+                                </label>
+                                <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                                    <input type="radio" name="microchip_status" value="no" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
+                                    <span class="text-sm font-bold">無晶片</span>
+                                </label>
+                            </div>
+                            <div id="chip-number-input" class="hidden animate-slide-up">
+                                <input type="text" class="w-full bg-white border border-theme-primary rounded-xl px-4 py-3 text-theme-text focus:outline-none" placeholder="請輸入晶片號碼">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">攻擊性*</label>
+                                <select class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition appearance-none">
+                                    <option value="no">無攻擊性</option>
+                                    <option value="yes">有攻擊性</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">與狗相處*</label>
+                                <select class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition appearance-none">
+                                    <option value="yes">可與狗玩</option>
+                                    <option value="no">不可與狗玩</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">性情與攻擊性評估*</label>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="temperament" class="mt-1 accent-theme-dark" checked>
+                                    <div>
+                                        <span class="block text-sm font-bold text-theme-text">😇 天使寶寶</span>
+                                        <span class="block text-xs text-theme-sub mt-0.5">個性溫和，無任何攻擊紀錄，也不怕生。</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="temperament" class="mt-1 accent-theme-dark">
+                                    <div>
+                                        <span class="block text-sm font-bold text-theme-text">😓 有點緊張</span>
+                                        <span class="block text-xs text-theme-sub mt-0.5">膽小怕生，可能會低吼或閃躲，但未曾咬人。</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="temperament" class="mt-1 accent-theme-dark">
+                                    <div>
+                                        <span class="block text-sm font-bold text-theme-text">🤬 敏感寶寶</span>
+                                        <span class="block text-xs text-theme-sub mt-0.5">特定部位敏感或曾有攻擊紀錄 (請務必告知)。</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">指定就醫診療機構</label>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition mb-2" placeholder="請輸入醫院名稱 (若無則留依店家特約)">
+                            
+                            <div class="bg-theme-dark/5 rounded-xl p-3 border border-theme-dark/10">
+                                <span class="block text-xs font-bold text-theme-dark mb-1">特約醫院資訊：</span>
+                                <span class="block text-xs text-theme-text">[待確認]</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">過往病史*</label>
+                            <div class="flex gap-2 mb-3">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-red-50 has-[:checked]:border-red-300 has-[:checked]:text-red-600 transition">
+                                    <input type="radio" name="history_check" value="yes" class="hidden" onchange="document.getElementById('medical-history-input').classList.remove('hidden')">
+                                    <span class="text-sm font-bold">有</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                                    <input type="radio" name="history_check" value="no" class="hidden" checked onchange="document.getElementById('medical-history-input').classList.add('hidden')">
+                                    <span class="text-sm font-bold">無</span>
+                                </label>
+                            </div>
+                            <div id="medical-history-input" class="hidden animate-slide-up">
+                                <textarea class="w-full bg-white border border-red-200 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-red-400 transition h-24" placeholder="請詳細說明病史..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-grooming" class="glass-panel p-6 rounded-2xl relative">
+                    <div class="flex items-center gap-2 mb-6 border-b border-theme-sub/20 pb-3">
+                        <span class="text-2xl">✂️</span>
+                        <h3 class="font-bold text-theme-text text-lg">本次服務內容*</h3>
+                    </div>
+                    <p class="text-xs text-theme-sub mb-4 ml-1">請選擇至少一項</p>
+
+                    <div class="space-y-3">
+                        <label class="block relative cursor-pointer group">
+                            <input type="checkbox" name="service" value="small_groom" class="peer hidden">
+                            <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-theme-text text-lg">小美容</span>
+                                </div>
+                                <p class="text-xs text-theme-sub leading-relaxed">洗澡、剪指甲、剃腳底毛、屁屁毛、肚子毛、擠肛門腺、清耳朵、臉部微修</p>
+                            </div>
+                        </label>
+
+                        <label class="block relative cursor-pointer group">
+                            <input type="checkbox" name="service" value="big_groom" class="peer hidden">
+                            <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
+                                <span class="font-bold text-theme-text text-lg block mb-1">大美容</span>
+                                <p class="text-xs text-theme-sub leading-relaxed">包含小美容所有項目，外加全身造型修剪</p>
+                            </div>
+                        </label>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="service" value="local_trim" class="peer hidden">
+                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
+                                    <span class="block text-sm font-bold text-theme-text">局部修飾</span>
+                                    <span class="block text-[10px] text-theme-sub mt-1">貴賓臉/腳</span>
+                                </div>
+                            </label>
+                            
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="service" value="special_style" class="peer hidden">
+                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
+                                    <span class="block text-sm font-bold text-theme-text">特殊造型</span>
+                                    <span class="block text-[10px] text-theme-sub mt-1">腳球/腳柱</span>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="service" value="full_scissor" class="peer hidden">
+                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
+                                    <span class="block text-sm font-bold text-theme-text">全身手剪</span>
+                                    <span class="block text-[10px] text-theme-sub mt-1">全身造型</span>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="service" value="daycare" class="peer hidden">
+                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
+                                    <span class="block text-sm font-bold text-theme-text">寵物安親</span>
+                                    <span class="block text-[10px] text-theme-sub mt-1">提供安親照護服務</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="mt-2">
+                             <label class="block relative cursor-pointer">
+                                <input type="checkbox" name="service" value="other" class="peer hidden" onchange="document.getElementById('other-service-input').classList.toggle('hidden')">
+                                <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition flex items-center justify-between">
+                                    <span class="text-sm font-bold text-theme-text">其他項目</span>
+                                    <i data-lucide="plus" class="w-4 h-4 text-theme-sub"></i>
+                                </div>
+                            </label>
+                            <div id="other-service-input" class="hidden mt-2 animate-slide-up">
+                                <input type="text" class="w-full bg-white border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="請說明其他需求...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<div id="section-boarding" class="glass-panel p-6 rounded-2xl relative hidden">
+                    <div class="flex items-center justify-between mb-6 border-b border-theme-sub/20 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🏠</span>
+                            <h3 class="font-bold text-theme-text text-lg">預約資料</h3>
+                        </div>
+                        <div class="flex bg-theme-sub/10 p-1 rounded-lg">
+                            <button type="button" onclick="toggleBoardingType('overnight')" id="tab-overnight" class="px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-theme-primary shadow-sm">住宿</button>
+                            <button type="button" onclick="toggleBoardingType('daycare')" id="tab-daycare" class="px-4 py-1.5 rounded-md text-xs font-bold transition-all text-theme-sub hover:text-theme-text">安親</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        
+                        <div id="date-section-overnight" class="animate-fade-in">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">入住日期 *</label>
+                                    <input type="date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">退房日期 *</label>
+                                    <input type="date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="date-section-daycare" class="hidden animate-fade-in">
+                            <div class="mb-3">
+                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">安親日期 *</label>
+                                <input type="date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">抵達時間</label>
+                                    <input type="time" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">接回時間</label>
+                                    <input type="time" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否能跟狗朋友一起相處玩耍呢 (複選)*</label>
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="checkbox" name="social" value="yes" class="accent-theme-dark w-4 h-4">
+                                    <span class="text-sm font-bold text-theme-text">是</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="checkbox" name="social" value="no" class="accent-theme-dark w-4 h-4">
+                                    <span class="text-sm font-bold text-theme-text">否</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="checkbox" name="social" value="aggressive" class="accent-theme-dark w-4 h-4">
+                                    <span class="text-sm font-bold text-theme-text">有攻擊性</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="checkbox" name="social" value="non_aggressive" class="accent-theme-dark w-4 h-4">
+                                    <span class="text-sm font-bold text-theme-text">無攻擊性</span>
+                                </label>
+                            </div>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否每個月定期驅蟲呢*</label>
+                            <div class="flex gap-3 mb-2">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="deworming" value="yes" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">是</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="deworming" value="no" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">否</span>
+                                </label>
+                            </div>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否易吠叫呢*</label>
+                            <div class="flex gap-3 mb-2">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="barking" value="yes" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">是</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="barking" value="no" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">否</span>
+                                </label>
+                            </div>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">會護食嗎*</label>
+                            <div class="flex gap-3 mb-2">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="food_guard" value="yes" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">會</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="food_guard" value="no" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">不會</span>
+                                </label>
+                            </div>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">會在尿布墊上廁所嗎*</label>
+                            <div class="flex gap-3 mb-2">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="toilet" value="yes" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">會</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="toilet" value="no" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">不會</span>
+                                </label>
+                            </div>
+                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">疫苗是否每年都有定期施打呢 (請提供照片)*</label>
+                            <div class="flex gap-3 mb-3">
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="vaccine" value="yes" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">是</span>
+                                </label>
+                                <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
+                                    <input type="radio" name="vaccine" value="no" class="hidden">
+                                    <span class="text-sm font-bold text-theme-text">否</span>
+                                </label>
+                            </div>
+                            <label class="w-full flex items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
+                                <input type="file" accept="image/*" class="hidden" onchange="previewImage(this)">
+                                <div id="upload-preview-container" class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
+                                        <i data-lucide="camera" class="w-4 h-4 text-theme-primary"></i>
+                                    </div>
+                                    <span id="upload-text" class="text-xs font-bold text-theme-sub group-hover:text-theme-primary">拍照或從相簿上傳手冊照片</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">寶貝有需要特別注意的地方都可以告知哦！</label>
+                            <textarea class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition h-24" placeholder="例如：特別膽小、或是哪裡不能摸..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl relative">
+                    <div class="flex items-center gap-2 mb-6 border-b border-theme-sub/20 pb-3">
+                        <span class="text-2xl">📝</span>
+                        <h3 class="font-bold text-theme-text text-lg">法律條款與數位簽署</h3>
+                    </div>
+
+                    <div class="bg-theme-bg/50 rounded-xl p-4 mb-6 space-y-3 border border-theme-sub/10">
+                        <h4 class="text-xs font-bold text-theme-sub tracking-widest uppercase mb-2">乙方（店家）資訊</h4>
+                        <div class="grid grid-cols-2 gap-y-2 text-sm">
+                            <div><span class="text-theme-sub text-xs block">店家名稱</span><span class="font-bold text-theme-text">大柴小熊寵物美容</span></div>
+                            <div><span class="text-theme-sub text-xs block">負責人</span><span class="font-bold text-theme-text">陳亞琪</span></div>
+                            <div><span class="text-theme-sub text-xs block">特寵業字號</span><span class="font-bold text-theme-text">S1130033 號</span></div>
+                            <div><span class="text-theme-sub text-xs block">統一編號</span><span class="font-bold text-theme-text">94536765</span></div>
+                            <div><span class="text-theme-sub text-xs block">聯絡電話</span><span class="font-bold text-theme-text">0981-681-349</span></div>
+                            <div><span class="text-theme-sub text-xs block">營業時間</span><span class="font-bold text-theme-text">10:00-19:00</span></div>
+                            <div class="col-span-2"><span class="text-theme-sub text-xs block">營業地址</span><span class="font-bold text-theme-text">臺中市北屯區平德路82巷5號</span></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label id="terms-label" class="block text-xs font-bold text-theme-sub mb-2 ml-1">【服務契約條款】</label>
+                        <button type="button" onclick="showTerms()" class="w-full flex items-center justify-between bg-white border border-theme-sub/30 rounded-xl p-4 group hover:border-theme-primary transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center text-theme-primary">
+                                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                                </div>
+                                <span id="terms-btn-text" class="font-bold text-theme-text">點擊閱讀美容條款</span>
+                            </div>
+                            <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded">待閱讀</span>
+                        </button>
+                    </div>
+
+<div>
+                        <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">數位簽名</label>
+                        <div onclick="openSignatureModal()" class="relative w-full h-32 bg-white border-2 border-dashed border-theme-sub/30 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-theme-primary hover:bg-theme-bg/30 transition group overflow-hidden">
+                            <img id="signature-preview" class="absolute inset-0 w-full h-full object-contain p-2 hidden z-10">
+                            
+                            <div id="signature-placeholder" class="flex flex-col items-center gap-2 text-theme-sub/50 group-hover:text-theme-primary/70 transition">
+                                <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                                <span class="text-xs font-bold">點擊開啟全螢幕簽名板</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="router('home')" class="w-1/3 py-3 rounded-xl border border-theme-dark text-theme-dark font-bold text-sm hover:bg-theme-dark/5 transition">
+                        返回
+                    </button>
+                    <button type="button" class="flex-1 py-3 rounded-xl bg-gradient-lux text-white font-bold text-sm shadow-lg hover:shadow-glow hover:-translate-y-0.5 transition-all">
+                        確認並提交數位契約
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+<div id="modal-terms" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="closeTerms()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[85vh] flex flex-col transition-transform transform translate-y-full" id="modal-content">
+            <div class="p-4 border-b flex items-center justify-between">
+                <h3 id="modal-title" class="font-bold text-lg text-theme-text">契約條款</h3>
+                <button onclick="closeTerms()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto text-sm text-theme-text leading-relaxed space-y-4" id="modal-body">
+                </div>
+            <div class="p-4 border-t bg-white safe-bottom">
+                <button onclick="closeTerms()" class="w-full py-3 bg-theme-primary text-white rounded-xl font-bold shadow-lg">我已閱讀並同意</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-signature" class="fixed inset-0 z-[200] bg-white hidden flex-col">
+        <div class="flex items-center justify-between p-4 border-b bg-gray-50">
+            <h3 class="font-bold text-theme-text">請在此區域簽名</h3>
+            <button type="button" onclick="closeSignatureModal()" class="p-2 bg-gray-200 rounded-full">
+                <i data-lucide="x" class="w-5 h-5 text-gray-600"></i>
+            </button>
+        </div>
+        
+        <div class="flex-1 relative bg-gray-100 touch-none overflow-hidden" id="canvas-container">
+            <canvas id="sig-canvas" class="absolute inset-0 w-full h-full bg-white cursor-crosshair"></canvas>
+            <div class="absolute bottom-4 left-0 w-full text-center pointer-events-none opacity-20 text-4xl font-black text-gray-300 select-none">
+                SIGN HERE
+            </div>
+        </div>
+
+        <div class="p-4 border-t bg-white flex gap-3 safe-bottom">
+            <button type="button" onclick="clearSignature()" class="flex-1 py-3 rounded-xl border border-red-200 text-red-500 font-bold hover:bg-red-50">
+                清除重寫
+            </button>
+            <button type="button" onclick="saveSignature()" class="flex-[2] py-3 rounded-xl bg-theme-primary text-white font-bold shadow-lg">
+                確認簽名
+            </button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // 1. 路由處理
+        window.addEventListener('load', handleHashChange);
+        window.addEventListener('hashchange', handleHashChange);
+
+        let currentType = 'grooming'; 
+
+        function handleHashChange() {
+            const hash = window.location.hash;
+            if (hash === '#grooming') showPage('form', 'grooming');
+            else if (hash === '#boarding') showPage('form', 'boarding');
+            else showPage('home');
+        }
+
+        function router(page, type) {
+            if (page === 'home') window.location.hash = 'home';
+            else if (page === 'form') window.location.hash = type;
+        }
+
+        function showPage(page, type) {
+            const home = document.getElementById('view-home');
+            const form = document.getElementById('view-form');
+            const navbar = document.getElementById('navbar');
+            const formTitle = document.getElementById('form-title');
+            const formIcon = document.getElementById('form-icon');
+            const sectionGrooming = document.getElementById('section-grooming');
+            const sectionBoarding = document.getElementById('section-boarding');
+            const termsLabel = document.getElementById('terms-label');
+            const termsBtnText = document.getElementById('terms-btn-text');
+
+            window.scrollTo({top: 0, behavior: 'smooth'});
+
+            if (page === 'form') {
+                home.style.display = 'none';
+                form.classList.remove('hidden');
+                navbar.classList.remove('opacity-0', 'pointer-events-none');
+                
+                currentType = type; 
+
+                if(type === 'grooming') {
+                    formTitle.innerText = "寵物美容契約書";
+                    formIcon.setAttribute('data-lucide', 'scissors');
+                    sectionGrooming.classList.remove('hidden');
+                    sectionBoarding.classList.add('hidden');
+                    termsLabel.innerText = "【犬、貓美容契約條款】";
+                    termsBtnText.innerText = "點擊閱讀美容條款";
+                } else if (type === 'boarding') {
+                    formTitle.innerText = "寵物住宿契約書";
+                    formIcon.setAttribute('data-lucide', 'home');
+                    sectionGrooming.classList.add('hidden');
+                    sectionBoarding.classList.remove('hidden');
+                    termsLabel.innerText = "【寵物住宿契約條款】";
+                    termsBtnText.innerText = "點擊閱讀住宿條款";
+                }
+                lucide.createIcons();
+            } else {
+                form.classList.add('hidden');
+                home.style.display = 'flex';
+                navbar.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        // 2. 住宿/安親 Tab 切換
+        function toggleBoardingType(type) {
+            const btnOvernight = document.getElementById('tab-overnight');
+            const btnDaycare = document.getElementById('tab-daycare');
+            const secOvernight = document.getElementById('date-section-overnight');
+            const secDaycare = document.getElementById('date-section-daycare');
+
+            // Reset Styles
+            const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
+            const inactiveClass = ['text-theme-sub', 'hover:text-theme-text'];
+
+            if (type === 'overnight') {
+                btnOvernight.classList.add(...activeClass);
+                btnOvernight.classList.remove(...inactiveClass);
+                btnDaycare.classList.remove(...activeClass);
+                btnDaycare.classList.add(...inactiveClass);
+
+                secOvernight.classList.remove('hidden');
+                secDaycare.classList.add('hidden');
+            } else {
+                btnDaycare.classList.add(...activeClass);
+                btnDaycare.classList.remove(...inactiveClass);
+                btnOvernight.classList.remove(...activeClass);
+                btnOvernight.classList.add(...inactiveClass);
+
+                secDaycare.classList.remove('hidden');
+                secOvernight.classList.add('hidden');
+            }
+        }
+
+        // 3. 照片上傳預覽
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const textSpan = document.getElementById('upload-text');
+                const container = document.getElementById('upload-preview-container');
+                textSpan.innerText = `已選擇：${input.files[0].name}`;
+                textSpan.classList.add('text-theme-primary');
+            }
+        }
+
+        // 4. 簽名板功能
+        let canvas, ctx, isDrawing = false;
+
+        function openSignatureModal() {
+            const modal = document.getElementById('modal-signature');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // 初始化 Canvas
+            canvas = document.getElementById('sig-canvas');
+            ctx = canvas.getContext('2d');
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // 綁定事件
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('touchstart', startDraw, {passive: false});
+            canvas.addEventListener('touchmove', draw, {passive: false});
+            canvas.addEventListener('touchend', endDraw);
+        }
+
+        function closeSignatureModal() {
+            const modal = document.getElementById('modal-signature');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function resizeCanvas() {
+            const container = document.getElementById('canvas-container');
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            
+            // 設置線條樣式
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function startDraw(e) {
+            e.preventDefault();
+            isDrawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function endDraw() {
+            isDrawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function saveSignature() {
+            // 將 Canvas 轉為圖片
+            const dataUrl = canvas.toDataURL('image/png');
+            
+            const preview = document.getElementById('signature-preview');
+            const placeholder = document.getElementById('signature-placeholder');
+            
+            preview.src = dataUrl;
+            preview.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            
+            closeSignatureModal();
+        }
+
+        // 5. 契約條款 Modal (保持原樣)
+        const TERMS_CONTENT = {
+            grooming: `
+                <p><strong>第一條（服務承諾）</strong><br>乙方（大柴小熊寵物美容）承諾以專業、愛心對待甲方之寵物，並依約定項目進行美容服務。</p>
+                <p><strong>第二條（健康告知）</strong><br>甲方應誠實告知寵物之健康狀況（如：心臟病、癲癇、皮膚病、傳染病等）及特殊習性（如：咬人、緊張）。若因未告知而導致寵物發生意外或乙方人員受傷，甲方需負全責。</p>
+                <p><strong>第三條（緊急醫療）</strong><br>若寵物於服務期間發生緊急狀況，乙方將立即通知甲方。若無法聯繫或情況緊急，甲方同意乙方將寵物送往指定或特約動物醫院進行急救，所生醫療費用由甲方負擔。</p>
+                <p><strong>第四條（免責聲明）</strong><br>對於高齡、患有慢性病或極度緊張之寵物，若因其自身生理因素於美容過程中發生不可抗力之意外（如休克、心臟病發），乙方在已盡善良管理人注意義務下，不負賠償責任。</p>
+                <p><strong>第五條（接送時間）</strong><br>美容完成後，乙方將通知甲方接回。若超過營業時間未接回，將視為住宿並加收住宿費用。</p>
+            `,
+            boarding: `
+                <p><strong>第一條（住宿標的）</strong><br>乙方提供寵物住宿空間、飲水及約定之照護服務。</p>
+                <p><strong>第二條（健康與疫苗）</strong><br>入住寵物必須完成年度疫苗注射（狂犬病、核心疫苗）並完成體內外驅蟲。若發現寵物有傳染病或寄生蟲，乙方有權拒絕入住或隔離照護，衍生費用由甲方負擔。</p>
+                <p><strong>第三條（緊急醫療授權）</strong><br>住宿期間若寵物身體不適，乙方將優先通知甲方。若無法聯繫，甲方授權乙方代為送醫治療，醫療與交通費用由甲方全額支付。</p>
+                <p><strong>第四條（放棄聲明）</strong><br>若住宿期滿後 7 日內，甲方未接回寵物且無法聯繫，視同甲方惡意遺棄。乙方得依動物保護法通報主管機關，並依法求償相關費用。</p>
+                <p><strong>第五條（物品保管）</strong><br>甲方自備之飼料、藥品、玩具等應清楚標示。非必要貴重物品請勿隨同入住，遺失概不負責。</p>
+            `
+        };
+
+        function showTerms() {
+            const modal = document.getElementById('modal-terms');
+            const content = document.getElementById('modal-content');
+            const body = document.getElementById('modal-body');
+            const title = document.getElementById('modal-title');
+
+            if (currentType === 'grooming') {
+                title.innerText = "犬貓美容契約條款";
+                body.innerHTML = TERMS_CONTENT.grooming;
+            } else {
+                title.innerText = "寵物住宿契約條款";
+                body.innerHTML = TERMS_CONTENT.boarding;
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('translate-y-full');
+            }, 10);
+        }
+
+        function closeTerms() {
+            const modal = document.getElementById('modal-terms');
+            const content = document.getElementById('modal-content');
+            content.classList.add('translate-y-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
