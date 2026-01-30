@@ -220,7 +220,7 @@
                     <i data-lucide="chevron-right" class="w-4 h-4 text-theme-sub/50 group-hover:text-[#06C755]"></i>
                 </a>
                 
-                <a href="https://www.instagram.com/chenpichenlu/" target="_blank" class="btn-card flex items-center p-4 rounded-2xl group hover:border-[#E1306C]/50">
+                <a href="https://www.instagram.com/chenpichenlu_pet.grooming/" target="_blank" class="btn-card flex items-center p-4 rounded-2xl group hover:border-[#E1306C]/50">
                      <div class="w-10 h-10 rounded-full bg-[#E1306C]/10 text-[#E1306C] flex items-center justify-center mr-4 group-hover:bg-[#E1306C] group-hover:text-white transition-colors duration-300">
                         <i data-lucide="instagram" class="w-5 h-5"></i>
                     </div>
@@ -391,9 +391,21 @@
                                 <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">體重 (kg)*</label>
                                 <input type="number" step="0.1" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                             </div>
-                             <div>
-                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">年齡 (歲)*</label>
-                                <input type="number" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入年齡" required>
+<div>
+                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">生日 / 年齡*</label>
+                                <div class="flex bg-theme-sub/10 p-1 rounded-xl mb-2">
+                                    <button type="button" onclick="toggleAgeInput('birthday')" id="tab-birthday" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all bg-white text-theme-primary shadow-sm">生日</button>
+                                    <button type="button" onclick="toggleAgeInput('age')" id="tab-age" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all text-theme-sub">年齡</button>
+                                </div>
+                                <div id="input-birthday" class="animate-fade-in">
+                                    <input type="date" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                </div>
+                                <div id="input-age" class="hidden animate-fade-in">
+                                    <div class="relative">
+                                        <input type="number" step="1" min="0" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入年齡">
+                                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-theme-sub font-bold">歲</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -465,7 +477,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">性情與攻擊性評估*</label>
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">毛孩性情*</label>
                             <div class="space-y-2">
                                 <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
                                     <input type="radio" name="temperament" class="mt-1 accent-theme-dark" checked>
@@ -513,9 +525,22 @@
                                     <span class="text-sm font-bold">無</span>
                                 </label>
                             </div>
-                            <div id="medical-history-input" class="hidden animate-slide-up">
+<div id="medical-history-input" class="hidden animate-slide-up">
                                 <textarea class="w-full bg-white border border-red-200 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-red-400 transition h-24" placeholder="請詳細說明病史..."></textarea>
                             </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">寵物近兩週內全身照*</label>
+                            <label class="w-full flex items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
+                                <input type="file" accept="image/*" class="hidden" onchange="previewPetPhoto(this)">
+                                <div id="pet-photo-preview-container" class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
+                                        <i data-lucide="camera" class="w-4 h-4 text-theme-primary"></i>
+                                    </div>
+                                    <span id="pet-photo-upload-text" class="text-xs font-bold text-theme-sub group-hover:text-theme-primary">拍照或從相簿上傳</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -1147,7 +1172,32 @@
                 navbar.classList.add('opacity-0', 'pointer-events-none');
             }
         }
+// 切換寵物年齡/生日輸入模式
+        function toggleAgeInput(type) {
+            const btnBirthday = document.getElementById('tab-birthday');
+            const btnAge = document.getElementById('tab-age');
+            const inputBirthday = document.getElementById('input-birthday');
+            const inputAge = document.getElementById('input-age');
 
+            const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
+            const inactiveClass = ['text-theme-sub'];
+
+            if (type === 'birthday') {
+                btnBirthday.classList.add(...activeClass);
+                btnBirthday.classList.remove(...inactiveClass);
+                btnAge.classList.remove(...activeClass);
+                btnAge.classList.add(...inactiveClass);
+                inputBirthday.classList.remove('hidden');
+                inputAge.classList.add('hidden');
+            } else {
+                btnAge.classList.add(...activeClass);
+                btnAge.classList.remove(...inactiveClass);
+                btnBirthday.classList.remove(...activeClass);
+                btnBirthday.classList.add(...inactiveClass);
+                inputAge.classList.remove('hidden');
+                inputBirthday.classList.add('hidden');
+            }
+        }
         // 2. 住宿/安親 Tab 切換
         function toggleBoardingType(type) {
             const btnOvernight = document.getElementById('tab-overnight');
@@ -1178,13 +1228,48 @@
             }
         }
 
-        // 3. 照片上傳預覽
+// 3. 照片上傳預覽
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 const textSpan = document.getElementById('upload-text');
-                const container = document.getElementById('upload-preview-container');
                 textSpan.innerText = `已選擇：${input.files[0].name}`;
                 textSpan.classList.add('text-theme-primary');
+            }
+        }
+
+        // 寵物全身照預覽
+        function previewPetPhoto(input) {
+            if (input.files && input.files[0]) {
+                const textSpan = document.getElementById('pet-photo-upload-text');
+                textSpan.innerText = `已選擇：${input.files[0].name}`;
+                textSpan.classList.add('text-theme-primary');
+            }
+        }
+
+        // 切換寵物年齡/生日輸入模式
+        function toggleAgeInput(type) {
+            const btnBirthday = document.getElementById('tab-birthday');
+            const btnAge = document.getElementById('tab-age');
+            const inputBirthday = document.getElementById('input-birthday');
+            const inputAge = document.getElementById('input-age');
+
+            const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
+            const inactiveClass = ['text-theme-sub'];
+
+            if (type === 'birthday') {
+                btnBirthday.classList.add(...activeClass);
+                btnBirthday.classList.remove(...inactiveClass);
+                btnAge.classList.remove(...activeClass);
+                btnAge.classList.add(...inactiveClass);
+                inputBirthday.classList.remove('hidden');
+                inputAge.classList.add('hidden');
+            } else {
+                btnAge.classList.add(...activeClass);
+                btnAge.classList.remove(...inactiveClass);
+                btnBirthday.classList.remove(...activeClass);
+                btnBirthday.classList.add(...inactiveClass);
+                inputAge.classList.remove('hidden');
+                inputBirthday.classList.add('hidden');
             }
         }
 
