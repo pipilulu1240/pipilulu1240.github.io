@@ -601,6 +601,7 @@
                             <span class="text-2xl">🏠</span>
                             <h3 class="font-bold text-theme-text text-lg">預約資料</h3>
                         </div>
+                        
                         <div class="flex bg-theme-sub/10 p-1 rounded-lg">
                             <button type="button" onclick="toggleBoardingType('overnight')" id="tab-overnight" class="px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-theme-primary shadow-sm">住宿</button>
                             <button type="button" onclick="toggleBoardingType('daycare')" id="tab-daycare" class="px-4 py-1.5 rounded-md text-xs font-bold transition-all text-theme-sub hover:text-theme-text">安親</button>
@@ -749,7 +750,186 @@
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">寶貝有需要特別注意的地方都可以告知哦！</label>
                             <textarea class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition h-24" placeholder="例如：特別膽小、或是哪裡不能摸..."></textarea>
                         </div>
+                    </div><div class="mb-10 space-y-4 animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="flex items-center gap-2 ml-1 mb-4">
+                        <span class="w-1.5 h-6 bg-theme-primary rounded-full"></span>
+                        <h4 class="text-sm font-bold text-theme-text tracking-widest uppercase">住宿指南與規範</h4>
                     </div>
+                    
+                    <div class="space-y-3">
+                        <details class="group bg-white border border-theme-sub/10 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-theme-primary/30">
+                            <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-theme-primary/10 flex items-center justify-center text-theme-primary">
+                                        <i data-lucide="banknote" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="font-bold text-theme-text">住宿費用與早鳥優惠</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-theme-sub group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="px-5 pb-5 pt-2 border-t border-theme-sub/5 space-y-4">
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="bg-theme-bg p-3 rounded-xl border border-theme-sub/5 text-center">
+                                        <p class="text-[10px] text-theme-sub mb-1">5KG 以下</p>
+                                        <p class="text-sm font-bold text-theme-text">NT$ 700<span class="text-[10px] font-normal"> / 晚</span></p>
+                                    </div>
+                                    <div class="bg-theme-bg p-3 rounded-xl border border-theme-sub/5 text-center">
+                                        <p class="text-[10px] text-theme-sub mb-1">10KG 以下</p>
+                                        <p class="text-sm font-bold text-theme-text">NT$ 800<span class="text-[10px] font-normal"> / 晚</span></p>
+                                    </div>
+                                    <div class="bg-theme-bg p-3 rounded-xl border border-theme-sub/5 text-center">
+                                        <p class="text-[10px] text-theme-sub mb-1">15KG 以下</p>
+                                        <p class="text-sm font-bold text-theme-text">NT$ 900<span class="text-[10px] font-normal"> / 晚</span></p>
+                                    </div>
+                                </div>
+                                <p class="text-[11px] text-theme-sub text-center leading-relaxed">請先加 LINE 預約，並確認是否有空房。<br>超過 15KG 的毛孩請事先詢問。</p>
+                                <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                    <h5 class="text-xs font-bold text-amber-700 mb-2 flex items-center gap-1">
+                                        <i data-lucide="ticket" class="w-3.5 h-3.5"></i> 住宿券優惠 (需一次付清)
+                                    </h5>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="bg-white p-2 rounded-lg text-center">
+                                            <p class="text-xs font-bold text-theme-text">10 晚享 9 折</p>
+                                            <p class="text-[10px] text-theme-sub">需 45 天內使用完畢</p>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg text-center">
+                                            <p class="text-xs font-bold text-theme-text">20 晚享 8 折</p>
+                                            <p class="text-[10px] text-theme-sub">需 60 天內使用完畢</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white border border-theme-sub/10 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-theme-primary/30">
+                            <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-theme-primary/10 flex items-center justify-center text-theme-primary">
+                                        <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="font-bold text-theme-text">住宿須知與入住規範</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-theme-sub group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="px-5 pb-5 pt-2 border-t border-theme-sub/5 space-y-4 text-xs leading-relaxed text-theme-text">
+                                <div class="space-y-3">
+                                    <div class="flex gap-3">
+                                        <span class="flex-shrink-0 w-5 h-5 rounded-full bg-theme-bg flex items-center justify-center font-bold text-[10px]">A</span>
+                                        <p><b class="text-theme-dark">預約制度：</b>採預約制，住宿需搭配美容 (美容價格另計)。不接受臨時住宿唷！</p>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <span class="flex-shrink-0 w-5 h-5 rounded-full bg-theme-bg flex items-center justify-center font-bold text-[10px]">B</span>
+                                        <p><b class="text-theme-dark">入住/退房：</b>時間為 <b class="underline">10:00 – 18:00</b>。提前入住或延後接回需酌收加班費 200/小時。超過 19:00 未接回則視同過夜並補收房費。</p>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <span class="flex-shrink-0 w-5 h-5 rounded-full bg-theme-bg flex items-center justify-center font-bold text-[10px]">C</span>
+                                        <p><b class="text-theme-dark">狗狗狀況：</b>首次入住需進行 <b class="underline">2-3 小時安親評估</b>。需提供寵物手冊正本及疫苗證明 (幼犬需打滿三劑、成犬需有一年內狂犬證明)。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white border border-theme-sub/10 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-theme-primary/30">
+                            <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-theme-primary/10 flex items-center justify-center text-theme-primary">
+                                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="font-bold text-theme-text">大柴小熊住宿特色</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-theme-sub group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="px-5 pb-5 pt-2 border-t border-theme-sub/5 grid grid-cols-2 gap-3 text-center">
+                                <div class="p-3 bg-theme-bg/50 rounded-xl">
+                                    <i data-lucide="unlock" class="w-4 h-4 mx-auto mb-1 text-theme-primary"></i>
+                                    <p class="text-[11px] font-bold">不關籠住宿</p>
+                                    <p class="text-[9px] text-theme-sub">獨立房型安心進食</p>
+                                </div>
+                                <div class="p-3 bg-theme-bg/50 rounded-xl">
+                                    <i data-lucide="leaf" class="w-4 h-4 mx-auto mb-1 text-theme-primary"></i>
+                                    <p class="text-[11px] font-bold">真草皮區</p>
+                                    <p class="text-[9px] text-theme-sub">陽光與自然交友</p>
+                                </div>
+                                <div class="p-3 bg-theme-bg/50 rounded-xl">
+                                    <i data-lucide="dog" class="w-4 h-4 mx-auto mb-1 text-theme-primary"></i>
+                                    <p class="text-[11px] font-bold">大活動空間</p>
+                                    <p class="text-[9px] text-theme-sub">自由奔跑不設限</p>
+                                </div>
+                                <div class="p-3 bg-theme-bg/50 rounded-xl">
+                                    <i data-lucide="video" class="w-4 h-4 mx-auto mb-1 text-theme-primary"></i>
+                                    <p class="text-[11px] font-bold">主動回報</p>
+                                    <p class="text-[9px] text-theme-sub">每日影片照片記錄</p>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="group bg-white border border-theme-sub/10 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-theme-primary/30">
+                            <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-theme-primary/10 flex items-center justify-center text-theme-primary">
+                                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="font-bold text-theme-text">家長需自備物品清單</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-theme-sub group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="px-5 pb-5 pt-2 border-t border-theme-sub/5">
+                                <ul class="space-y-3 pt-2 text-xs">
+                                    <li class="flex items-start gap-3">
+                                        <div class="w-4 h-4 mt-0.5 bg-theme-primary/20 rounded-full flex items-center justify-center text-[8px] font-bold">1</div>
+                                        <p><b class="text-theme-dark">寶貝吃食：</b>慣用的飼料與零食 (預防環境改變造成拉肚子)。</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <div class="w-4 h-4 mt-0.5 bg-theme-primary/20 rounded-full flex items-center justify-center text-[8px] font-bold">2</div>
+                                        <p><b class="text-theme-dark">尿布/尿布墊：</b>自備尿布墊或禮貌帶，避免毛孩緊張隨處便溺或佔地。</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <div class="w-4 h-4 mt-0.5 bg-theme-primary/20 rounded-full flex items-center justify-center text-[8px] font-bold">3</div>
+                                        <p><b class="text-theme-dark">身邊小物：</b>家長衣物、慣用小被子或玩具，增加毛孩安全感。</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <div class="w-4 h-4 mt-0.5 bg-theme-primary/20 rounded-full flex items-center justify-center text-[8px] font-bold">4</div>
+                                        <p><b class="text-theme-dark">慣用藥品：</b>若有服藥或保健品需求，請準備好並告知指示。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </details>
+
+                        <details class="group bg-red-50 border border-red-200/50 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-red-400">
+                            <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center text-red-500">
+                                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="font-bold text-red-700">🚫 以下情況不提供住宿</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-red-400 group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="px-5 pb-5 pt-2 border-t border-red-200/30">
+                                <div class="grid grid-cols-1 gap-2 pt-2">
+                                    <div class="flex items-center gap-2 text-[11px] text-red-700">
+                                        <i data-lucide="x-circle" class="w-3.5 h-3.5 opacity-60"></i> 無法出示預防針證明
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[11px] text-red-700">
+                                        <i data-lucide="x-circle" class="w-3.5 h-3.5 opacity-60"></i> 身上有跳蚤、壁蝨、皮膚病或傳染病
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[11px] text-red-700">
+                                        <i data-lucide="x-circle" class="w-3.5 h-3.5 opacity-60"></i> 具攻擊性、破壞行為或分離焦慮
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[11px] text-red-700">
+                                        <i data-lucide="x-circle" class="w-3.5 h-3.5 opacity-60"></i> 安定性差、吠叫不止、發情中或懷孕中
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[11px] text-red-700">
+                                        <i data-lucide="x-circle" class="w-3.5 h-3.5 opacity-60"></i> 手術後傷口未痊癒或經評估無法照顧
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-[10px] text-red-500/80 leading-relaxed bg-white/50 p-2 rounded-lg italic">
+                                    * 若飼主未明確告知導致毛孩或人員傷亡，館方不負賠償義務，飼主需負損害賠償之責任。
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
                 </div>
 
                 <div class="glass-panel p-6 rounded-2xl relative">
