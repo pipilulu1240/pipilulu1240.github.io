@@ -3,7 +3,6 @@ const CACHE_NAME = 'shiba-studio-v' + new Date().getTime(); // 自動產生版�
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
-    '/pipilulu.html',
     '/logo (2).jpg',
     // 加入其他你需要離線瀏覽的靜態資源
 ];
