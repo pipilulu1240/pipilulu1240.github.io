@@ -125,7 +125,7 @@
         </div>
     </nav>
 
-    <main class="flex-1 w-full max-w-lg mx-auto relative z-10 flex flex-col py-6 px-6">
+<main class="flex-1 w-full max-w-lg md:max-w-2xl mx-auto relative z-10 flex flex-col py-6 px-6">
 
         <div id="view-home" class="flex flex-col justify-center min-h-[90vh] py-8">
             
@@ -545,76 +545,167 @@
                     </div>
                 </div>
 
-                <div id="section-grooming" class="glass-panel p-6 rounded-2xl relative">
+<div id="section-grooming" class="glass-panel p-6 rounded-2xl relative">
                     <div class="flex items-center gap-2 mb-6 border-b border-theme-sub/20 pb-3">
                         <span class="text-2xl">✂️</span>
                         <h3 class="font-bold text-theme-text text-lg">本次服務內容*</h3>
                     </div>
-                    <p class="text-xs text-theme-sub mb-4 ml-1">請選擇至少一項</p>
 
-                    <div class="space-y-3">
-                        <label class="block relative cursor-pointer group">
-                            <input type="checkbox" name="service" value="small_groom" class="peer hidden">
-                            <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="font-bold text-theme-text text-lg">小美容</span>
-                                </div>
-                                <p class="text-xs text-theme-sub leading-relaxed">洗澡、剪指甲、剃腳底毛、屁屁毛、肚子毛、擠肛門腺、清耳朵、臉部微修</p>
-                            </div>
-                        </label>
-
-                        <label class="block relative cursor-pointer group">
-                            <input type="checkbox" name="service" value="big_groom" class="peer hidden">
-                            <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
-                                <span class="font-bold text-theme-text text-lg block mb-1">大美容</span>
-                                <p class="text-xs text-theme-sub leading-relaxed">包含小美容所有項目，外加全身造型修剪</p>
-                            </div>
-                        </label>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="cursor-pointer">
-                                <input type="checkbox" name="service" value="local_trim" class="peer hidden">
-                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
-                                    <span class="block text-sm font-bold text-theme-text">局部修飾</span>
-                                    <span class="block text-[10px] text-theme-sub mt-1">貴賓臉/腳</span>
-                                </div>
-                            </label>
-                            
-                            <label class="cursor-pointer">
-                                <input type="checkbox" name="service" value="special_style" class="peer hidden">
-                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
-                                    <span class="block text-sm font-bold text-theme-text">特殊造型</span>
-                                    <span class="block text-[10px] text-theme-sub mt-1">腳球/腳柱</span>
+                    <div class="space-y-4">
+                        <div class="space-y-3">
+                            <label class="block relative cursor-pointer group">
+                                <input type="checkbox" name="service" value="small_groom" class="peer hidden">
+                                <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
+                                    <span class="font-bold text-theme-text text-lg block mb-1">小美容</span>
+                                    <p class="text-[11px] text-theme-sub leading-relaxed">二次洗毛→潤絲→剪(磨)指甲→清耳朵→剃腳底＋腹部＋肛門周圍毛→擠肛門腺→修眼睛嘴巴周圍雜毛</p>
                                 </div>
                             </label>
 
-                            <label class="cursor-pointer">
-                                <input type="checkbox" name="service" value="full_scissor" class="peer hidden">
-                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
-                                    <span class="block text-sm font-bold text-theme-text">全身手剪</span>
-                                    <span class="block text-[10px] text-theme-sub mt-1">全身造型</span>
-                                </div>
-                            </label>
-
-                            <label class="cursor-pointer">
-                                <input type="checkbox" name="service" value="daycare" class="peer hidden">
-                                <div class="h-full bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition">
-                                    <span class="block text-sm font-bold text-theme-text">寵物安親</span>
-                                    <span class="block text-[10px] text-theme-sub mt-1">提供安親照護服務</span>
+                            <label class="block relative cursor-pointer group">
+                                <input type="checkbox" name="service" value="big_groom" class="peer hidden">
+                                <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
+                                    <span class="font-bold text-theme-text text-lg block mb-1">大美容</span>
+                                    <p class="text-[11px] text-theme-sub leading-relaxed">包含小美容所有項目，外加全身造型修剪</p>
                                 </div>
                             </label>
                         </div>
 
-                        <div class="mt-2">
-                             <label class="block relative cursor-pointer">
-                                <input type="checkbox" name="service" value="other" class="peer hidden" onchange="document.getElementById('other-service-input').classList.toggle('hidden')">
-                                <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition flex items-center justify-between">
-                                    <span class="text-sm font-bold text-theme-text">其他項目</span>
-                                    <i data-lucide="plus" class="w-4 h-4 text-theme-sub"></i>
+                        <div class="pt-4 space-y-2">
+                            <h4 class="text-xs font-bold text-theme-dark flex items-center gap-1 mb-3 ml-1">
+                                <i data-lucide="sparkles" class="w-3 h-3 text-theme-primary"></i> 升級服務與加購
+                            </h4>
+                            
+                            <div class="bg-white/40 border border-theme-sub/10 rounded-2xl p-2 space-y-1">
+                                <label class="flex items-center justify-between p-3 rounded-xl border border-transparent hover:bg-white/80 transition-all cursor-pointer group has-[:checked]:bg-theme-primary/5 has-[:checked]:border-theme-primary/20">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" name="upgrade_service" value="局部修飾" class="accent-theme-primary w-4 h-4">
+                                        <div>
+                                            <span class="text-sm font-bold text-theme-text block">局部修飾</span>
+                                            <span class="text-[10px] text-theme-sub">貴賓臉/腳</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3 rounded-xl border border-transparent hover:bg-white/80 transition-all cursor-pointer group has-[:checked]:bg-theme-primary/5 has-[:checked]:border-theme-primary/20">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" name="upgrade_service" value="特殊造型" class="accent-theme-primary w-4 h-4">
+                                        <div>
+                                            <span class="text-sm font-bold text-theme-text block">特殊造型</span>
+                                            <span class="text-[10px] text-theme-sub">腳球/腳柱</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3 rounded-xl border border-transparent hover:bg-white/80 transition-all cursor-pointer group has-[:checked]:bg-theme-primary/5 has-[:checked]:border-theme-primary/20">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" name="upgrade_service" value="全身手剪" class="accent-theme-primary w-4 h-4">
+                                        <div>
+                                            <span class="text-sm font-bold text-theme-text block">全身手剪</span>
+                                            <span class="text-[10px] text-theme-sub">全身造型</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3 rounded-xl border border-transparent hover:bg-white/80 transition-all cursor-pointer group has-[:checked]:bg-theme-primary/5 has-[:checked]:border-theme-primary/20">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" name="upgrade_service" value="深層清潔水療" class="accent-theme-primary w-4 h-4">
+                                        <div>
+                                            <span class="text-sm font-bold text-theme-text block">深層清潔水療</span>
+                                            <span class="text-[10px] text-theme-sub">深層去除毛孔汙垢與油脂</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3 rounded-xl border border-transparent hover:bg-white/80 transition-all cursor-pointer group has-[:checked]:bg-theme-primary/5 has-[:checked]:border-theme-primary/20">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" name="upgrade_service" value="寵物安親" class="accent-theme-primary w-4 h-4">
+                                        <div>
+                                            <span class="text-sm font-bold text-theme-text block">寵物安親</span>
+                                            <span class="text-[10px] text-theme-sub">提供美容期間以外的照護服務</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="block relative cursor-pointer">
+                                   <input type="checkbox" name="service" value="other" class="peer hidden" onchange="document.getElementById('other-service-input').classList.toggle('hidden')">
+                                   <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition flex items-center justify-between">
+                                       <span class="text-sm font-bold text-theme-text">其他項目</span>
+                                       <i data-lucide="plus" class="w-4 h-4 text-theme-sub"></i>
+                                   </div>
+                               </label>
+                               <div id="other-service-input" class="hidden mt-2 animate-slide-up">
+                                   <input type="text" class="w-full bg-white border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="請在此說明其他需求...">
+                               </div>
+                           </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-theme-sub/20 space-y-5">
+                            <label class="flex items-center gap-3 p-4 bg-white/60 border border-theme-sub/20 rounded-2xl cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/5" onclick="toggleMatting(this)">
+                                <input type="checkbox" name="matting_suspected" class="w-4 h-4 accent-theme-primary">
+                                <div class="flex-1">
+                                    <span class="text-sm font-bold text-theme-text flex items-center gap-2">
+                                        疑似有打結 <span class="text-[10px] bg-theme-primary/20 text-theme-dark px-2 py-0.5 rounded-full">需現場評估</span>
+                                    </span>
+                                    <span class="text-[10px] text-theme-sub mt-0.5 block font-bold">現場評估拆結費用 300元～2000元</span>
                                 </div>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-theme-sub transition-transform" id="matting-arrow"></i>
                             </label>
-                            <div id="other-service-input" class="hidden mt-2 animate-slide-up">
-                                <input type="text" class="w-full bg-white border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="請說明其他需求...">
+
+                            <div id="matting-details" class="hidden animate-slide-up bg-white/40 rounded-2xl p-4 border border-theme-sub/10 space-y-4">
+                                <p class="text-[11px] text-theme-dark font-bold border-l-4 border-theme-primary pl-2">毛髮打結處理方式（請擇一勾選）</p>
+                                <div class="space-y-3">
+                                    <label class="block p-3 rounded-xl border border-theme-sub/10 bg-white/80 cursor-pointer hover:border-theme-primary/50 transition-colors">
+                                        <div class="flex items-start gap-3">
+                                            <input type="radio" name="matting_choice" value="方案一" class="mt-1 accent-theme-primary shrink-0">
+                                            <div class="space-y-1">
+                                                <span class="text-xs font-bold text-theme-text block">方案一 | 拆結處理 (需另計費)</span>
+                                                <p class="text-[10px] text-theme-sub leading-relaxed text-justify">
+                                                    本人同意由美容師進行拆結處理，並願意支付拆結費用。了解過程中可能產生毛髮斷裂、毛量減少屬正常情況。
+                                                    <span class="text-red-500 font-bold">費用為 NT$300～NT$2000不等</span>。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="block p-3 rounded-xl border border-theme-sub/10 bg-white/80 cursor-pointer hover:border-theme-primary/50 transition-colors">
+                                        <div class="flex items-start gap-3">
+                                            <input type="radio" name="matting_choice" value="方案二" class="mt-1 accent-theme-primary shrink-0">
+                                            <div class="space-y-1">
+                                                <span class="text-xs font-bold text-theme-text block">方案二 | 不拆結，直接修剪</span>
+                                                <p class="text-[10px] text-theme-sub leading-relaxed text-justify">
+                                                    不願意支付拆結費，同意美容師遇打結時直接修剪，了解外觀可能出現長短不一或局部稀疏之情形，不因此提出異議。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="bg-theme-bg/50 p-3 rounded-xl space-y-2 border border-theme-sub/10 text-[10px] text-theme-sub leading-relaxed">
+                                    <p><strong>補充說明：</strong>實際處理方式由美容師依毛孩皮膚狀態與安全考量做專業判斷。如打結嚴重致受傷風險過高，本店保有中止服務權利。</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-theme-bg/50 border border-theme-sub/20 rounded-2xl p-5 space-y-4 shadow-inner">
+                                <div class="flex items-center gap-2 text-theme-text">
+                                    <i data-lucide="clock" class="w-4 h-4 text-theme-primary"></i>
+                                    <span class="text-xs font-bold">逾時與安置費用說明</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-white/80 p-3 rounded-xl text-center border border-white">
+                                        <span class="text-[10px] text-theme-sub block mb-1">1小時內</span>
+                                        <span class="text-sm font-black text-theme-text">免收費</span>
+                                    </div>
+                                    <div class="bg-white/80 p-3 rounded-xl text-center border border-white">
+                                        <span class="text-[10px] text-theme-sub block mb-1">超過1小時</span>
+                                        <span class="text-sm font-black text-theme-text">$200 / hr</span>
+                                    </div>
+                                </div>
+                                <div class="bg-red-50 p-3 rounded-xl border border-red-100 flex gap-3">
+                                    <i data-lucide="alert-circle" class="w-4 h-4 text-red-400 shrink-0 mt-0.5"></i>
+                                    <p class="text-[10px] text-red-800 leading-relaxed font-bold">
+                                        超過 1 小時以上，本店將先行<span class="bg-red-200 text-red-900 px-1 rounded mx-0.5">安置犬貓</span> (提供水、飼料)，屆時將收取必要之安置費用。
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -624,7 +715,7 @@
                     <div class="flex items-center justify-between mb-6 border-b border-theme-sub/20 pb-3">
                         <div class="flex items-center gap-2">
                             <span class="text-2xl">🏠</span>
-                            <h3 class="font-bold text-theme-text text-lg">預約資料</h3>
+                            <h3 class="font-bold text-theme-text text-lg">住宿資料</h3>
                         </div>
                         
                         <div class="flex bg-theme-sub/10 p-1 rounded-lg">
@@ -1071,15 +1162,17 @@
 
 <div id="modal-terms" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="closeTerms()"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-[32px] max-h-[80vh] flex flex-col transition-all duration-300 transform scale-95 opacity-0" id="modal-content">
+<div class="relative w-full max-w-sm bg-white rounded-[32px] overflow-hidden max-h-[80vh] flex flex-col transition-all duration-300 transform scale-95 opacity-0" id="modal-content">
             <div class="p-4 border-b flex items-center justify-between">
                 <div class="w-9"></div> <h3 id="modal-title" class="font-bold text-lg text-theme-text flex-1 text-center">契約條款</h3>
                 <button onclick="closeTerms()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div class="p-6 overflow-y-auto text-sm text-theme-text leading-relaxed space-y-4 text-center" id="modal-body">
                 </div>
-            <div class="p-4 border-t bg-white safe-bottom">
-                <button onclick="closeTerms()" class="w-full py-3 bg-theme-primary text-white rounded-xl font-bold shadow-lg">我已閱讀並同意</button>
+<div class="p-6 border-t border-theme-sub/10 bg-white/90 backdrop-blur-md safe-bottom">
+                <button onclick="closeTerms()" class="w-full py-4 bg-gradient-lux text-white rounded-2xl font-bold shadow-glow hover:shadow-lg transition-all active:scale-[0.98] tracking-[0.1em]">
+                    我已閱讀並同意
+                </button>
             </div>
         </div>
     </div>
@@ -1199,13 +1292,12 @@
             }
         }
         // 2. 住宿/安親 Tab 切換
-        function toggleBoardingType(type) {
+function toggleBoardingType(type) {
             const btnOvernight = document.getElementById('tab-overnight');
             const btnDaycare = document.getElementById('tab-daycare');
             const secOvernight = document.getElementById('date-section-overnight');
             const secDaycare = document.getElementById('date-section-daycare');
 
-            // Reset Styles
             const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
             const inactiveClass = ['text-theme-sub', 'hover:text-theme-text'];
 
@@ -1226,6 +1318,44 @@
                 secDaycare.classList.remove('hidden');
                 secOvernight.classList.add('hidden');
             }
+        }
+
+        // 處理打結詳情展開
+        function toggleMatting(label) {
+            const checkbox = label.querySelector('input[name="matting_suspected"]');
+            const details = document.getElementById('matting-details');
+            const arrow = document.getElementById('matting-arrow');
+            
+            // 使用 setTimeout 確保 checkbox 狀態已更新
+            setTimeout(() => {
+                if(checkbox.checked) {
+                    details.classList.remove('hidden');
+                    arrow.classList.add('rotate-180');
+                    label.classList.add('border-theme-primary/50', 'bg-theme-primary/5');
+                } else {
+                    details.classList.add('hidden');
+                    arrow.classList.remove('rotate-180');
+                    label.classList.remove('border-theme-primary/50', 'bg-theme-primary/5');
+                    // 清除內部的 radio
+                    document.querySelectorAll('input[name="matting_choice"]').forEach(r => r.checked = false);
+                }
+            }, 0);
+        }
+
+        function toggleMatting(label) {
+            const checkbox = label.querySelector('input[name="matting_suspected"]');
+            const details = document.getElementById('matting-details');
+            const arrow = document.getElementById('matting-arrow');
+            
+            setTimeout(() => {
+                if(checkbox.checked) {
+                    details.classList.remove('hidden');
+                    arrow.classList.add('rotate-180');
+                } else {
+                    details.classList.add('hidden');
+                    arrow.classList.remove('rotate-180');
+                }
+            }, 0);
         }
 
 // 3. 照片上傳預覽
@@ -1363,20 +1493,79 @@
         }
 
         // 5. 契約條款 Modal (保持原樣)
-        const TERMS_CONTENT = {
+const TERMS_CONTENT = {
             grooming: `
-                <p><strong>第一條（服務承諾）</strong><br>乙方（大柴小熊寵物美容）承諾以專業、愛心對待甲方之寵物，並依約定項目進行美容服務。</p>
-                <p><strong>第二條（健康告知）</strong><br>甲方應誠實告知寵物之健康狀況（如：心臟病、癲癇、皮膚病、傳染病等）及特殊習性（如：咬人、緊張）。若因未告知而導致寵物發生意外或乙方人員受傷，甲方需負全責。</p>
-                <p><strong>第三條（緊急醫療）</strong><br>若寵物於服務期間發生緊急狀況，乙方將立即通知甲方。若無法聯繫或情況緊急，甲方同意乙方將寵物送往指定或特約動物醫院進行急救，所生醫療費用由甲方負擔。</p>
-                <p><strong>第四條（免責聲明）</strong><br>對於高齡、患有慢性病或極度緊張之寵物，若因其自身生理因素於美容過程中發生不可抗力之意外（如休克、心臟病發），乙方在已盡善良管理人注意義務下，不負賠償責任。</p>
-                <p><strong>第五條（接送時間）</strong><br>美容完成後，乙方將通知甲方接回。若超過營業時間未接回，將視為住宿並加收住宿費用。</p>
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4 mb-6 text-red-700 font-bold text-center text-xs animate-pulse">
+                    ⚠️ 飼主應盡告知義務，若因隱瞞病況發生意外或死亡，經法定程序判定店家無疏失，<span class="underline">店家不須負損害賠償責任</span>。
+                </div>
+
+                <div class="space-y-4 text-left">
+                    <p class="border-l-4 border-theme-primary pl-3 font-bold text-theme-text text-base italic">✂️ 美容服務 簽署聲明與法律約定</p>
+                    
+                    <p><strong>第一條（契約目的）：</strong><br>本服務為犬貓美容服務，<span class="text-theme-dark">不涉及任何醫療行為</span>。</p>
+
+                    <p><strong>第五條（健康告知）：</strong><br>甲方應誠實告知寵物病史與是否具有攻擊性。<span class="text-red-600 font-black">若因隱瞞導致意外，乙方不負責損害賠償責任</span>；若因隱瞞導致乙方人員傷亡、財損等損失，<span class="text-red-600 font-black underline">乙方將全額向甲方求償</span>。</p>
+
+                    <p><strong>第九條（退費規定）：</strong><br>包月服務申請終止時，預收總額需<span class="text-theme-dark font-bold">扣除（已使用次數 X 單次原價）</span>後退還餘額。</p>
+
+                    <p><strong>第十二條（逾時接回）：</strong><br>若於約定時間內未領回，將加收安親費；<span class="text-theme-dark font-bold">若打烊時仍未接回，則視同住宿一晚計費</span>。如經通知<span class="text-red-600 font-black underline">三日內未領回，將依照動保法第29條移交主管機關</span>。</p>
+
+                    <p><strong>第十五條（履約保障）：</strong><br>預收費用累積金額新台幣一萬元以下，依法免提供履約保障。</p>
+                    
+                    <div class="pt-4 border-t border-theme-sub/20 text-[10px] text-theme-sub space-y-1">
+                        <p>※ 其餘細節將依照行政院農委會定型化契約範本辦理。</p>
+                        <p>※ 因本契約所產生之訴訟，雙方合意將以<span class="font-bold">臺中地方法院</span>為第一審管轄法院。</p>
+                    </div>
+                </div>
             `,
-            boarding: `
-                <p><strong>第一條（住宿標的）</strong><br>乙方提供寵物住宿空間、飲水及約定之照護服務。</p>
-                <p><strong>第二條（健康與疫苗）</strong><br>入住寵物必須完成年度疫苗注射（狂犬病、核心疫苗）並完成體內外驅蟲。若發現寵物有傳染病或寄生蟲，乙方有權拒絕入住或隔離照護，衍生費用由甲方負擔。</p>
-                <p><strong>第三條（緊急醫療授權）</strong><br>住宿期間若寵物身體不適，乙方將優先通知甲方。若無法聯繫，甲方授權乙方代為送醫治療，醫療與交通費用由甲方全額支付。</p>
-                <p><strong>第四條（放棄聲明）</strong><br>若住宿期滿後 7 日內，甲方未接回寵物且無法聯繫，視同甲方惡意遺棄。乙方得依動物保護法通報主管機關，並依法求償相關費用。</p>
-                <p><strong>第五條（物品保管）</strong><br>甲方自備之飼料、藥品、玩具等應清楚標示。非必要貴重物品請勿隨同入住，遺失概不負責。</p>
+boarding: `
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4 mb-6 text-red-700 font-bold text-center text-xs animate-pulse">
+                    ⚠️ 飼主應盡告知義務，若因隱瞞病況發生意外或死亡，經法定程序判定店家無疏失，<span class="underline">店家不須負損害賠償責任</span>。
+                </div>
+
+                <div class="space-y-5 text-left text-[13px]">
+                    <p class="border-l-4 border-theme-primary pl-3 font-bold text-theme-text text-base italic">🏠 住宿/安親 簽署聲明與法律約定</p>
+                    
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <p class="text-amber-800 font-black flex items-center gap-1">
+                            <i data-lucide="shield-alert" class="w-4 h-4"></i> 非 24 小時照護聲明：
+                        </p>
+                        <p class="text-amber-900 leading-relaxed">
+                            本人（飼主）已知悉且同意，<span class="font-black underline">大柴小熊無提供夜間照顧服務</span>。活動時間結束後至隔日開店前，寵物將獨處於房間內。若寵物於夜間無人時段發生突發狀況（如急病、休克、自身焦慮造成之傷害、嘔吐等），店家可能無法即時發現或處置，<span class="font-black">本人願意承擔此風險，並同意不追究店家責任</span>。
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <p><strong>一、住宿計費與進退房：</strong><br>本館住宿以「晚」為單位。入住時間 10:00-18:00，退房應於 18:00 前。逾時規定：</p>
+                        <ul class="list-disc pl-5 space-y-1 text-theme-dark font-bold">
+                            <li>18:00 至 19:00 接回者：加收「安親費用」。</li>
+                            <li>超過 19:00 未接回者：<span class="text-red-600 underline">均視同「住宿一晚」</span>，依現場費率計費。</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>二、飲食與健康：</strong><br>住宿期間請自備飼料。若由店內提供導致換食腸胃不適（如軟便、腹瀉），<span class="text-theme-dark font-bold">旅館恕不負責賠償</span>。</p>
+
+                    <p><strong>三、洗護要求：</strong><br>入住當日需完成美容部洗護（費用另計）。若發現寄生蟲，將<span class="text-red-600 font-black">額外收取除蟲及環境清潔費</span>。</p>
+
+                    <p><strong>四、遺棄與法律責任：</strong><br>逾期三日聯繫不上飼主，將<span class="text-red-600 font-black underline">依動保法交付動保處</span>，衍生費用由飼主全額支付。</p>
+
+                    <p><strong>五、攻擊與損害賠償：</strong><br>若隱瞞攻擊行為導致傷亡，本館有權向飼主全額求償。若店內物品（攝影機、隔間等）遭破壞，<span class="font-black">飼主須全額賠償</span>。</p>
+
+                    <p><strong>六、醫療與風險：</strong><br>突發疾病送醫之醫療及交通費由飼主全額負擔。若隱瞞病況或具高風險疾病（心臟病、癲癇等）發生意外，<span class="text-red-600 font-black">經判定本館無疏失則不負責賠償</span>。</p>
+
+                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                        <p><strong>七、人為疏失賠償上限：</strong><br>若因人為疏失導致走失、傷亡，本館依法賠償，<span class="text-red-600 font-black underline text-sm">賠償上限為新台幣 30,000 元整</span>（玩耍小傷痕除外）。</p>
+                    </div>
+
+                    <p><strong>八、死亡處理：</strong><br>因年老或舊疾死亡，請於 <span class="font-bold">24 小時內領回</span>。若需鑑定死因請於 24 小時內會同辦理，逾期不得異議。</p>
+
+                    <p><strong>九、散步風險：</strong><br>散步時若因寵物<span class="font-bold">掙脫牽繩導致逃跑或傷亡</span>，本館不負責相關賠償事宜。</p>
+
+                    <div class="pt-4 border-t border-theme-sub/20 text-[10px] text-theme-sub space-y-1">
+                        <p>※ 其餘細節將依照行政院農委會定型化契約範本辦理。</p>
+                        <p>※ 因本契約所產生之訴訟，雙方合意將以<span class="font-bold">臺中地方法院</span>為第一審管轄法院。</p>
+                    </div>
+                </div>
             `
         };
 
