@@ -189,6 +189,15 @@ const LoginView = ({ onLogin }) => {
             <button onClick={()=>setEmail(STAFF_EMAIL)} className="w-full py-4 rounded-2xl bg-white border-2 border-bear-accent font-black flex justify-center items-center gap-2">
               <Icon name="user" /> 員工登入
             </button>
+            <div className="mt-6">
+  <button
+    type="button"
+    onClick={() => window.location.href = "index.html"}
+    className="w-full py-3 rounded-xl bg-gray-100 text-bear-text font-bold border hover:bg-gray-200 transition"
+  >
+    ← 返回填寫首頁
+  </button>
+</div>
           </div>
         ) : (
           <form onSubmit={handleLogin} className="space-y-4">
@@ -352,7 +361,17 @@ onClick={async ()=>{
     <Field label="種類" value={raw.pet_type} fieldKey="pet_type" editable />
     <Field label="品種" value={raw.pet_breed} fieldKey="pet_breed" editable />
     <Field label="體重" value={raw.pet_weight ? raw.pet_weight + " kg" : ""} fieldKey="pet_weight" editable />
-    <Field label="生日" value={raw.pet_birthday} fieldKey="pet_birthday" editable type="date" />
+<Field
+  label="生日"
+  value={
+    raw.pet_birthday
+      ? `${raw.pet_birthday} (${calcAgeFromBirthday(raw.pet_birthday)} 歲)`
+      : ""
+  }
+  fieldKey="pet_birthday"
+  editable
+  type="date"
+/>
     <Field label="年齡" value={raw.pet_age ? raw.pet_age + " 歲" : ""} fieldKey="pet_age" editable />
     <Field label="性別" value={raw.gender} fieldKey="gender" editable />
     <Field label="結紮" value={raw.neuter} fieldKey="neuter" editable />
@@ -483,7 +502,16 @@ onClick={async ()=>{
     </div>
   );
 };
-
+const calcAgeFromBirthday = (birthday) => {
+  if (!birthday) return "";
+  const b = new Date(birthday);
+  const today = new Date();
+  let age = today.getFullYear() - b.getFullYear();
+  const m = today.getMonth() - b.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < b.getDate())) age--;
+  if (age < 0) age = 0;
+  return age;
+};
 const Dashboard = ({ user }) => {
   const isAdmin = user?.email === ADMIN_EMAIL;
 const canEdit = isAdmin;
