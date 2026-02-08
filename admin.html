@@ -215,28 +215,58 @@ const LoginView = ({ onLogin }) => {
   );
 };
 
-const OrderModal = ({ order, onClose, onUpdateStatus, onUpdateNote, onDelete, canEdit, isAdmin }) => {
+const OrderModal = ({ order, onClose, onUpdateStatus, onUpdateNote, onUpdateData, onDelete, canEdit, canUpdateStatus, isAdmin }) => {
   if (!order) return null;
-  const raw = parseData(order);
+const raw = parseData(order);
 const [note, setNote] = useState(order.admin_note || "");
 const [localStatus, setLocalStatus] = useState(order.status);
+const [editMode, setEditMode] = useState(false);
+const [editData, setEditData] = useState(raw);
 
 useEffect(() => {
   setNote(order.admin_note || "");
   setLocalStatus(order.status);
+  setEditMode(false);
+  setEditData(raw);
 }, [order?.id]);
 
 const handleBlur = async () => {
-  if (note !== order.admin_note && canEdit) {
+  if (note !== order.admin_note) {
     const ok = await onUpdateNote(order.id, note);
     if (!ok) setNote(order.admin_note || "");
   }
 };
 
-const Field = ({ label, value }) => (
+const updateField = (key, val) => {
+  setEditData(prev => ({ ...prev, [key]: val }));
+};
+
+const handleSaveEdit = async () => {
+  const ok = await onUpdateData(order.id, editData);
+  if (ok) setEditMode(false);
+};
+
+const Field = ({ label, value, fieldKey, editable=false, type="text", textarea=false }) => (
   <div>
     <span className="text-gray-400 text-xs">{label}</span>
-    <div className="font-bold break-all">{value || "-"}</div>
+    {editable && editMode ? (
+      textarea ? (
+        <textarea
+          className="admin-input text-sm h-20"
+          value={editData[fieldKey] || ""}
+          onChange={(e)=>updateField(fieldKey, e.target.value)}
+        />
+      ) : (
+        <input
+          className="admin-input text-sm"
+          type={type}
+          value={editData[fieldKey] || ""}
+          onChange={(e)=>updateField(fieldKey, e.target.value)}
+        />
+      )
+    ) : (
+      <div className="font-bold break-all">{value || "-"}</div>
+    )}
   </div>
 );
 
@@ -247,22 +277,50 @@ const Field = ({ label, value }) => (
     <div className="fixed inset-0 z-[200] bg-black/50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
         
-        <div className="p-5 border-b flex justify-between items-center">
-          <h3 className="font-black text-lg flex items-center gap-2">
-            <Icon name={order.type === "grooming" ? "scissors" : "home"} />
-            {T(order.type)} 詳情
-          </h3>
-          <button onClick={onClose}><Icon name="x" size={22} /></button>
-        </div>
+<div className="p-5 border-b flex justify-between items-center">
+  <h3 className="font-black text-lg flex items-center gap-2">
+    <Icon name={order.type === "grooming" ? "scissors" : "home"} />
+    {T(order.type)} 詳情
+  </h3>
+  <div className="flex items-center gap-2">
+    {isAdmin && !editMode && (
+      <button onClick={()=>setEditMode(true)} className="px-3 py-1 rounded-full text-xs font-bold bg-gray-100">
+        編輯資料
+      </button>
+    )}
+    {isAdmin && editMode && (
+      <>
+        <button onClick={handleSaveEdit} className="px-3 py-1 rounded-full text-xs font-bold bg-bear-primary text-white">
+          儲存
+        </button>
+        <button onClick={()=>{setEditMode(false); setEditData(raw);}} className="px-3 py-1 rounded-full text-xs font-bold bg-gray-100">
+          取消
+        </button>
+      </>
+    )}
+    <button onClick={onClose}><Icon name="x" size={22} /></button>
+  </div>
+</div>
 
-        <div className="p-6 overflow-y-auto space-y-6 text-sm">
+<div className="p-6 overflow-y-auto space-y-6 text-sm">
 
+  {/* 店家備註(內部用) */}
+  <div className="bg-yellow-50/60 border border-yellow-200 rounded-2xl p-4">
+    <label className="text-xs font-bold text-yellow-700 mb-2 block">店家備註（內部用）</label>
+    <textarea
+      className="w-full h-20 p-2 rounded-xl text-sm border bg-white/70"
+      value={note}
+      onChange={(e)=>setNote(e.target.value)}
+      onBlur={handleBlur}
+      placeholder="僅供內部備註使用..."
+    />
+  </div>
           {/* 狀態 */}
 <div className="grid grid-cols-4 gap-2">
   {["pending","confirmed","completed","cancelled"].map(s => (
     <button key={s}
 onClick={async ()=>{
-  if(!canEdit) return;
+  if(!canUpdateStatus) return;
   const ok = await onUpdateStatus(order.id, s);
   if(ok) setLocalStatus(s);
 }}
@@ -272,39 +330,40 @@ onClick={async ()=>{
   ))}
 </div>
 
-          {/* 飼主資料 */}
-          <div className="bg-bear-bg p-4 rounded-2xl border">
-            <h4 className="font-bold mb-2">飼主資料</h4>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="姓名" value={raw.owner_name} />
-              <Field label="電話" value={raw.phone} />
-              <Field label="Email" value={raw.email} />
-              <Field label="身分證字號" value={raw.id_number} />
-              <Field label="地址" value={raw.address} />
-              <Field label="緊急聯絡人" value={raw.emergency_contact} />
-              <Field label="緊急電話" value={raw.emergency_phone} />
-            </div>
-          </div>
+{/* 飼主資料 */}
+<div className="bg-bear-bg p-4 rounded-2xl border">
+  <h4 className="font-bold mb-2">飼主資料</h4>
+  <div className="grid grid-cols-2 gap-3">
+    <Field label="姓名" value={raw.owner_name} fieldKey="owner_name" editable />
+    <Field label="電話" value={raw.phone} fieldKey="phone" editable />
+    <Field label="Email" value={raw.email} fieldKey="email" editable />
+    <Field label="身分證字號" value={raw.id_number} fieldKey="id_number" editable />
+    <Field label="地址" value={raw.address} fieldKey="address" editable />
+    <Field label="緊急聯絡人" value={raw.emergency_contact} fieldKey="emergency_contact" editable />
+    <Field label="緊急電話" value={raw.emergency_phone} fieldKey="emergency_phone" editable />
+  </div>
+</div>
 
 {/* 寵物資料 */}
 <div className="bg-bear-bg p-4 rounded-2xl border">
   <h4 className="font-bold mb-2">寵物資料</h4>
   <div className="grid grid-cols-2 gap-3">
-    <Field label="名字" value={raw.pet_name} />
-    <Field label="種類" value={raw.pet_type} />
-    <Field label="品種" value={raw.pet_breed} />
-    <Field label="體重" value={raw.pet_weight ? raw.pet_weight + " kg" : ""} />
-    <Field label="生日" value={raw.pet_birthday} />
-    <Field label="年齡" value={raw.pet_age ? raw.pet_age + " 歲" : ""} />
-    <Field label="性別" value={raw.gender} />
-    <Field label="結紮" value={raw.neuter} />
-    <Field label="晶片狀態" value={raw.microchip_status} />
-    <Field label="晶片號碼" value={raw.microchip_number} />
-    <Field label="個性" value={raw.temperament} />
-    <Field label="攻擊性" value={raw.aggression} />
-    <Field label="與狗相處" value={raw.dog_social} />
-    <Field label="過往病史" value={raw.history_check} />
-    <Field label="病史詳情" value={raw.history_detail} />
+    <Field label="名字" value={raw.pet_name} fieldKey="pet_name" editable />
+    <Field label="種類" value={raw.pet_type} fieldKey="pet_type" editable />
+    <Field label="品種" value={raw.pet_breed} fieldKey="pet_breed" editable />
+    <Field label="體重" value={raw.pet_weight ? raw.pet_weight + " kg" : ""} fieldKey="pet_weight" editable />
+    <Field label="生日" value={raw.pet_birthday} fieldKey="pet_birthday" editable type="date" />
+    <Field label="年齡" value={raw.pet_age ? raw.pet_age + " 歲" : ""} fieldKey="pet_age" editable />
+    <Field label="性別" value={raw.gender} fieldKey="gender" editable />
+    <Field label="結紮" value={raw.neuter} fieldKey="neuter" editable />
+    <Field label="晶片狀態" value={raw.microchip_status} fieldKey="microchip_status" editable />
+    <Field label="晶片號碼" value={raw.microchip_number} fieldKey="microchip_number" editable />
+    <Field label="個性" value={raw.temperament} fieldKey="temperament" editable />
+    <Field label="攻擊性" value={raw.aggression} fieldKey="aggression" editable />
+    <Field label="與狗相處" value={raw.dog_social} fieldKey="dog_social" editable />
+    <Field label="過往病史" value={raw.history_check} fieldKey="history_check" editable />
+    <Field label="病史詳情" value={raw.history_detail} fieldKey="history_detail" editable textarea />
+    <Field label="指定醫院" value={raw.specified_hospital} fieldKey="specified_hospital" editable />
   </div>
 </div>
 
@@ -346,33 +405,33 @@ onClick={async ()=>{
 
     {raw.daycare_date ? (
       <>
-        <Field label="安親日期" value={raw.daycare_date} />
-        {raw.arrive_time && <Field label="抵達時間" value={raw.arrive_time} />}
-        {raw.leave_time && <Field label="接回時間" value={raw.leave_time} />}
+        <Field label="安親日期" value={raw.daycare_date} fieldKey="daycare_date" editable type="date" />
+        {raw.arrive_time && <Field label="抵達時間" value={raw.arrive_time} fieldKey="arrive_time" editable type="time" />}
+        {raw.leave_time && <Field label="接回時間" value={raw.leave_time} fieldKey="leave_time" editable type="time" />}
       </>
     ) : (
       <>
-        <Field label="入住日期" value={raw.checkin_date} />
-        <Field label="退房日期" value={raw.checkout_date} />
+        <Field label="入住日期" value={raw.checkin_date} fieldKey="checkin_date" editable type="date" />
+        <Field label="退房日期" value={raw.checkout_date} fieldKey="checkout_date" editable type="date" />
       </>
     )}
 
-    {raw.social_note && <Field label="其他說明" value={raw.social_note} />}
+    {raw.social_note && <Field label="其他說明" value={raw.social_note} fieldKey="social_note" editable textarea />}
 
-    <Field label="驅蟲" value={raw.deworming} />
-    {raw.deworming_brand && <Field label="驅蟲藥品牌" value={raw.deworming_brand} />}
+    <Field label="驅蟲" value={raw.deworming} fieldKey="deworming" editable />
+    {raw.deworming_brand && <Field label="驅蟲藥品牌" value={raw.deworming_brand} fieldKey="deworming_brand" editable />}
 
-    <Field label="吠叫" value={raw.barking} />
-    {raw.barking_note && <Field label="吠叫說明" value={raw.barking_note} />}
+    <Field label="吠叫" value={raw.barking} fieldKey="barking" editable />
+    {raw.barking_note && <Field label="吠叫說明" value={raw.barking_note} fieldKey="barking_note" editable textarea />}
 
-    <Field label="護食" value={raw.food_guard} />
-    {raw.food_guard_note && <Field label="護食說明" value={raw.food_guard_note} />}
+    <Field label="護食" value={raw.food_guard} fieldKey="food_guard" editable />
+    {raw.food_guard_note && <Field label="護食說明" value={raw.food_guard_note} fieldKey="food_guard_note" editable textarea />}
 
-    <Field label="如廁" value={raw.toilet} />
-    {raw.toilet_note && <Field label="如廁說明" value={raw.toilet_note} />}
+    <Field label="如廁" value={raw.toilet} fieldKey="toilet" editable />
+    {raw.toilet_note && <Field label="如廁說明" value={raw.toilet_note} fieldKey="toilet_note" editable textarea />}
 
-    <Field label="疫苗" value={raw.vaccine} />
-    {raw.boarding_note && <Field label="住宿備註" value={raw.boarding_note} />}
+    <Field label="疫苗" value={raw.vaccine} fieldKey="vaccine" editable />
+    {raw.boarding_note && <Field label="住宿備註" value={raw.boarding_note} fieldKey="boarding_note" editable textarea />}
   </div>
 )}
 
@@ -408,16 +467,6 @@ onClick={async ()=>{
 )}
 </div>
 
-{/* 店家備註 */}
-          <div>
-            <label className="text-xs font-bold text-gray-400 mb-1 block">店家備註</label>
-            <textarea
-              className={`w-full h-20 p-2 rounded-xl text-sm border ${canEdit?'bg-yellow-50/50':'bg-gray-100'}`}
-              value={note}
-              onChange={(e)=>setNote(e.target.value)}
-              onBlur={handleBlur}
-            />
-          </div>
 
           {isAdmin && (
 <button onClick={async ()=>{
@@ -480,20 +529,23 @@ const canEdit = isAdmin;
   useEffect(()=>{ fetchOrders(); }, [activeTab]);
 
 const updateStatus = async (id, status) => {
-  const ok = await verifyAdminPassword();
-  if (!ok) return false;
-
   await supabase.from("contracts").update({ status }).eq("id", id);
   setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
   return true;
 };
 
 const updateNote = async (id, note) => {
+  await supabase.from("contracts").update({ admin_note: note }).eq("id", id);
+  setOrders(prev => prev.map(o => o.id === id ? { ...o, admin_note: note } : o));
+  return true;
+};
+
+const updateData = async (id, data) => {
   const ok = await verifyAdminPassword();
   if (!ok) return false;
 
-  await supabase.from("contracts").update({ admin_note: note }).eq("id", id);
-  setOrders(prev => prev.map(o => o.id === id ? { ...o, admin_note: note } : o));
+  await supabase.from("contracts").update({ data }).eq("id", id);
+  setOrders(prev => prev.map(o => o.id === id ? { ...o, data } : o));
   return true;
 };
 
@@ -541,8 +593,8 @@ const deleteOrder = async (id) => {
           onChange={(e)=>setSearch(e.target.value)} className="w-full px-4 py-3 rounded-2xl bg-white shadow border focus:outline-none" />
 
         <div className="grid grid-cols-2 gap-2 bg-white p-2 rounded-2xl shadow border">
-          <button onClick={()=>setActiveTab("grooming")} className={`py-2 rounded-xl font-bold ${activeTab==="grooming"?"bg-bear-primary text-white":"text-gray-400"}`}>美容</button>
-          <button onClick={()=>setActiveTab("boarding")} className={`py-2 rounded-xl font-bold ${activeTab==="boarding"?"bg-bear-dark text-white":"text-gray-400"}`}>住宿/安親</button>
+          <button onClick={()=>setActiveTab("grooming")} className={`py-2 rounded-xl font-bold ${activeTab==="grooming"?"bg-bear-primary text-white":"text-gray-400"}`}>洗澡美容</button>
+          <button onClick={()=>setActiveTab("boarding")} className={`py-2 rounded-xl font-bold ${activeTab==="boarding"?"bg-bear-dark text-white":"text-gray-400"}`}>住宿安親</button>
         </div>
 
         {loading ? <div className="text-center py-10 text-gray-400 font-bold">載入中...</div> : (
@@ -580,15 +632,17 @@ const boardingDate = (order.type === "boarding" || order.type === "daycare") ? g
         )}
       </main>
 
-      <OrderModal
-        order={selectedOrder}
-        onClose={()=>setSelectedOrder(null)}
-        onUpdateStatus={updateStatus}
-        onUpdateNote={updateNote}
-        onDelete={deleteOrder}
-        canEdit={true}
-        isAdmin={isAdmin}
-      />
+<OrderModal
+  order={selectedOrder}
+  onClose={()=>setSelectedOrder(null)}
+  onUpdateStatus={updateStatus}
+  onUpdateNote={updateNote}
+  onUpdateData={updateData}
+  onDelete={deleteOrder}
+  canEdit={isAdmin}
+  canUpdateStatus={true}
+  isAdmin={isAdmin}
+/>
       <ChangePasswordModal isOpen={showPwdModal} onClose={()=>setShowPwdModal(false)} />
     </div>
   );
