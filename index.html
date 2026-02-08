@@ -11,8 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.1/dist/umd/supabase.js"></script>
 
     <script>
         /* --- 色系設定：從 logo (2).jpg 提取的莫蘭迪綠 --- */
@@ -146,7 +147,7 @@
                         大柴小熊
                     </h1>
                     <span class="text-lg font-bold text-theme-dark tracking-[0.1em] block">
-                        寵物美容
+                        美容、住宿、安親 
                     </span>
                     <div class="flex items-center justify-center gap-2 mt-2 opacity-70">
                         <span class="h-px w-6 bg-theme-sub/50"></span>
@@ -310,19 +311,19 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">電子郵件 (選填)</label>
-                            <input type="email" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition" placeholder="example@email.com">
+                            <input type="email" id="email" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition" placeholder="example@email.com">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">主人姓名*</label>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            <input type="text" id="owner_name" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">連絡電話*</label>
                             <div class="flex gap-2">
-                                <input type="tel" class="flex-1 w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入手機號碼" required>
-                                <button type="button" class="bg-theme-dark/10 text-theme-dark px-4 rounded-xl font-bold text-sm hover:bg-theme-dark hover:text-white transition whitespace-nowrap flex items-center gap-1">
+                                <input type="tel" id="phone" class="flex-1 w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入手機號碼" required>
+                                <button type="button" onclick="searchOldCustomer()" class="bg-theme-dark/10 text-theme-dark px-4 rounded-xl font-bold text-sm hover:bg-theme-dark hover:text-white transition whitespace-nowrap flex items-center gap-1">
                                     <i data-lucide="search" class="w-4 h-4"></i>
                                     舊客
                                 </button>
@@ -331,22 +332,22 @@
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">身分證字號*</label>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            <input type="text" id="id_number" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">通訊地址*</label>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                            <input type="text" id="address" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3 pt-2">
                             <div>
                                 <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">緊急聯絡人*</label>
-                                <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                                <input type="text" id="emergency_contact" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">緊急電話*</label>
-                                <input type="tel" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+                                <input type="tel" id="emergency_phone" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                             </div>
                         </div>
                     </div>
@@ -363,12 +364,12 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">種類*</label>
                             <div class="flex gap-3">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="pet_type" value="dog" class="hidden" checked>
+                                    <input type="radio" name="pet_type" value="狗狗" class="hidden" checked>
                                     <span class="text-lg">🐶</span>
                                     <span class="text-sm font-bold text-theme-text">狗狗</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="pet_type" value="cat" class="hidden">
+                                    <input type="radio" name="pet_type" value="貓咪" class="hidden">
                                     <span class="text-lg">🐱</span>
                                     <span class="text-sm font-bold text-theme-text">貓咪</span>
                                 </label>
@@ -376,20 +377,19 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">寵物名字*</label>
-                                <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">品種*</label>
-                                <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
-                            </div>
-                        </div>
-
+<div>
+    <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">寵物名字*</label>
+    <input type="text" id="pet_name" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+</div>
+<div>
+    <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">品種*</label>
+    <input type="text" id="pet_breed" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+</div>
+</div> 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">體重 (kg)*</label>
-                                <input type="number" step="0.1" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+<input type="number" id="pet_weight" step="0.1" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
                             </div>
 <div>
                                 <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">生日 / 年齡*</label>
@@ -398,11 +398,11 @@
                                     <button type="button" onclick="toggleAgeInput('age')" id="tab-age" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all text-theme-sub">年齡</button>
                                 </div>
                                 <div id="input-birthday" class="animate-fade-in">
-                                    <input type="date" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+<input type="date" id="pet_birthday" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
                                 </div>
                                 <div id="input-age" class="hidden animate-fade-in">
                                     <div class="relative">
-                                        <input type="number" step="1" min="0" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入年齡">
+<input type="number" id="pet_age" step="1" min="0" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入年齡">
                                         <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-theme-sub font-bold">歲</span>
                                     </div>
                                 </div>
@@ -414,11 +414,11 @@
                                 <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">性別*</label>
                                 <div class="flex gap-2">
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-300 has-[:checked]:text-blue-600 transition">
-                                        <input type="radio" name="gender" value="m" class="hidden">
+                                        <input type="radio" name="gender" value="公" class="hidden">
                                         <span class="text-sm font-bold">公</span>
                                     </label>
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-pink-50 has-[:checked]:border-pink-300 has-[:checked]:text-pink-600 transition">
-                                        <input type="radio" name="gender" value="f" class="hidden">
+                                        <input type="radio" name="gender" value="母" class="hidden">
                                         <span class="text-sm font-bold">母</span>
                                     </label>
                                 </div>
@@ -427,11 +427,11 @@
                                 <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">結紮*</label>
                                 <div class="flex gap-2">
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                        <input type="radio" name="neuter" value="yes" class="hidden">
+                                        <input type="radio" name="neuter" value="已結紮" class="hidden">
                                         <span class="text-sm font-bold">是</span>
                                     </label>
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                        <input type="radio" name="neuter" value="no" class="hidden">
+                                        <input type="radio" name="neuter" value="未結紮" class="hidden">
                                         <span class="text-sm font-bold">否</span>
                                     </label>
                                 </div>
@@ -442,59 +442,74 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">晶片狀態*</label>
                             <div class="flex flex-wrap gap-2 mb-3">
                                 <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="microchip_status" value="yes" class="hidden" onchange="document.getElementById('chip-number-input').classList.remove('hidden')">
+                                    <input type="radio" name="microchip_status" value="有晶片" class="hidden" onchange="document.getElementById('chip-number-input').classList.remove('hidden')">
                                     <span class="text-sm font-bold">有晶片</span>
                                 </label>
                                 <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="microchip_status" value="unknown" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
-                                    <span class="text-sm font-bold">有晶片(不詳)</span>
+                                    <input type="radio" name="microchip_status" value="有晶片號碼不詳" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
+                                    <span class="text-sm font-bold">有晶片(號碼不詳)</span>
                                 </label>
                                 <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="microchip_status" value="no" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
+                                    <input type="radio" name="microchip_status" value="無晶片" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
                                     <span class="text-sm font-bold">無晶片</span>
                                 </label>
                             </div>
                             <div id="chip-number-input" class="hidden animate-slide-up">
-                                <input type="text" class="w-full bg-white border border-theme-primary rounded-xl px-4 py-3 text-theme-text focus:outline-none" placeholder="請輸入晶片號碼">
+<input type="text" id="microchip_number" class="w-full bg-white border border-theme-primary rounded-xl px-4 py-3 text-theme-text focus:outline-none" placeholder="請輸入晶片號碼">
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">攻擊性*</label>
-                                <select class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition appearance-none">
-                                    <option value="no">無攻擊性</option>
-                                    <option value="yes">有攻擊性</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">與狗相處*</label>
-                                <select class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition appearance-none">
-                                    <option value="yes">可與狗玩</option>
-                                    <option value="no">不可與狗玩</option>
-                                </select>
-                            </div>
-                        </div>
+<div class="grid grid-cols-2 gap-3">
+    <div>
+        <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">攻擊性*</label>
+        <div class="flex gap-2">
+            <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+<input type="radio" name="aggression" value="無攻擊性" class="hidden">
+                <span class="text-sm font-bold">無攻擊性</span>
+            </label>
+            <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                <input type="radio" name="aggression" value="有攻擊性" class="hidden">
+                <span class="text-sm font-bold">有攻擊性</span>
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">與狗相處*</label>
+        <div class="flex gap-2">
+            <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+<input type="radio" name="dog_social" value="可與狗玩" class="hidden">
+                <span class="text-sm font-bold">可與狗玩</span>
+            </label>
+            <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
+                <input type="radio" name="dog_social" value="不可與狗玩" class="hidden">
+                <span class="text-sm font-bold">不可與狗玩</span>
+            </label>
+        </div>
+    </div>
+</div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">毛孩性情*</label>
                             <div class="space-y-2">
                                 <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="temperament" class="mt-1 accent-theme-dark" checked>
+<input type="radio" name="temperament" value="天使寶寶" class="mt-1 accent-theme-dark">
+
                                     <div>
                                         <span class="block text-sm font-bold text-theme-text">😇 天使寶寶</span>
                                         <span class="block text-xs text-theme-sub mt-0.5">個性溫和，無任何攻擊紀錄，也不怕生。</span>
                                     </div>
                                 </label>
                                 <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="temperament" class="mt-1 accent-theme-dark">
+<input type="radio" name="temperament" value="有點緊張" class="mt-1 accent-theme-dark">
+
                                     <div>
                                         <span class="block text-sm font-bold text-theme-text">😓 有點緊張</span>
                                         <span class="block text-xs text-theme-sub mt-0.5">膽小怕生，可能會低吼或閃躲，但未曾咬人。</span>
                                     </div>
                                 </label>
                                 <label class="flex items-start gap-3 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer hover:bg-theme-primary/5 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="temperament" class="mt-1 accent-theme-dark">
+<input type="radio" name="temperament" value="敏感寶寶" class="mt-1 accent-theme-dark">
                                     <div>
                                         <span class="block text-sm font-bold text-theme-text">🤬 敏感寶寶</span>
                                         <span class="block text-xs text-theme-sub mt-0.5">特定部位敏感或曾有攻擊紀錄 (請務必告知)。</span>
@@ -503,45 +518,49 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">指定就醫診療機構</label>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition mb-2" placeholder="請輸入醫院名稱 (若無則留依店家特約)">
-                            
-                            <div class="bg-theme-dark/5 rounded-xl p-3 border border-theme-dark/10">
-                                <span class="block text-xs font-bold text-theme-dark mb-1">特約醫院資訊：</span>
-                                <span class="block text-xs text-theme-text">[待確認]</span>
-                            </div>
-                        </div>
-
+<div class="bg-theme-dark/5 rounded-xl p-3 border border-theme-dark/10">
+    <span class="block text-xs font-bold text-theme-dark mb-1">特約醫院資訊：</span>
+    <div class="text-xs text-theme-text space-y-1">
+        <p class="font-bold">富山動物醫院</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=臺中市北屯區中清路二段11號" target="_blank" class="flex items-center gap-1.5 hover:text-theme-dark transition-colors group">
+            <i data-lucide="map-pin" class="w-3 h-3 text-theme-sub group-hover:text-theme-primary"></i>
+            <span>臺中市北屯區中清路二段11號</span>
+        </a>
+    </div>
+</div>
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">過往病史*</label>
                             <div class="flex gap-2 mb-3">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-red-50 has-[:checked]:border-red-300 has-[:checked]:text-red-600 transition">
-                                    <input type="radio" name="history_check" value="yes" class="hidden" onchange="document.getElementById('medical-history-input').classList.remove('hidden')">
+                                    <input type="radio" name="history_check" value="有病史" class="hidden" onchange="document.getElementById('medical-history-input').classList.remove('hidden')">
                                     <span class="text-sm font-bold">有</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="history_check" value="no" class="hidden" checked onchange="document.getElementById('medical-history-input').classList.add('hidden')">
+<input type="radio" name="history_check" value="無病史" class="hidden" onchange="document.getElementById('medical-history-input').classList.add('hidden')">
                                     <span class="text-sm font-bold">無</span>
                                 </label>
                             </div>
 <div id="medical-history-input" class="hidden animate-slide-up">
-                                <textarea class="w-full bg-white border border-red-200 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-red-400 transition h-24" placeholder="請詳細說明病史..."></textarea>
+<textarea id="history_detail" class="w-full bg-white border border-red-200 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-red-400 transition h-24" placeholder="請詳細說明病史..."></textarea>
                             </div>
                         </div>
 
-                        <div class="pt-2">
-                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">寵物近兩週內全身照*</label>
-                            <label class="w-full flex items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
-                                <input type="file" accept="image/*" class="hidden" onchange="previewPetPhoto(this)">
-                                <div id="pet-photo-preview-container" class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
-                                        <i data-lucide="camera" class="w-4 h-4 text-theme-primary"></i>
-                                    </div>
-                                    <span id="pet-photo-upload-text" class="text-xs font-bold text-theme-sub group-hover:text-theme-primary">拍照或從相簿上傳</span>
-                                </div>
-                            </label>
-                        </div>
+<div class="pt-2">
+    <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">寵物近兩週內全身照*</label>
+    <label class="w-full flex flex-col items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
+        <input type="file" accept="image/*" class="hidden" onchange="previewPetPhoto(this)">
+        
+        <div id="pet-photo-preview-container" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
+                <i data-lucide="camera" class="w-4 h-4 text-theme-primary"></i>
+            </div>
+            <span id="pet-photo-upload-text" class="text-xs font-bold text-theme-sub group-hover:text-theme-primary">拍照或從相簿上傳</span>
+        </div>
+
+        <!-- 預覽圖片 -->
+        <img id="pet-photo-preview" class="hidden w-28 h-28 object-cover rounded-xl border border-theme-sub/30 mt-2" />
+    </label>
+</div>
                     </div>
                 </div>
 
@@ -554,7 +573,7 @@
                     <div class="space-y-4">
                         <div class="space-y-3">
                             <label class="block relative cursor-pointer group">
-                                <input type="checkbox" name="service" value="small_groom" class="peer hidden">
+                                <input type="checkbox" name="service" value="小美容" class="peer hidden">
                                 <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
                                     <span class="font-bold text-theme-text text-lg block mb-1">小美容</span>
                                     <p class="text-[11px] text-theme-sub leading-relaxed">二次洗毛→潤絲→剪(磨)指甲→清耳朵→剃腳底＋腹部＋肛門周圍毛→擠肛門腺→修眼睛嘴巴周圍雜毛</p>
@@ -562,7 +581,7 @@
                             </label>
 
                             <label class="block relative cursor-pointer group">
-                                <input type="checkbox" name="service" value="big_groom" class="peer hidden">
+                                <input type="checkbox" name="service" value="大美容" class="peer hidden">
                                 <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-4 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary peer-checked:shadow-sm transition hover:border-theme-primary/40">
                                     <span class="font-bold text-theme-text text-lg block mb-1">大美容</span>
                                     <p class="text-[11px] text-theme-sub leading-relaxed">包含小美容所有項目，外加全身造型修剪</p>
@@ -629,14 +648,14 @@
 
                             <div class="mt-2">
                                 <label class="block relative cursor-pointer">
-                                   <input type="checkbox" name="service" value="other" class="peer hidden" onchange="document.getElementById('other-service-input').classList.toggle('hidden')">
+                                   <input type="checkbox" name="service" value="其他" class="peer hidden" onchange="document.getElementById('other-service-input').classList.toggle('hidden')">
                                    <div class="bg-white/60 border border-theme-sub/20 rounded-xl p-3 peer-checked:bg-theme-primary/10 peer-checked:border-theme-primary transition flex items-center justify-between">
                                        <span class="text-sm font-bold text-theme-text">其他項目</span>
                                        <i data-lucide="plus" class="w-4 h-4 text-theme-sub"></i>
                                    </div>
                                </label>
                                <div id="other-service-input" class="hidden mt-2 animate-slide-up">
-                                   <input type="text" class="w-full bg-white border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="請在此說明其他需求...">
+<input type="text" id="other_service_text" class="w-full bg-white border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="請在此說明其他需求...">
                                </div>
                            </div>
                         </div>
@@ -730,11 +749,11 @@
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">入住日期 *</label>
-                                    <input type="date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+<input type="date" id="checkin_date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">退房日期 *</label>
-                                    <input type="date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+<input type="date" id="checkout_date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
                                 </div>
                             </div>
                         </div>
@@ -742,129 +761,114 @@
                         <div id="date-section-daycare" class="hidden animate-fade-in">
                             <div class="mb-3">
                                 <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">安親日期 *</label>
-                                <input type="date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+<input type="date" id="daycare_date" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">抵達時間</label>
-                                    <input type="time" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                    <input type="time" id="arrive_time" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">接回時間</label>
-                                    <input type="time" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
+                                    <input type="time" id="leave_time" class="w-full bg-white border border-theme-sub/30 rounded-xl px-3 py-3 text-sm text-theme-text focus:outline-none focus:border-theme-primary transition">
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否能跟狗朋友一起相處玩耍呢 (複選)*</label>
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="checkbox" name="social" value="yes" class="accent-theme-dark w-4 h-4">
-                                    <span class="text-sm font-bold text-theme-text">是</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="checkbox" name="social" value="no" class="accent-theme-dark w-4 h-4">
-                                    <span class="text-sm font-bold text-theme-text">否</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="checkbox" name="social" value="aggressive" class="accent-theme-dark w-4 h-4">
-                                    <span class="text-sm font-bold text-theme-text">有攻擊性</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-3 bg-white/60 border border-theme-sub/20 rounded-xl cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="checkbox" name="social" value="non_aggressive" class="accent-theme-dark w-4 h-4">
-                                    <span class="text-sm font-bold text-theme-text">無攻擊性</span>
-                                </label>
-                            </div>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+<input type="text" id="social_note" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否每個月定期驅蟲呢*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="deworming" value="yes" class="hidden">
+                                    <input type="radio" name="deworming" value="有定期驅蟲" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">是</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="deworming" value="no" class="hidden">
+                                    <input type="radio" name="deworming" value="無定期驅蟲" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">否</span>
                                 </label>
                             </div>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+<input type="text" id="deworming_brand" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="請輸入驅蟲藥牌子（例如：全能狗、一錠除...）">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否易吠叫呢*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="barking" value="yes" class="hidden">
+                                    <input type="radio" name="barking" value="易吠叫" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">是</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="barking" value="no" class="hidden">
+                                    <input type="radio" name="barking" value="不易吠叫" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">否</span>
                                 </label>
                             </div>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+<input type="text" id="barking_note" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="什麼情況下會吠叫呢">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">會護食嗎*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="food_guard" value="yes" class="hidden">
+                                    <input type="radio" name="food_guard" value="會護食" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">會</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="food_guard" value="no" class="hidden">
+                                    <input type="radio" name="food_guard" value="不會護食" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">不會</span>
                                 </label>
                             </div>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+<input type="text" id="food_guard_note" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">會在尿布墊上廁所嗎*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="toilet" value="yes" class="hidden">
+                                    <input type="radio" name="toilet" value="會用尿布墊" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">會</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="toilet" value="no" class="hidden">
+                                    <input type="radio" name="toilet" value="不會用尿布墊" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">不會</span>
                                 </label>
                             </div>
-                            <input type="text" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
+<input type="text" id="toilet_note" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-2 text-sm text-theme-text focus:outline-none focus:border-theme-primary" placeholder="其他說明...">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">疫苗是否每年都有定期施打呢 (請提供照片)*</label>
                             <div class="flex gap-3 mb-3">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="vaccine" value="yes" class="hidden">
+                                    <input type="radio" name="vaccine" value="有定期打疫苗" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">是</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="vaccine" value="no" class="hidden">
+                                    <input type="radio" name="vaccine" value="沒有定期打疫苗" class="hidden">
                                     <span class="text-sm font-bold text-theme-text">否</span>
                                 </label>
                             </div>
-                            <label class="w-full flex items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
-                                <input type="file" accept="image/*" class="hidden" onchange="previewImage(this)">
-                                <div id="upload-preview-container" class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
-                                        <i data-lucide="camera" class="w-4 h-4 text-theme-primary"></i>
-                                    </div>
-                                    <span id="upload-text" class="text-xs font-bold text-theme-sub group-hover:text-theme-primary">拍照或從相簿上傳手冊照片</span>
-                                </div>
-                            </label>
+<label class="w-full flex flex-col items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
+    <input type="file" accept="image/*" class="hidden" onchange="previewImage(this)">
+    
+    <div id="upload-preview-container" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
+            <i data-lucide="camera" class="w-4 h-4 text-theme-primary"></i>
+        </div>
+        <span id="upload-text" class="text-xs font-bold text-theme-sub group-hover:text-theme-primary">拍照或從相簿上傳手冊照片</span>
+    </div>
+
+    <!-- 預覽圖片 -->
+    <img id="vaccine-photo-preview" class="hidden w-28 h-28 object-cover rounded-xl border border-theme-sub/30 mt-2" />
+</label>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">寶貝有需要特別注意的地方都可以告知哦！</label>
-                            <textarea class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition h-24" placeholder="例如：特別膽小、或是哪裡不能摸..."></textarea>
+<textarea id="boarding_note" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition h-24" placeholder="例如：特別膽小、或是哪裡不能摸..."></textarea>
                         </div>
                     </div><div class="mb-10 space-y-6 animate-slide-up" style="animation-delay: 0.1s;">
                     <div class="flex items-center gap-3 ml-1 mb-2">
@@ -1130,30 +1134,48 @@
                                 </div>
                                 <span id="terms-btn-text" class="font-bold text-theme-text">點擊閱讀美容條款</span>
                             </div>
-                            <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded">待閱讀</span>
+<span id="terms-status-badge" class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded">待閱讀</span>
                         </button>
                     </div>
 
 <div>
-                        <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">數位簽名</label>
-                        <div onclick="openSignatureModal()" class="relative w-full h-32 bg-white border-2 border-dashed border-theme-sub/30 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-theme-primary hover:bg-theme-bg/30 transition group overflow-hidden">
-                            <img id="signature-preview" class="absolute inset-0 w-full h-full object-contain p-2 hidden z-10">
-                            
-                            <div id="signature-placeholder" class="flex flex-col items-center gap-2 text-theme-sub/50 group-hover:text-theme-primary/70 transition">
-                                <i data-lucide="pen-tool" class="w-6 h-6"></i>
-                                <span class="text-xs font-bold">點擊開啟全螢幕簽名板</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="flex items-center gap-2 mb-2 ml-1">
+    <label class="text-xs font-bold text-theme-sub">數位簽名</label>
+    <span id="signature-lock-tip"
+          class="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded">
+        請先閱讀條款以解鎖簽名
+    </span>
+</div>
+
+<div id="signature-box" onclick="openSignatureModal()"
+     class="relative w-full h-32 bg-white border-2 border-dashed border-theme-sub/30 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-theme-primary hover:bg-theme-bg/30 transition group  opacity-60 pointer-events-none">
+
+    <img id="signature-preview" class="absolute inset-0 w-full h-full object-contain p-2 hidden z-10">
+    <div id="signature-placeholder" class="flex flex-col items-center gap-2 text-theme-sub/50 group-hover:text-theme-primary/70 transition">
+        <i data-lucide="pen-tool" class="w-6 h-6"></i>
+        <span class="text-xs font-bold">點擊開啟全螢幕簽名板</span>
+    </div>
+</div>
+
+<div id="signature-status" class="hidden mt-3 flex items-center justify-end gap-3">
+    <span class="bg-theme-primary/10 text-theme-dark px-3 py-1.5 rounded-full text-[11px] font-bold flex items-center gap-1 border border-theme-primary/30">
+        <i data-lucide="check-circle" class="w-4 h-4"></i> 已簽署
+    </span>
+    <span id="signature-time" class="text-[11px] text-theme-sub font-bold"></span>
+</div>
+</div>
+
+<!-- 這三個是儲存上傳結果 -->
+<input type="hidden" id="signature_url" name="signature_url">
+<input type="hidden" id="pet_photo_url" name="pet_photo_url">
+<input type="hidden" id="vaccine_photo_url" name="vaccine_photo_url">
+</div>
 
                 <div class="flex gap-3 pt-4">
-                    <button type="button" onclick="router('home')" class="w-1/3 py-3 rounded-xl border border-theme-dark text-theme-dark font-bold text-sm hover:bg-theme-dark/5 transition">
-                        返回
-                    </button>
-                    <button type="button" class="flex-1 py-3 rounded-xl bg-gradient-lux text-white font-bold text-sm shadow-lg hover:shadow-glow hover:-translate-y-0.5 transition-all">
-                        確認並提交數位契約
-                    </button>
+<button type="button" id="submit-btn" onclick="handleSubmit()"
+ class="flex-1 py-3 rounded-xl bg-gradient-lux text-white font-bold text-sm shadow-lg hover:shadow-glow hover:-translate-y-0.5 transition-all">
+    確認並提交數位契約
+</button>
                 </div>
             </form>
         </div>
@@ -1165,15 +1187,22 @@
 <div class="relative w-full max-w-sm bg-white rounded-[32px] overflow-hidden max-h-[80vh] flex flex-col transition-all duration-300 transform scale-95 opacity-0" id="modal-content">
             <div class="p-4 border-b flex items-center justify-between">
                 <div class="w-9"></div> <h3 id="modal-title" class="font-bold text-lg text-theme-text flex-1 text-center">契約條款</h3>
-                <button onclick="closeTerms()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+<button onclick="closeTerms()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-            <div class="p-6 overflow-y-auto text-sm text-theme-text leading-relaxed space-y-4 text-center" id="modal-body">
-                </div>
+<div id="modal-body"
+     class="p-6 overflow-y-auto text-sm text-theme-text leading-relaxed space-y-4 text-center"
+     onscroll="checkTermsScroll(this)">
+</div>
+
 <div class="p-6 border-t border-theme-sub/10 bg-white/90 backdrop-blur-md safe-bottom">
-                <button onclick="closeTerms()" class="w-full py-4 bg-gradient-lux text-white rounded-2xl font-bold shadow-glow hover:shadow-lg transition-all active:scale-[0.98] tracking-[0.1em]">
-                    我已閱讀並同意
-                </button>
-            </div>
+    <div id="terms-scroll-tip" class="text-xs text-red-500 font-bold text-center mb-3 animate-pulse">
+        👇 請滑動至最底部以啟用按鈕
+    </div>
+    <button id="agree-btn" onclick="agreeTerms()" disabled
+            class="w-full py-4 rounded-2xl font-bold shadow-glow transition-all active:scale-[0.98] tracking-[0.1em] bg-gray-200 text-gray-400 cursor-not-allowed">
+        請閱讀完畢
+    </button>
+</div>
         </div>
     </div>
 
@@ -1202,9 +1231,397 @@
         </div>
     </div>
 
-    <script>
-        lucide.createIcons();
-        
+<script>
+// ✅ 送出時才壓縮與上傳用的暫存變數
+let petPhotoFile = null;
+let vaccinePhotoFile = null;
+let signatureDataUrl = null;
+let isSubmitting = false;
+/* ===== Supabase 初始化（請整段替換） ===== */
+const SUPABASE_URL = "https://vmjczgepqlefbsfarogk.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtamN6Z2VwcWxlZmJzZmFyb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzODI2OTIsImV4cCI6MjA4NTk1ODY5Mn0.7C2vDebLan_VzQnC9QSkE2WAwXHKDpN3onydHFUceiY";
+const BUCKET = "temp_file_99b96a23-483e-4ae9-953c-f304f6182f4e";
+
+let supabaseClient = null;
+
+// 必須從 window.supabase 取得 createClient
+if (window.supabase && typeof window.supabase.createClient === "function") {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    window.supabaseClient = supabaseClient;
+} else {
+    alert("Supabase SDK 沒有載入成功，請確認 <script src='https://cdn.jsdelivr.net/...supabase.js'> 是否正確");
+}
+
+if (!supabaseClient || !supabaseClient.storage || typeof supabaseClient.storage.from !== "function") {
+    alert("Supabase Storage 沒有初始化成功，請重新整理");
+}
+
+let oldCustomerPets = {};
+let currentSelectedPet = null;
+
+// ✅ 搜尋電話
+async function searchOldCustomer() {
+    const phone = document.getElementById("phone").value.trim();
+    if (!phone) return alert("請先輸入電話");
+
+    const { data, error } = await supabaseClient
+        .rpc("search_old_customers", { p_phone: phone });
+
+    if (error || !data || data.length === 0) {
+        alert("找不到舊客紀錄");
+        return;
+    }
+
+    oldCustomerPets = {};
+    data.forEach(r => {
+        const d = typeof r.data === "string" ? JSON.parse(r.data) : r.data;
+        const pet = d.pet_name || "未命名";
+        if (!oldCustomerPets[pet]) {
+            oldCustomerPets[pet] = { pet_name: pet, records: [] };
+        }
+        oldCustomerPets[pet].records.push({ ...r, data: d });
+    });
+
+    renderPetList();
+    document.getElementById("old-modal-1").classList.remove("hidden");
+    document.getElementById("old-modal-1").classList.add("flex");
+}
+
+function renderPetList() {
+    const list = document.getElementById("old-pet-list");
+    list.innerHTML = "";
+    Object.values(oldCustomerPets).forEach(petGroup => {
+        const hasGroom = petGroup.records.some(r => r.type === "grooming");
+        const hasBoard = petGroup.records.some(r => r.type === "boarding");
+
+        const btn = document.createElement("button");
+        btn.className = "w-full text-left p-4 rounded-xl border hover:border-theme-primary transition flex items-center gap-3";
+        btn.innerHTML = `
+            <div class="w-10 h-10 rounded-full bg-theme-primary/20 text-theme-text font-bold flex items-center justify-center">
+              ${petGroup.pet_name[0] || "🐾"}
+            </div>
+            <div class="flex-1">
+              <div class="font-bold">${petGroup.pet_name}</div>
+              <div class="text-xs text-gray-500">${hasGroom ? "有美容紀錄" : ""} ${hasBoard ? "有住宿紀錄" : ""}</div>
+            </div>
+            <span class="text-theme-sub">›</span>
+        `;
+        btn.onclick = () => openRecordModal(petGroup);
+        list.appendChild(btn);
+    });
+}
+
+function openRecordModal(petGroup) {
+    currentSelectedPet = petGroup;
+    document.getElementById("old-modal-1").classList.add("hidden");
+    document.getElementById("old-modal-2").classList.remove("hidden");
+    document.getElementById("old-modal-2").classList.add("flex");
+    document.getElementById("old-modal-title").innerText = `選擇 ${petGroup.pet_name} 的紀錄`;
+
+    const list = document.getElementById("old-record-list");
+    list.innerHTML = "";
+
+    const latestG = petGroup.records.find(r => r.type === "grooming");
+    const latestB = petGroup.records.find(r => r.type === "boarding");
+
+    if (latestG) {
+        list.innerHTML += `
+            <button onclick="applyOldCustomer('grooming')" 
+              class="w-full p-4 rounded-xl border border-blue-200 bg-blue-50 text-left">
+              ✂️ 帶入【美容】資料
+              <div class="text-xs text-blue-500">上次：${new Date(latestG.created_at).toLocaleDateString()}</div>
+            </button>`;
+    }
+    if (latestB) {
+        list.innerHTML += `
+            <button onclick="applyOldCustomer('boarding')" 
+              class="w-full p-4 rounded-xl border border-orange-200 bg-orange-50 text-left">
+              🏠 帶入【住宿】資料
+              <div class="text-xs text-orange-500">上次：${new Date(latestB.created_at).toLocaleDateString()}</div>
+            </button>`;
+    }
+}
+
+function closeOldModal() {
+    document.getElementById("old-modal-1").classList.add("hidden");
+    document.getElementById("old-modal-2").classList.add("hidden");
+}
+
+function applyOwnerOnly() {
+    if (!Object.values(oldCustomerPets).length) return;
+    const latest = Object.values(oldCustomerPets)[0].records[0];
+    fillOwnerFields(latest.data);
+    closeOldModal();
+}
+
+function applyOldCustomer(type) {
+    if (!currentSelectedPet) return;
+    const rec = currentSelectedPet.records.find(r => r.type === type);
+    if (!rec) return;
+
+    fillOwnerFields(rec.data);
+    fillPetFields(rec.data);
+    if (type === "boarding") fillBoardingFields(rec.data);
+
+    closeOldModal();
+}
+
+/* === 欄位帶入 === */
+function fillOwnerFields(data) {
+    ["owner_name","email","phone","id_number","address","emergency_contact","emergency_phone"]
+    .forEach(k => setField(k, data[k]));
+}
+
+function fillPetFields(data) {
+    const map = normalizeData(data);
+    ["pet_type","pet_name","pet_breed","pet_weight","pet_birthday","pet_age",
+     "gender","neuter","microchip_status","microchip_number",
+     "aggression","dog_social","temperament","history_check","history_detail"
+    ].forEach(k => setField(k, map[k]));
+}
+
+function fillBoardingFields(data) {
+    const map = normalizeData(data);
+    ["social_note","deworming","deworming_brand","barking","barking_note",
+     "food_guard","food_guard_note","toilet","toilet_note","vaccine","boarding_note"]
+    .forEach(k => setField(k, map[k]));
+}
+
+function setField(key, val) {
+    if (val === undefined || val === null) return;
+
+    // 只抓 radio / checkbox
+    const radios = document.querySelectorAll(
+        `[name="${key}"][type="radio"], [name="${key}"][type="checkbox"]`
+    );
+
+    if (radios.length) {
+        radios.forEach(r => {
+            if (r.type === "radio") r.checked = (r.value == val);
+            if (r.type === "checkbox") {
+                r.checked = Array.isArray(val) ? val.includes(r.value) : (val === r.value);
+            }
+            if (r.checked) r.dispatchEvent(new Event("change"));
+        });
+        return;
+    }
+
+    // 其他欄位用 id 或 name 填入
+    const el = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
+    if (el) {
+        el.value = val;
+        el.dispatchEvent(new Event("input"));
+        el.dispatchEvent(new Event("change"));
+    }
+}
+
+function normalizeData(d) {
+    const map = {...d};
+    const dict = {
+        pet_type: { dog:"狗狗", cat:"貓咪" },
+        gender: { m:"公", f:"母" },
+        neuter: { yes:"已結紮", no:"未結紮" },
+        microchip_status: { yes:"有晶片", no:"無晶片", unknown:"有晶片號碼不詳" },
+        vaccine: { yes:"有定期打疫苗", no:"沒有定期打疫苗" },
+        deworming: { yes:"有定期驅蟲", no:"無定期驅蟲" },
+        barking: { yes:"易吠叫", no:"不易吠叫" },
+        food_guard: { yes:"會護食", no:"不會護食" },
+        toilet: { yes:"會用尿布墊", no:"不會用尿布墊" }
+    };
+    for (let k in dict) if (map[k] in dict[k]) map[k] = dict[k][map[k]];
+    return map;
+}
+
+async function uploadToSupabase(path, blob, contentType) {
+    if (!supabaseClient || !supabaseClient.storage || typeof supabaseClient.storage.from !== "function") {
+        alert("Supabase Storage 尚未初始化，請重新整理頁面");
+        return null;
+    }
+
+    const { data, error } = await supabaseClient.storage
+        .from(BUCKET)
+        .upload(path, blob, { contentType, upsert: true });
+
+    if (error) {
+        console.error("上傳失敗", error);
+        alert("上傳失敗：" + error.message);
+        return null;
+    }
+
+    const { data: publicData } = supabaseClient.storage
+        .from(BUCKET)
+        .getPublicUrl(path);
+
+    return publicData.publicUrl;
+}
+
+    function compressImage(file, maxWidth = 1280, quality = 0.7) {
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => {
+                const scale = Math.min(maxWidth / img.width, 1);
+                const w = img.width * scale;
+                const h = img.height * scale;
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+                canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
+            };
+            img.src = URL.createObjectURL(file);
+        });
+    }
+let termsRead = { grooming: false, boarding: false };
+
+function isTermsReady() {
+    return currentType === 'grooming' ? termsRead.grooming : termsRead.boarding;
+}
+
+function updateSignatureLock() {
+    const box = document.getElementById('signature-box');
+    const tip = document.getElementById('signature-lock-tip');
+
+    if (isTermsReady()) {
+        box.classList.remove('opacity-60', 'pointer-events-none');
+        tip.classList.add('hidden');
+    } else {
+        box.classList.add('opacity-60', 'pointer-events-none');
+        tip.classList.remove('hidden');
+    }
+}
+async function handleSubmit() {
+    if (isSubmitting) return;
+
+    if (!isTermsReady()) {
+        alert("請先閱讀條款");
+        return;
+    }
+    if (!signatureDataUrl) {
+        alert("請先完成簽名");
+        return;
+    }
+
+    // 🔒 鎖定按鈕
+    isSubmitting = true;
+    const btn = document.getElementById("submit-btn");
+    btn.disabled = true;
+    btn.classList.add("opacity-60", "pointer-events-none");
+    btn.innerText = "上傳中，請稍候...";
+
+    try {
+        // 1. 上傳簽名
+        const sigBlob = dataURLtoBlob(signatureDataUrl);
+        const sigPath = `signatures/${Date.now()}.png`;
+        const signatureUrl = await uploadToSupabase(sigPath, sigBlob, "image/png");
+        if (!signatureUrl) throw new Error("簽名上傳失敗");
+
+        // 2. 上傳寵物照片
+        let petUrl = "";
+        if (petPhotoFile) {
+            const compressedPet = await compressImage(petPhotoFile, 1280, 0.7);
+            petUrl = await uploadToSupabase(`pet_photos/${Date.now()}.jpg`, compressedPet, "image/jpeg");
+        }
+
+        // 3. 上傳疫苗照片
+        let vaccineUrl = "";
+        if (vaccinePhotoFile) {
+            const compressedVac = await compressImage(vaccinePhotoFile, 1280, 0.7);
+            vaccineUrl = await uploadToSupabase(`vaccine/${Date.now()}.jpg`, compressedVac, "image/jpeg");
+        }
+
+        // 填回 hidden 欄位
+        document.getElementById("signature_url").value = signatureUrl || "";
+        document.getElementById("pet_photo_url").value = petUrl || "";
+        document.getElementById("vaccine_photo_url").value = vaccineUrl || "";
+
+        // 原本送出邏輯
+        const form = document.getElementById('main-form');
+        const fd = new FormData(form);
+        const data = {};
+        for (const [key, value] of fd.entries()) {
+            if (data[key]) {
+                if (!Array.isArray(data[key])) data[key] = [data[key]];
+                data[key].push(value);
+            } else {
+                data[key] = value;
+            }
+        }
+
+        if (currentType === "grooming") {
+            delete data.checkin_date;
+            delete data.checkout_date;
+            delete data.daycare_date;
+            delete data.arrive_time;
+            delete data.leave_time;
+            delete data.social_note;
+            delete data.deworming;
+            delete data.deworming_brand;
+            delete data.barking;
+            delete data.barking_note;
+            delete data.food_guard;
+            delete data.food_guard_note;
+            delete data.toilet;
+            delete data.toilet_note;
+            delete data.vaccine;
+            delete data.boarding_note;
+        }
+
+        if (currentType === "boarding") {
+            delete data.service;
+            delete data.upgrade_service;
+            delete data.matting_suspected;
+            delete data.matting_choice;
+            delete data.other_service_text;
+        }
+
+        const payload = {
+            type: currentType,
+            data,
+            signature_url: signatureUrl,
+            pet_photo_url: petUrl,
+            vaccine_photo_url: vaccineUrl
+        };
+
+        const { error } = await supabaseClient.from("contracts").insert([payload]);
+
+        if (error) throw error;
+        alert("✅ 已提交成功");
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ 提交失敗：" + (err.message || err));
+    } finally {
+        // 還原按鈕
+        isSubmitting = false;
+        btn.disabled = false;
+        btn.classList.remove("opacity-60", "pointer-events-none");
+        btn.innerText = "確認並提交數位契約";
+    }
+}
+
+window.addEventListener('load', () => {
+  document.querySelectorAll('#main-form input, #main-form select, #main-form textarea')
+    .forEach(el => {
+      if (!el.name && el.id) el.name = el.id;
+    });
+});
+function agreeTerms() {
+    if (currentType === 'grooming') termsRead.grooming = true;
+    else termsRead.boarding = true;
+
+    // 變更按鈕文字與狀態
+    document.getElementById('terms-btn-text').innerText = 
+        currentType === 'grooming' ? '美容條款已閱讀' : '住宿條款已閱讀';
+
+    const badge = document.getElementById('terms-status-badge');
+    badge.innerText = '已完成';
+    badge.className = 'text-xs font-bold bg-theme-primary text-white px-2 py-1 rounded';
+
+    updateSignatureLock();
+    closeTerms();
+}
+    lucide.createIcons();        
         // 1. 路由處理
         window.addEventListener('load', handleHashChange);
         window.addEventListener('hashchange', handleHashChange);
@@ -1216,6 +1633,8 @@
             if (hash === '#grooming') showPage('form', 'grooming');
             else if (hash === '#boarding') showPage('form', 'boarding');
             else showPage('home');
+            updateSignatureLock();
+
         }
 
         function router(page, type) {
@@ -1259,6 +1678,20 @@
                     termsBtnText.innerText = "點擊閱讀住宿條款";
                 }
                 lucide.createIcons();
+
+                // 這段會更新「待閱讀 / 已完成」
+                const badge = document.getElementById('terms-status-badge');
+                if (currentType === 'grooming' && termsRead.grooming) {
+                    badge.innerText = '已完成';
+                    badge.className = 'text-xs font-bold bg-theme-primary text-white px-2 py-1 rounded';
+                } else if (currentType === 'boarding' && termsRead.boarding) {
+                    badge.innerText = '已完成';
+                    badge.className = 'text-xs font-bold bg-theme-primary text-white px-2 py-1 rounded';
+                } else {
+                    badge.innerText = '待閱讀';
+                    badge.className = 'text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded';
+                }
+
             } else {
                 form.classList.add('hidden');
                 home.style.display = 'flex';
@@ -1342,67 +1775,46 @@ function toggleBoardingType(type) {
             }, 0);
         }
 
-        function toggleMatting(label) {
-            const checkbox = label.querySelector('input[name="matting_suspected"]');
-            const details = document.getElementById('matting-details');
-            const arrow = document.getElementById('matting-arrow');
-            
-            setTimeout(() => {
-                if(checkbox.checked) {
-                    details.classList.remove('hidden');
-                    arrow.classList.add('rotate-180');
-                } else {
-                    details.classList.add('hidden');
-                    arrow.classList.remove('rotate-180');
-                }
-            }, 0);
-        }
 
 // 3. 照片上傳預覽
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                const textSpan = document.getElementById('upload-text');
-                textSpan.innerText = `已選擇：${input.files[0].name}`;
-                textSpan.classList.add('text-theme-primary');
-            }
-        }
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        vaccinePhotoFile = input.files[0];
 
+        const textSpan = document.getElementById('upload-text');
+        const previewImg = document.getElementById('vaccine-photo-preview');
+
+        previewImg.src = URL.createObjectURL(input.files[0]);
+        previewImg.classList.remove('hidden');
+
+        textSpan.innerText = "✅ 已完成";
+    }
+}
         // 寵物全身照預覽
-        function previewPetPhoto(input) {
-            if (input.files && input.files[0]) {
-                const textSpan = document.getElementById('pet-photo-upload-text');
-                textSpan.innerText = `已選擇：${input.files[0].name}`;
-                textSpan.classList.add('text-theme-primary');
-            }
-        }
+function previewPetPhoto(input) {
+    if (input.files && input.files[0]) {
+        petPhotoFile = input.files[0];
 
-        // 切換寵物年齡/生日輸入模式
-        function toggleAgeInput(type) {
-            const btnBirthday = document.getElementById('tab-birthday');
-            const btnAge = document.getElementById('tab-age');
-            const inputBirthday = document.getElementById('input-birthday');
-            const inputAge = document.getElementById('input-age');
+        const textSpan = document.getElementById('pet-photo-upload-text');
+        const previewImg = document.getElementById('pet-photo-preview');
 
-            const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
-            const inactiveClass = ['text-theme-sub'];
+        previewImg.src = URL.createObjectURL(input.files[0]);
+        previewImg.classList.remove('hidden');
 
-            if (type === 'birthday') {
-                btnBirthday.classList.add(...activeClass);
-                btnBirthday.classList.remove(...inactiveClass);
-                btnAge.classList.remove(...activeClass);
-                btnAge.classList.add(...inactiveClass);
-                inputBirthday.classList.remove('hidden');
-                inputAge.classList.add('hidden');
-            } else {
-                btnAge.classList.add(...activeClass);
-                btnAge.classList.remove(...inactiveClass);
-                btnBirthday.classList.remove(...activeClass);
-                btnBirthday.classList.add(...inactiveClass);
-                inputAge.classList.remove('hidden');
-                inputBirthday.classList.add('hidden');
-            }
-        }
+        textSpan.innerText = "✅ 已完成";
+    }
+}
+function dataURLtoBlob(dataURL) {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new Blob([u8arr], { type: mime });
+}
 
+let signatureTime = null;
         // 4. 簽名板功能
         let canvas, ctx, isDrawing = false;
 
@@ -1478,19 +1890,27 @@ function toggleBoardingType(type) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        function saveSignature() {
-            // 將 Canvas 轉為圖片
-            const dataUrl = canvas.toDataURL('image/png');
-            
-            const preview = document.getElementById('signature-preview');
-            const placeholder = document.getElementById('signature-placeholder');
-            
-            preview.src = dataUrl;
-            preview.classList.remove('hidden');
-            placeholder.classList.add('hidden');
-            
-            closeSignatureModal();
-        }
+function saveSignature() {
+    const preview = document.getElementById('signature-preview');
+    const placeholder = document.getElementById('signature-placeholder');
+
+    // 只記錄簽名，不上傳
+    signatureDataUrl = canvas.toDataURL("image/png");
+
+    preview.src = signatureDataUrl;
+    preview.classList.remove('hidden');
+    placeholder.classList.add('hidden');
+
+    signatureTime = new Date();
+    document.getElementById("signature-status").classList.remove("hidden");
+    document.getElementById("signature-time").innerText =
+        "簽署時間：" + signatureTime.toLocaleString('zh-TW', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', hour12: false
+        });
+
+    closeSignatureModal();
+}
 
         // 5. 契約條款 Modal (保持原樣)
 const TERMS_CONTENT = {
@@ -1570,26 +1990,37 @@ boarding: `
         };
 
 function showTerms() {
-            const modal = document.getElementById('modal-terms');
-            const content = document.getElementById('modal-content');
-            const body = document.getElementById('modal-body');
-            const title = document.getElementById('modal-title');
+    const modal = document.getElementById('modal-terms');
+    const content = document.getElementById('modal-content');
+    const body = document.getElementById('modal-body');
+    const title = document.getElementById('modal-title');
 
-            if (currentType === 'grooming') {
-                title.innerText = "犬貓美容契約條款";
-                body.innerHTML = TERMS_CONTENT.grooming;
-            } else {
-                title.innerText = "寵物住宿契約條款";
-                body.innerHTML = TERMS_CONTENT.boarding;
-            }
+    if (currentType === 'grooming') {
+        title.innerText = "犬貓美容契約條款";
+        body.innerHTML = TERMS_CONTENT.grooming;
+    } else {
+        title.innerText = "寵物住宿契約條款";
+        body.innerHTML = TERMS_CONTENT.boarding;
+    }
 
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                // 移除縮小與透明類別
-                content.classList.remove('scale-95', 'opacity-0');
-            }, 10);
-        }
+    // ⭐ 每次打開都重設按鈕為鎖定
+    const btn = document.getElementById('agree-btn');
+    const tip = document.getElementById('terms-scroll-tip');
+    btn.disabled = true;
+    btn.className = "w-full py-4 rounded-2xl font-bold shadow-glow transition-all active:scale-[0.98] tracking-[0.1em] bg-gray-200 text-gray-400 cursor-not-allowed";
+    btn.innerText = "請閱讀完畢";
+    tip.classList.remove('hidden');
 
+    // ⭐ 卷軸回到最上
+    setTimeout(() => {
+        body.scrollTop = 0;
+    }, 50);
+
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+    }, 10);
+}
         function closeTerms() {
             const modal = document.getElementById('modal-terms');
             const content = document.getElementById('modal-content');
@@ -1617,7 +2048,17 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
-
+function checkTermsScroll(el) {
+    const reachedBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 20;
+    if (reachedBottom) {
+        const btn = document.getElementById('agree-btn');
+        const tip = document.getElementById('terms-scroll-tip');
+        btn.disabled = false;
+        btn.className = "w-full py-4 bg-gradient-lux text-white rounded-2xl font-bold shadow-glow hover:shadow-lg transition-all active:scale-[0.98] tracking-[0.1em]";
+        btn.innerText = "我已閱讀並同意";
+        tip.classList.add('hidden');
+    }
+}
 function showUpdateToast() {
     const toast = document.getElementById('pwa-update-toast');
     toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
@@ -1660,6 +2101,29 @@ function applyUpdate() {
         </div>
     </div>
 </div>
+<!-- STEP1: 選毛孩 -->
+<div id="old-modal-1" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+  <div class="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
+    <h3 class="font-bold text-lg text-theme-text mb-1">🎉 歡迎回來！</h3>
+    <p class="text-xs text-theme-sub mb-4">請選擇要帶入的毛孩：</p>
 
+    <button onclick="applyOwnerOnly()" class="w-full mb-3 px-4 py-3 rounded-xl bg-theme-bg border border-theme-primary/30 text-sm font-bold flex items-center justify-center gap-2">
+      👤 僅填入飼主資料（不帶入毛孩）
+    </button>
+
+    <div id="old-pet-list" class="space-y-2 max-h-[50vh] overflow-y-auto"></div>
+    <button onclick="closeOldModal()" class="mt-4 w-full py-2 rounded-xl bg-gray-100 text-sm font-bold">取消搜尋</button>
+  </div>
+</div>
+
+<!-- STEP2: 選帶入類型 -->
+<div id="old-modal-2" class="fixed inset-0 z-[310] hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+  <div class="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
+    <h3 id="old-modal-title" class="font-bold text-lg text-theme-text mb-1">選擇紀錄</h3>
+    <p class="text-xs text-theme-sub mb-4">請選擇要帶入哪一種服務資料：</p>
+    <div id="old-record-list" class="space-y-3"></div>
+    <button onclick="closeOldModal()" class="mt-4 w-full py-2 rounded-xl bg-gray-100 text-sm font-bold">取消搜尋</button>
+  </div>
+</div>
 </body>
 </html>
