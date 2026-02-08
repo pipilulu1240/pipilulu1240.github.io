@@ -299,7 +299,7 @@
                 </div>
             </div>
 
-            <form id="main-form" class="space-y-5 animate-slide-up" style="animation-delay: 0.1s;">
+<form id="main-form" class="space-y-5 animate-slide-up" style="animation-delay: 0.1s;">
                 
                 <div class="glass-panel p-6 rounded-2xl relative">
                     <div class="flex items-center gap-2 mb-6 border-b border-theme-sub/20 pb-3">
@@ -321,7 +321,16 @@
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">連絡電話*</label>
                             <div class="flex gap-2">
-                                <input type="tel" id="phone" class="flex-1 w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="請輸入手機號碼" required>
+<input type="tel" id="phone"
+       class="flex-1 w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition"
+       placeholder="請輸入手機號碼"
+       required
+       inputmode="numeric"
+       maxlength="10"
+       pattern="^09\d{8}$"
+       data-error="連絡電話格式錯誤，需為 09 開頭 10 碼"
+
+       oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
                                 <button type="button" onclick="searchOldCustomer()" class="bg-theme-dark/10 text-theme-dark px-4 rounded-xl font-bold text-sm hover:bg-theme-dark hover:text-white transition whitespace-nowrap flex items-center gap-1">
                                     <i data-lucide="search" class="w-4 h-4"></i>
                                     舊客
@@ -331,7 +340,14 @@
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">身分證字號*</label>
-                            <input type="text" id="id_number" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+<input type="text" id="id_number"
+       class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition"
+       required
+       maxlength="10"
+pattern="^[A-Za-z][12][0-9]{8}$"
+  data-error="身分證格式錯誤（1個英文 + 1或2 + 8位數字）"
+
+       oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,10)">
                         </div>
 
                         <div>
@@ -346,7 +362,13 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">緊急電話*</label>
-                                <input type="tel" id="emergency_phone" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+<input type="tel" id="emergency_phone"
+       class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition"
+       required
+       inputmode="numeric"
+       maxlength="10"
+       pattern="^09\d{8}$"
+       oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
                             </div>
                         </div>
                     </div>
@@ -363,12 +385,12 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">種類*</label>
                             <div class="flex gap-3">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="pet_type" value="狗狗" class="hidden" checked>
+                                    <input type="radio" name="pet_type" value="狗狗" class="sr-only" checked>
                                     <span class="text-lg">🐶</span>
                                     <span class="text-sm font-bold text-theme-text">狗狗</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:border-theme-primary/50 transition has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="pet_type" value="貓咪" class="hidden">
+                                    <input type="radio" name="pet_type" value="貓咪" class="sr-only">
                                     <span class="text-lg">🐱</span>
                                     <span class="text-sm font-bold text-theme-text">貓咪</span>
                                 </label>
@@ -413,11 +435,11 @@
                                 <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">性別*</label>
                                 <div class="flex gap-2">
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-300 has-[:checked]:text-blue-600 transition">
-                                        <input type="radio" name="gender" value="公" class="hidden">
+<input type="radio" name="gender" value="公" class="sr-only">
                                         <span class="text-sm font-bold">公</span>
                                     </label>
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-pink-50 has-[:checked]:border-pink-300 has-[:checked]:text-pink-600 transition">
-                                        <input type="radio" name="gender" value="母" class="hidden">
+                                        <input type="radio" name="gender" value="母" class="sr-only">
                                         <span class="text-sm font-bold">母</span>
                                     </label>
                                 </div>
@@ -426,11 +448,11 @@
                                 <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">結紮*</label>
                                 <div class="flex gap-2">
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                        <input type="radio" name="neuter" value="已結紮" class="hidden">
+                                        <input type="radio" name="neuter" value="已結紮" class="sr-only">
                                         <span class="text-sm font-bold">是</span>
                                     </label>
                                     <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                        <input type="radio" name="neuter" value="未結紮" class="hidden">
+                                        <input type="radio" name="neuter" value="未結紮" class="sr-only">
                                         <span class="text-sm font-bold">否</span>
                                     </label>
                                 </div>
@@ -441,15 +463,15 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">晶片狀態*</label>
                             <div class="flex flex-wrap gap-2 mb-3">
                                 <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="microchip_status" value="有晶片" class="hidden" onchange="document.getElementById('chip-number-input').classList.remove('hidden')">
+                                    <input type="radio" name="microchip_status" value="有晶片" class="sr-only" onchange="document.getElementById('chip-number-input').classList.remove('hidden')">
                                     <span class="text-sm font-bold">有晶片</span>
                                 </label>
                                 <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="microchip_status" value="有晶片號碼不詳" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
+                                    <input type="radio" name="microchip_status" value="有晶片號碼不詳" class="sr-only" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
                                     <span class="text-sm font-bold">有晶片(號碼不詳)</span>
                                 </label>
                                 <label class="flex-1 min-w-[30%] bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                                    <input type="radio" name="microchip_status" value="無晶片" class="hidden" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
+                                    <input type="radio" name="microchip_status" value="無晶片" class="sr-only" onchange="document.getElementById('chip-number-input').classList.add('hidden')">
                                     <span class="text-sm font-bold">無晶片</span>
                                 </label>
                             </div>
@@ -463,11 +485,11 @@
         <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">攻擊性*</label>
         <div class="flex gap-2">
             <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-<input type="radio" name="aggression" value="無攻擊性" class="hidden">
+<input type="radio" name="aggression" value="無攻擊性" class="sr-only">
                 <span class="text-sm font-bold">無攻擊性</span>
             </label>
             <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                <input type="radio" name="aggression" value="有攻擊性" class="hidden">
+                <input type="radio" name="aggression" value="有攻擊性" class="sr-only">
                 <span class="text-sm font-bold">有攻擊性</span>
             </label>
         </div>
@@ -477,11 +499,11 @@
         <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">與狗相處*</label>
         <div class="flex gap-2">
             <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-<input type="radio" name="dog_social" value="可與狗玩" class="hidden">
+<input type="radio" name="dog_social" value="可與狗玩" class="sr-only">
                 <span class="text-sm font-bold">可與狗玩</span>
             </label>
             <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-                <input type="radio" name="dog_social" value="不可與狗玩" class="hidden">
+                <input type="radio" name="dog_social" value="不可與狗玩" class="sr-only">
                 <span class="text-sm font-bold">不可與狗玩</span>
             </label>
         </div>
@@ -521,16 +543,20 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">過往病史*</label>
                             <div class="flex gap-2 mb-3">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-red-50 has-[:checked]:border-red-300 has-[:checked]:text-red-600 transition">
-                                    <input type="radio" name="history_check" value="有病史" class="hidden" onchange="document.getElementById('medical-history-input').classList.remove('hidden')">
+                                    <input type="radio" name="history_check" value="有病史" class="sr-only" onchange="document.getElementById('medical-history-input').classList.remove('hidden')">
                                     <span class="text-sm font-bold">有</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-lg py-2.5 text-center cursor-pointer has-[:checked]:bg-theme-primary/20 has-[:checked]:border-theme-primary transition">
-<input type="radio" name="history_check" value="無病史" class="hidden" onchange="document.getElementById('medical-history-input').classList.add('hidden')">
+<input type="radio" name="history_check" value="無病史" class="sr-only" onchange="document.getElementById('medical-history-input').classList.add('hidden')">
                                     <span class="text-sm font-bold">無</span>
                                 </label>
                             </div>
+                            <div id="medical-history-input" class="hidden animate-slide-up">
+<textarea id="history_detail" class="w-full bg-white border border-red-200 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-red-400 transition h-24" placeholder="請詳細說明病史..."></textarea>
+                            </div>
+
                             <div class="mt-3">
-  <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">指定醫院(若未填寫則依店家指定)*</label>
+  <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">指定醫院(若未填寫則依店家指定)</label>
   <input type="text" id="specified_hospital" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" placeholder="若未填寫則依店家指定">
 </div>
 
@@ -545,14 +571,11 @@
     </div>
 </div>
 
-<div id="medical-history-input" class="hidden animate-slide-up">
-<textarea id="history_detail" class="w-full bg-white border border-red-200 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-red-400 transition h-24" placeholder="請詳細說明病史..."></textarea>
-                            </div>
                         </div>
 <div class="pt-2">
     <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">寵物近兩週內全身照*</label>
     <label class="w-full flex flex-col items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
-        <input type="file" accept="image/*" class="hidden" onchange="previewPetPhoto(this)">
+<input type="file" id="pet_photo_file" accept="image/*" class="sr-only" onchange="previewPetPhoto(this)">
         
         <div id="pet-photo-preview-container" class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
@@ -783,11 +806,11 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否每個月定期驅蟲呢*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="deworming" value="有定期驅蟲" class="hidden">
+                                    <input type="radio" name="deworming" value="有定期驅蟲" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">是</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="deworming" value="無定期驅蟲" class="hidden">
+                                    <input type="radio" name="deworming" value="無定期驅蟲" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">否</span>
                                 </label>
                             </div>
@@ -798,11 +821,11 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">是否易吠叫呢*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="barking" value="易吠叫" class="hidden">
+                                    <input type="radio" name="barking" value="易吠叫" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">是</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="barking" value="不易吠叫" class="hidden">
+                                    <input type="radio" name="barking" value="不易吠叫" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">否</span>
                                 </label>
                             </div>
@@ -813,11 +836,11 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">會護食嗎*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="food_guard" value="會護食" class="hidden">
+                                    <input type="radio" name="food_guard" value="會護食" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">會</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="food_guard" value="不會護食" class="hidden">
+                                    <input type="radio" name="food_guard" value="不會護食" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">不會</span>
                                 </label>
                             </div>
@@ -828,11 +851,11 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">會在尿布墊上廁所嗎*</label>
                             <div class="flex gap-3 mb-2">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="toilet" value="會用尿布墊" class="hidden">
+                                    <input type="radio" name="toilet" value="會用尿布墊" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">會</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="toilet" value="不會用尿布墊" class="hidden">
+                                    <input type="radio" name="toilet" value="不會用尿布墊" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">不會</span>
                                 </label>
                             </div>
@@ -843,16 +866,16 @@
                             <label class="block text-xs font-bold text-theme-sub mb-2 ml-1">疫苗是否每年都有定期施打呢 (請提供照片)*</label>
                             <div class="flex gap-3 mb-3">
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="vaccine" value="有定期打疫苗" class="hidden">
+                                    <input type="radio" name="vaccine" value="有定期打疫苗" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">是</span>
                                 </label>
                                 <label class="flex-1 bg-white/60 border border-theme-sub/20 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-theme-primary/10 has-[:checked]:border-theme-primary">
-                                    <input type="radio" name="vaccine" value="沒有定期打疫苗" class="hidden">
+                                    <input type="radio" name="vaccine" value="沒有定期打疫苗" class="sr-only">
                                     <span class="text-sm font-bold text-theme-text">否</span>
                                 </label>
                             </div>
 <label class="w-full flex flex-col items-center justify-center gap-2 bg-white border border-dashed border-theme-sub/40 rounded-xl p-4 cursor-pointer hover:bg-theme-bg transition group">
-    <input type="file" accept="image/*" class="hidden" onchange="previewImage(this)">
+<input type="file" id="vaccine_photo_file" accept="image/*" class="sr-only" onchange="previewImage(this)">
     
     <div id="upload-preview-container" class="flex items-center gap-2">
         <div class="w-8 h-8 rounded-full bg-theme-primary/10 flex items-center justify-center group-hover:bg-theme-primary/20">
@@ -1517,6 +1540,37 @@ function updateSignatureLock() {
     }
 }
 async function handleSubmit() {
+    // ✅ 先同步必填狀態
+    updateBaseRequired();
+    updateAgeRequired();
+    updateBoardingRequired();
+
+    const form = document.getElementById('main-form');
+if (!form.checkValidity()) {
+  form.reportValidity();  // 直接顯示瀏覽器原生泡泡
+  return;
+}
+
+    // ✅ 自訂檢查
+    if (!petPhotoFile) {
+        alert("請上傳寵物全身照");
+        return;
+    }
+    if (currentType === 'boarding' && !vaccinePhotoFile) {
+        alert("請上傳疫苗照片");
+        return;
+    }
+    if (currentType === 'grooming' && !document.querySelector('input[name="service"]:checked')) {
+        alert("請至少選擇一項美容服務");
+        return;
+    }
+
+    const mattingChecked = document.querySelector('input[name="matting_suspected"]');
+    if (mattingChecked && mattingChecked.checked && !document.querySelector('input[name="matting_choice"]:checked')) {
+        alert("請選擇打結處理方式");
+        return;
+    }
+
     if (isSubmitting) return;
 
     if (!isTermsReady()) {
@@ -1527,6 +1581,7 @@ async function handleSubmit() {
         alert("請先完成簽名");
         return;
     }
+
 
     // 🔒 鎖定按鈕
     isSubmitting = true;
@@ -1659,6 +1714,42 @@ window.addEventListener('load', () => {
   });
 });
 
+window.addEventListener('load', () => {
+    const id = document.getElementById('id_number');
+    const phone = document.getElementById('phone');
+    const emergency = document.getElementById('emergency_phone');
+
+    if (id) {
+        id.addEventListener('input', () => {
+            if (!/^[A-Z][12][0-9]{8}$/.test(id.value)) {
+                id.setCustomValidity("身分證格式錯誤")
+            } else {
+                id.setCustomValidity("");
+            }
+        });
+    }
+
+    if (phone) {
+        phone.addEventListener('input', () => {
+            if (!/^09\d{8}$/.test(phone.value)) {
+                phone.setCustomValidity("電話格式需為 09 開頭 + 8位數字");
+            } else {
+                phone.setCustomValidity("");
+            }
+        });
+    }
+
+    if (emergency) {
+        emergency.addEventListener('input', () => {
+            if (!/^09\d{8}$/.test(emergency.value)) {
+                emergency.setCustomValidity("電話格式需為 09 開頭 + 8位數字");
+            } else {
+                emergency.setCustomValidity("");
+            }
+        });
+    }
+});
+
 window.addEventListener('load', () => {    
   document.querySelectorAll('#main-form input, #main-form select, #main-form textarea')
     .forEach(el => {
@@ -1679,6 +1770,104 @@ function agreeTerms() {
 
     updateSignatureLock();
     closeTerms();
+}
+// ✅ 必填控制工具
+function setRequiredById(id, required) {
+    const el = document.getElementById(id);
+    if (el) el.required = required;
+}
+function setRequiredByName(name, required) {
+    const els = document.querySelectorAll(`[name="${name}"]`);
+    els.forEach(el => { el.required = required; });
+}
+
+// ✅ 共通必填（美容＋住宿都要）
+function updateBaseRequired() {
+    setRequiredByName('pet_type', true);
+    setRequiredByName('gender', true);
+    setRequiredByName('neuter', true);
+    setRequiredByName('microchip_status', true);
+    setRequiredByName('aggression', true);
+    setRequiredByName('dog_social', true);
+    setRequiredByName('temperament', true);
+    setRequiredByName('history_check', true);
+
+    // 寵物照片一定要
+    setRequiredById('pet_photo_file', true);
+}
+// ✅ 生日 / 年齡必填控制
+function updateAgeRequired() {
+    const birthdayVisible = !document.getElementById('input-birthday').classList.contains('hidden');
+    if (birthdayVisible) {
+        setRequiredById('pet_birthday', true);
+        setRequiredById('pet_age', false);
+    } else {
+        setRequiredById('pet_birthday', false);
+        setRequiredById('pet_age', true);
+    }
+}
+
+// ✅ 住宿/安親必填控制
+function updateBoardingRequired() {
+    const isBoarding = currentType === 'boarding';
+
+    // 住宿才必填的 radio 群組
+    ['deworming','barking','food_guard','toilet','vaccine'].forEach(name => {
+        setRequiredByName(name, isBoarding);
+    });
+
+    // 疫苗照片只在住宿必填
+    setRequiredById('vaccine_photo_file', isBoarding);
+
+    if (!isBoarding) {
+        setRequiredById('checkin_date', false);
+        setRequiredById('checkout_date', false);
+        setRequiredById('daycare_date', false);
+        return;
+    }
+
+    const overnightVisible = !document.getElementById('date-section-overnight').classList.contains('hidden');
+    if (overnightVisible) {
+        setRequiredById('checkin_date', true);
+        setRequiredById('checkout_date', true);
+        setRequiredById('daycare_date', false);
+    } else {
+        setRequiredById('checkin_date', false);
+        setRequiredById('checkout_date', false);
+        setRequiredById('daycare_date', true);
+    }
+}
+// ✅ 晶片號碼：只有選「有晶片」才必填
+document.querySelectorAll('input[name="microchip_status"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        const chipInput = document.getElementById('microchip_number');
+        if (!chipInput) return;
+        chipInput.required = (radio.value === '有晶片');
+    });
+});
+// ✅ 病史詳述：只有選「有病史」才必填
+document.querySelectorAll('input[name="history_check"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        const history = document.getElementById('history_detail');
+        if (!history) return;
+        history.required = (radio.value === '有病史');
+    });
+});
+// ✅ 退房日期不能早於入住日期
+const checkin = document.getElementById('checkin_date');
+const checkout = document.getElementById('checkout_date');
+
+function validateDateRange() {
+    if (checkout.value && checkin.value && checkout.value < checkin.value) {
+        checkout.setCustomValidity("退房日期不能早於入住日期");
+    } else {
+        checkout.setCustomValidity("");
+    }
+}
+
+if (checkin && checkout) {
+    checkin.addEventListener('change', validateDateRange);
+    checkout.addEventListener('change', validateDateRange);
 }
     lucide.createIcons();        
         // 1. 路由處理
@@ -1753,6 +1942,11 @@ function agreeTerms() {
                     badge.className = 'text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded';
                 }
 
+// ✅ 進入頁面時同步必填
+updateBaseRequired();
+updateAgeRequired();
+updateBoardingRequired();
+
             } else {
                 form.classList.add('hidden');
                 home.style.display = 'flex';
@@ -1760,59 +1954,66 @@ function agreeTerms() {
             }
         }
 // 切換寵物年齡/生日輸入模式
-        function toggleAgeInput(type) {
-            const btnBirthday = document.getElementById('tab-birthday');
-            const btnAge = document.getElementById('tab-age');
-            const inputBirthday = document.getElementById('input-birthday');
-            const inputAge = document.getElementById('input-age');
+function toggleAgeInput(type) {
+    const btnBirthday = document.getElementById('tab-birthday');
+    const btnAge = document.getElementById('tab-age');
+    const inputBirthday = document.getElementById('input-birthday');
+    const inputAge = document.getElementById('input-age');
 
-            const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
-            const inactiveClass = ['text-theme-sub'];
+    const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
+    const inactiveClass = ['text-theme-sub'];
 
-            if (type === 'birthday') {
-                btnBirthday.classList.add(...activeClass);
-                btnBirthday.classList.remove(...inactiveClass);
-                btnAge.classList.remove(...activeClass);
-                btnAge.classList.add(...inactiveClass);
-                inputBirthday.classList.remove('hidden');
-                inputAge.classList.add('hidden');
-            } else {
-                btnAge.classList.add(...activeClass);
-                btnAge.classList.remove(...inactiveClass);
-                btnBirthday.classList.remove(...activeClass);
-                btnBirthday.classList.add(...inactiveClass);
-                inputAge.classList.remove('hidden');
-                inputBirthday.classList.add('hidden');
-            }
-        }
-        // 2. 住宿/安親 Tab 切換
+    if (type === 'birthday') {
+        btnBirthday.classList.add(...activeClass);
+        btnBirthday.classList.remove(...inactiveClass);
+        btnAge.classList.remove(...activeClass);
+        btnAge.classList.add(...inactiveClass);
+        inputBirthday.classList.remove('hidden');
+        inputAge.classList.add('hidden');
+    } else {
+        btnAge.classList.add(...activeClass);
+        btnAge.classList.remove(...inactiveClass);
+        btnBirthday.classList.remove(...activeClass);
+        btnBirthday.classList.add(...inactiveClass);
+        inputAge.classList.remove('hidden');
+        inputBirthday.classList.add('hidden');
+    }
+
+    // ✅ 同步必填
+    updateAgeRequired();
+}
+
+// 2. 住宿/安親 Tab 切換
 function toggleBoardingType(type) {
-            const btnOvernight = document.getElementById('tab-overnight');
-            const btnDaycare = document.getElementById('tab-daycare');
-            const secOvernight = document.getElementById('date-section-overnight');
-            const secDaycare = document.getElementById('date-section-daycare');
+    const btnOvernight = document.getElementById('tab-overnight');
+    const btnDaycare = document.getElementById('tab-daycare');
+    const secOvernight = document.getElementById('date-section-overnight');
+    const secDaycare = document.getElementById('date-section-daycare');
 
-            const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
-            const inactiveClass = ['text-theme-sub', 'hover:text-theme-text'];
+    const activeClass = ['bg-white', 'text-theme-primary', 'shadow-sm'];
+    const inactiveClass = ['text-theme-sub', 'hover:text-theme-text'];
 
-            if (type === 'overnight') {
-                btnOvernight.classList.add(...activeClass);
-                btnOvernight.classList.remove(...inactiveClass);
-                btnDaycare.classList.remove(...activeClass);
-                btnDaycare.classList.add(...inactiveClass);
+    if (type === 'overnight') {
+        btnOvernight.classList.add(...activeClass);
+        btnOvernight.classList.remove(...inactiveClass);
+        btnDaycare.classList.remove(...activeClass);
+        btnDaycare.classList.add(...inactiveClass);
 
-                secOvernight.classList.remove('hidden');
-                secDaycare.classList.add('hidden');
-            } else {
-                btnDaycare.classList.add(...activeClass);
-                btnDaycare.classList.remove(...inactiveClass);
-                btnOvernight.classList.remove(...activeClass);
-                btnOvernight.classList.add(...inactiveClass);
+        secOvernight.classList.remove('hidden');
+        secDaycare.classList.add('hidden');
+    } else {
+        btnDaycare.classList.add(...activeClass);
+        btnDaycare.classList.remove(...inactiveClass);
+        btnOvernight.classList.remove(...activeClass);
+        btnOvernight.classList.add(...inactiveClass);
 
-                secDaycare.classList.remove('hidden');
-                secOvernight.classList.add('hidden');
-            }
-        }
+        secDaycare.classList.remove('hidden');
+        secOvernight.classList.add('hidden');
+    }
+
+    // ✅ 同步必填
+    updateBoardingRequired();
+}
 
         // 處理打結詳情展開
         function toggleMatting(label) {
@@ -1878,27 +2079,52 @@ function dataURLtoBlob(dataURL) {
 let signatureTime = null;
         // 4. 簽名板功能
         let canvas, ctx, isDrawing = false;
+        let signatureInitialized = false;
+// ✅ Toast 功能
+function showToast(message, type = "info") {
+    const toast = document.getElementById("toast");
+    const text = document.getElementById("toast-text");
+    if (!toast || !text) return;
 
-        function openSignatureModal() {
-            const modal = document.getElementById('modal-signature');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            // 初始化 Canvas
-            canvas = document.getElementById('sig-canvas');
-            ctx = canvas.getContext('2d');
-            
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-            
-            // 綁定事件
-            canvas.addEventListener('mousedown', startDraw);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', endDraw);
-            canvas.addEventListener('touchstart', startDraw, {passive: false});
-            canvas.addEventListener('touchmove', draw, {passive: false});
-            canvas.addEventListener('touchend', endDraw);
-        }
+    text.innerText = message;
+
+    if (type === "error") toast.style.background = "#dc2626";   // red-600
+    else if (type === "success") toast.style.background = "#16a34a"; // green-600
+    else toast.style.background = "#1f2937"; // gray-800
+
+    toast.classList.remove("hidden", "opacity-0", "translate-y-4");
+    toast.classList.add("opacity-100", "translate-y-0");
+
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-4");
+        setTimeout(() => toast.classList.add("hidden"), 300);
+    }, 2000);
+}
+
+function openSignatureModal() {
+    const modal = document.getElementById('modal-signature');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // 初始化 Canvas
+    canvas = document.getElementById('sig-canvas');
+    ctx = canvas.getContext('2d');
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // ✅ 只綁定一次事件，避免越畫越粗
+    if (!signatureInitialized) {
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('touchstart', startDraw, {passive: false});
+        canvas.addEventListener('touchmove', draw, {passive: false});
+        canvas.addEventListener('touchend', endDraw);
+        signatureInitialized = true;
+    }
+}
 
         function closeSignatureModal() {
             const modal = document.getElementById('modal-signature');
@@ -2311,6 +2537,11 @@ function applyUpdate() {
     <div id="old-record-list" class="space-y-3"></div>
     <button onclick="closeOldModal()" class="mt-4 w-full py-2 rounded-xl bg-gray-100 text-sm font-bold">取消搜尋</button>
   </div>
+</div>
+<!-- ✅ Toast 提示 -->
+<div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] hidden opacity-0 translate-y-4 transition-all duration-300 px-4 py-3 rounded-xl shadow-lg text-sm font-bold text-white"
+     style="background:#1f2937;">
+  <span id="toast-text">提示訊息</span>
 </div>
 </body>
 </html>
