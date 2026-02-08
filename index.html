@@ -283,7 +283,6 @@
                     <span class="h-px w-8 bg-theme-sub/30"></span>
                 </div>
             </header>
-
 <div class="glass-panel p-6 rounded-2xl mb-6 text-center animate-slide-up">
                 <img src="line.png" class="w-14 h-14 mx-auto mb-3 object-contain">
                 <h3 class="text-theme-text font-bold text-lg mb-1">加入官方 LINE</h3>
@@ -1180,7 +1179,33 @@
                 </div>
             </form>
         </div>
+<!-- ✅ 成功頁 (同一頁面) -->
+<div id="view-success" class="hidden pb-20 pt-24">
+  <div class="glass-panel rounded-[28px] p-8 text-center space-y-6">
+    
+    <div id="success-icon-wrap"
+         class="mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-theme-primary/10">
+      <i id="success-icon" data-lucide="check" class="w-10 h-10 text-theme-dark"></i>
+    </div>
 
+    <h2 id="success-title" class="text-2xl font-black text-theme-text">提交成功！</h2>
+
+    <div id="success-box"
+         class="rounded-2xl p-4 text-sm text-theme-text border border-theme-primary/30 bg-theme-bg/70 text-left">
+      <!-- JS 會放內容 -->
+    </div>
+
+    <button onclick="openSimpleContract()" 
+      class="w-full py-4 rounded-2xl bg-gradient-lux text-white font-bold shadow-lg flex items-center justify-center gap-2">
+      <i data-lucide="camera" class="w-4 h-4"></i> 開啟完整契約（截圖保存）
+    </button>
+
+    <button onclick="backToHomeFromSuccess()" 
+      class="w-full py-3 rounded-2xl bg-white border border-theme-primary/30 text-theme-text font-bold flex items-center justify-center gap-2">
+      <i data-lucide="home" class="w-4 h-4"></i> 返回首頁（完成）
+    </button>
+  </div>
+</div>
     </main>
 
 <div id="modal-terms" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
@@ -1589,8 +1614,20 @@ async function handleSubmit() {
         const { error } = await supabaseClient.from("contracts").insert([payload]);
 
         if (error) throw error;
-        alert("✅ 已提交成功");
 
+const contractData = {
+    type: currentType,
+    data,
+    signature_url: signatureUrl,
+    pet_photo_url: petUrl,
+    vaccine_photo_url: vaccineUrl,
+    created_at: new Date().toISOString()
+};
+
+const hasEmail = (data.email || "").trim() !== "";
+
+showSuccessPage(contractData, hasEmail);
+return;
     } catch (err) {
         console.error(err);
         alert("❌ 提交失敗：" + (err.message || err));
@@ -1656,6 +1693,8 @@ function agreeTerms() {
             else if (hash === '#boarding') showPage('form', 'boarding');
             else showPage('home');
             updateSignatureLock();
+            document.getElementById('view-success')?.classList.add('hidden');
+
 
         }
 
@@ -1937,10 +1976,18 @@ function saveSignature() {
         // 5. 契約條款 Modal (保持原樣)
 const TERMS_CONTENT = {
             grooming: `
-                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4 mb-6 text-red-700 font-bold text-center text-xs animate-pulse">
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4 mb-6 text-red-700 font-bold text-left text-xs animate-pulse">
                     ⚠️ 飼主應盡告知義務，若因隱瞞病況發生意外或死亡，經法定程序判定店家無疏失，<span class="underline">店家不須負損害賠償責任</span>。
                 </div>
-
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-amber-900 text-[12px] leading-relaxed text-left">
+  <div class="flex items-center gap-2 font-bold text-amber-800 mb-2">
+    <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
+    收費與額外處理費用
+  </div>
+  <p>收費依體型毛量現場報價。</p>
+  <p>若發現跳蚤、壁蝨，將收取環境清潔費 <b>NT$1,000</b>。</p>
+  <p>打結與廢毛處理費另計（拆結 <b>NT$200 起</b>、廢毛 <b>NT$100 起</b>）。</p>
+</div>
                 <div class="space-y-4 text-left">
                     <p class="border-l-4 border-theme-primary pl-3 font-bold text-theme-text text-base italic">✂️ 美容服務 簽署聲明與法律約定</p>
                     
@@ -2057,7 +2104,7 @@ function showTerms() {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         // 註冊 sw.js (根據你的需求，index 用 sw.js)
-        navigator.serviceWorker.register('sw.js').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=1').then(reg => {
             reg.addEventListener('updatefound', () => {
                 newWorker = reg.installing;
                 newWorker.addEventListener('statechange', () => {
@@ -2070,6 +2117,123 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
+let lastContractData = null;
+
+function showSuccessPage(contractData, hasEmail) {
+    lastContractData = contractData;
+
+    document.getElementById("view-home").style.display = "none";
+    document.getElementById("view-form").classList.add("hidden");
+    document.getElementById("view-success").classList.remove("hidden");
+    document.getElementById("navbar").classList.add("opacity-0", "pointer-events-none");
+
+    const iconWrap = document.getElementById("success-icon-wrap");
+    const icon = document.getElementById("success-icon");
+    const title = document.getElementById("success-title");
+    const box = document.getElementById("success-box");
+
+    if (hasEmail) {
+        title.innerText = "契約已寄出！";
+        iconWrap.className = "mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-theme-primary/20";
+        icon.setAttribute("data-lucide", "check");
+        icon.className = "w-10 h-10 text-theme-dark";
+        box.className = "rounded-2xl p-4 text-sm text-theme-text border border-theme-primary/30 bg-theme-bg/70 text-left";
+        box.innerHTML = `
+            <div class="flex items-center gap-2 font-bold mb-1 text-theme-dark">
+              <i data-lucide="mail-check" class="w-4 h-4"></i> 副本已寄出
+            </div>
+            契約副本已寄送至您的信箱。<br>
+            建議您也可點擊下方按鈕，開啟完整契約截圖備份。
+        `;
+    } else {
+        title.innerText = "提交成功！";
+        iconWrap.className = "mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-red-100";
+        icon.setAttribute("data-lucide", "alert-circle");
+        icon.className = "w-10 h-10 text-red-500";
+        box.className = "rounded-2xl p-4 text-sm text-red-700 border border-red-200 bg-red-50 text-left";
+        box.innerHTML = `
+            <div class="flex items-center gap-2 font-bold mb-1">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i> 未填寫信箱
+            </div>
+            您未填寫 Email，無法收到電子副本。<br>
+            請務必點擊下方按鈕開啟契約並截圖保存！
+        `;
+    }
+
+    lucide.createIcons();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function backToHomeFromSuccess() {
+    document.getElementById("view-success").classList.add("hidden");
+    router('home');
+}
+
+function openSimpleContract() {
+    if (!lastContractData) return;
+    const html = generateSimpleContractHTML(lastContractData);
+    const win = window.open("", "_blank");
+    if (win) {
+        win.document.write(html);
+        win.document.close();
+    } else {
+        alert("彈出視窗被阻擋，請允許開啟視窗");
+    }
+}
+
+function generateSimpleContractHTML(payload) {
+    const { type, data, signature_url, created_at } = payload;
+    return `
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>契約副本</title>
+<style>
+body{font-family:"Noto Sans TC",sans-serif;background:#f5f9f6;color:#4a5d50;padding:20px;}
+h1{text-align:center;margin-bottom:6px;}
+.card{border:1px solid #dfe8e2;border-radius:16px;padding:16px;margin-bottom:12px;background:#fff;}
+.small{font-size:12px;color:#6f8076;}
+</style>
+</head>
+<body>
+  <h1>大柴小熊寵物美容</h1>
+  <div class="small" style="text-align:center;margin-bottom:20px;">契約副本（開發中未完成）</div>
+
+  <div class="card">
+    <b>飼主資料</b><br>
+    姓名：${data.owner_name || "-"}<br>
+    電話：${data.phone || "-"}<br>
+    Email：${data.email || "-"}<br>
+    地址：${data.address || "-"}<br>
+  </div>
+
+  <div class="card">
+    <b>寵物資料</b><br>
+    名字：${data.pet_name || "-"}<br>
+    品種：${data.pet_breed || "-"}<br>
+    體重：${data.pet_weight || "-"} kg<br>
+    服務類型：${type === "grooming" ? "美容" : "住宿/安親"}<br>
+  </div>
+
+  <div class="card">
+    <b>提交時間</b><br>
+    ${new Date(created_at).toLocaleString("zh-TW")}
+  </div>
+
+  ${signature_url ? `
+  <div class="card">
+    <b>簽名</b><br>
+    <img src="${signature_url}" style="max-width:200px;border:1px solid #ccc;border-radius:8px;">
+  </div>` : ""}
+
+  <div class="small" style="text-align:center;margin-top:20px;">
+  </div>
+</body>
+</html>`;
+}
+
 function checkTermsScroll(el) {
     const reachedBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 20;
     if (reachedBottom) {
@@ -2101,6 +2265,7 @@ function applyUpdate() {
         window.location.reload();
     });
 }
+
     </script>
     <div id="pwa-update-toast" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:w-80 z-[1000] transform translate-y-32 opacity-0 transition-all duration-500 pointer-events-none">
     <div class="glass-panel p-5 rounded-[24px] border border-theme-primary/30 shadow-2xl flex flex-col gap-4">
