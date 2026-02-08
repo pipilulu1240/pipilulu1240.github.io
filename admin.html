@@ -157,6 +157,15 @@ const LoginView = ({ onLogin }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const passwordRef = useRef(null);
+
+  useEffect(() => {
+    if (email) {
+      setTimeout(() => {
+        passwordRef.current?.focus();
+      }, 50);
+    }
+  }, [email]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -186,7 +195,14 @@ const LoginView = ({ onLogin }) => {
             <div className={`px-4 py-2 rounded-full text-sm font-black text-white ${email===ADMIN_EMAIL?'bg-bear-primary':'bg-bear-dark'}`}>
               {email===ADMIN_EMAIL?'管理員模式':'員工模式'}
             </div>
-            <input className="admin-input text-center" type="password" placeholder="請輸入密碼" value={password} onChange={(e)=>setPassword(e.target.value)} />
+<input
+  ref={passwordRef}
+  className="admin-input text-center"
+  type="password"
+  placeholder="請輸入密碼"
+  value={password}
+  onChange={(e)=>setPassword(e.target.value)}
+/>
             {error && <div className="text-red-500 text-xs font-bold">{error}</div>}
             <button disabled={loading} className="w-full bg-bear-dark text-white py-3 rounded-xl font-bold shadow">
               {loading ? "登入中..." : "登入"}
@@ -210,9 +226,12 @@ useEffect(() => {
   setLocalStatus(order.status);
 }, [order?.id]);
 
-  const handleBlur = () => {
-    if (note !== order.admin_note && canEdit) onUpdateNote(order.id, note);
-  };
+const handleBlur = async () => {
+  if (note !== order.admin_note && canEdit) {
+    const ok = await onUpdateNote(order.id, note);
+    if (!ok) setNote(order.admin_note || "");
+  }
+};
 
 const Field = ({ label, value }) => (
   <div>
@@ -242,11 +261,11 @@ const Field = ({ label, value }) => (
 <div className="grid grid-cols-4 gap-2">
   {["pending","confirmed","completed","cancelled"].map(s => (
     <button key={s}
-      onClick={()=>{
-        if(!canEdit) return;
-        setLocalStatus(s);
-        onUpdateStatus(order.id, s);
-      }}
+onClick={async ()=>{
+  if(!canEdit) return;
+  const ok = await onUpdateStatus(order.id, s);
+  if(ok) setLocalStatus(s);
+}}
       className={`py-2 rounded-xl text-xs font-bold border ${localStatus === s ? "bg-bear-primary text-white border-bear-primary" : "bg-white text-gray-400 border-gray-200"}`}>
       {s==="pending"?"待確認":s==="confirmed"?"已確認":s==="completed"?"已完成":"已取消"}
     </button>
@@ -401,10 +420,14 @@ const Field = ({ label, value }) => (
           </div>
 
           {isAdmin && (
-            <button onClick={()=>{ if(confirm("確定刪除？")) onDelete(order.id) }}
-              className="w-full bg-red-500 text-white font-bold py-2 rounded-xl">
-              刪除此紀錄
-            </button>
+<button onClick={async ()=>{
+  if(!confirm("確定刪除？")) return;
+  const ok = await onDelete(order.id);
+  if(ok) onClose();
+}}
+  className="w-full bg-red-500 text-white font-bold py-2 rounded-xl">
+  刪除此紀錄
+</button>
           )}
         </div>
       </div>
@@ -414,13 +437,30 @@ const Field = ({ label, value }) => (
 
 const Dashboard = ({ user }) => {
   const isAdmin = user?.email === ADMIN_EMAIL;
-  const canEdit = true;
+const canEdit = isAdmin;
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("grooming");
   const [search, setSearch] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showPwdModal, setShowPwdModal] = useState(false);
+
+  const verifyAdminPassword = async () => {
+  if (!isAdmin) return false;
+  const pwd = prompt("請輸入管理員密碼");
+  if (!pwd) return false;
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: ADMIN_EMAIL,
+    password: pwd
+  });
+
+  if (error) {
+    alert("管理員密碼錯誤");
+    return false;
+  }
+  return true;
+};
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -439,22 +479,32 @@ const Dashboard = ({ user }) => {
 
   useEffect(()=>{ fetchOrders(); }, [activeTab]);
 
-  const updateStatus = async (id, status) => {
-    await supabase.from("contracts").update({ status }).eq("id", id);
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
-  };
+const updateStatus = async (id, status) => {
+  const ok = await verifyAdminPassword();
+  if (!ok) return false;
 
-  const updateNote = async (id, note) => {
-    await supabase.from("contracts").update({ admin_note: note }).eq("id", id);
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, admin_note: note } : o));
-  };
+  await supabase.from("contracts").update({ status }).eq("id", id);
+  setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
+  return true;
+};
 
-  const deleteOrder = async (id) => {
-    if (!isAdmin) return;
-    await supabase.from("contracts").delete().eq("id", id);
-    setOrders(prev => prev.filter(o => o.id !== id));
-  };
+const updateNote = async (id, note) => {
+  const ok = await verifyAdminPassword();
+  if (!ok) return false;
 
+  await supabase.from("contracts").update({ admin_note: note }).eq("id", id);
+  setOrders(prev => prev.map(o => o.id === id ? { ...o, admin_note: note } : o));
+  return true;
+};
+
+const deleteOrder = async (id) => {
+  const ok = await verifyAdminPassword();
+  if (!ok) return false;
+
+  await supabase.from("contracts").delete().eq("id", id);
+  setOrders(prev => prev.filter(o => o.id !== id));
+  return true;
+};
   const filtered = useMemo(() => {
     return orders.filter(o => {
       const raw = parseData(o);
