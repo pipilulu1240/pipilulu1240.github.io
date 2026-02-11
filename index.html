@@ -66,7 +66,7 @@
         }
     </script>
 
-    <style>
+<style>
         body { 
             background-color: #F5F9F6;
             background-image: 
@@ -76,6 +76,11 @@
             color: #4A5D50;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
+        }
+
+        /* ✅ 防止 iPhone 點輸入框放大 */
+        input, textarea, select {
+            font-size: 16px !important;
         }
         
         .font-en { font-family: 'Cormorant Garamond', serif; }
@@ -105,7 +110,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-    </style>
+</style>
 </head>
 
 <body class="min-h-screen relative flex flex-col">
@@ -310,18 +315,25 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">電子郵件 (選填)</label>
-                            <input type="email" id="email" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition" placeholder="example@email.com">
+<input type="email" id="email"
+       autocomplete="email"
+       class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition"
+       placeholder="example@email.com">
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">主人姓名*</label>
-                            <input type="text" id="owner_name" class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition" required>
+<input type="text" id="owner_name"
+       autocomplete="name"
+       class="w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition"
+       required>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-theme-sub mb-1.5 ml-1">連絡電話*</label>
                             <div class="flex gap-2">
 <input type="tel" id="phone"
+       autocomplete="tel"
        class="flex-1 w-full bg-white/60 border border-theme-sub/30 rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-primary transition"
        placeholder="請輸入手機號碼"
        required
@@ -329,7 +341,6 @@
        maxlength="10"
        pattern="^09\d{8}$"
        data-error="連絡電話格式錯誤，需為 09 開頭 10 碼"
-
        oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
                                 <button type="button" onclick="searchOldCustomer()" class="bg-theme-dark/10 text-theme-dark px-4 rounded-xl font-bold text-sm hover:bg-theme-dark hover:text-white transition whitespace-nowrap flex items-center gap-1">
                                     <i data-lucide="search" class="w-4 h-4"></i>
@@ -2330,7 +2341,7 @@ function showTerms() {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         // 註冊 sw.js (根據你的需求，index 用 sw.js)
-        navigator.serviceWorker.register('sw.js?v=1').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=2').then(reg => {
             reg.addEventListener('updatefound', () => {
                 newWorker = reg.installing;
                 newWorker.addEventListener('statechange', () => {
