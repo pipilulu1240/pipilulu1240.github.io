@@ -170,24 +170,19 @@ const LoginView = ({ onLogin }) => {
 const [error, setError] = useState("");
 const passwordRef = useRef(null);
 
-useEffect(() => {
-  if (email) {
-    setTimeout(() => {
-      passwordRef.current?.focus();
-    }, 50);
-  }
-}, [email]);
-
 const selectRole = (roleEmail) => {
-  setEmail(roleEmail);
-  setPassword("");
-  setError("");
+  // ✅ 強制同步渲染，確保 input 已出現
+  ReactDOM.flushSync(() => {
+    setEmail(roleEmail);
+    setPassword("");
+    setError("");
+  });
 
-  // ✅ 桌機也一定會跳進輸入框
-  setTimeout(() => {
-    passwordRef.current?.focus();
-  }, 50);
+  // ✅ 同一個點擊事件內立即 focus (iOS 才會跳鍵盤)
+  passwordRef.current?.focus();
+  passwordRef.current?.click(); // iOS 有時需要點一下
 };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -752,7 +747,7 @@ let newWorker = null;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw-admin.js?v=1").then((reg) => {
+    navigator.serviceWorker.register("sw-admin.js?v=2").then((reg) => {
       reg.update();
 
       // 每 1 小時檢查更新
