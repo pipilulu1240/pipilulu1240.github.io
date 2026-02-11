@@ -2354,22 +2354,30 @@ function showTerms() {
                 modal.classList.add('hidden');
             }, 300);
         }
-        let newWorker;
+let newWorker;
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // 註冊 sw.js (根據你的需求，index 用 sw.js)
-        navigator.serviceWorker.register('sw.js?v=3').then(reg => {
-            reg.addEventListener('updatefound', () => {
-                newWorker = reg.installing;
-                newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        // 顯示更新提示窗
-                        showUpdateToast();
-                    }
-                });
+    window.addEventListener('load', async () => {
+        const reg = await navigator.serviceWorker.register('sw.js?v=5');
+
+        // 如果已經有 waiting 的 SW（新版已下載）
+        if (reg.waiting) {
+            newWorker = reg.waiting;
+            showUpdateToast();
+        }
+
+        // 如果有新的更新發現
+        reg.addEventListener('updatefound', () => {
+            newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    showUpdateToast();
+                }
             });
         });
+
+        // 也可以定時檢查更新（可選）
+        setInterval(() => reg.update(), 1000 * 60 * 10);
     });
 }
 let lastContractData = null;
@@ -2694,27 +2702,40 @@ function checkTermsScroll(el) {
 }
 function showUpdateToast() {
     const toast = document.getElementById('pwa-update-toast');
+    if (!toast) return;
     toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
-    lucide.createIcons(); // 重新渲染圖標
+    toast.classList.add('pointer-events-auto');
+    toast.style.pointerEvents = 'auto';
+    lucide.createIcons();
 }
 
 function dismissUpdate() {
     const toast = document.getElementById('pwa-update-toast');
+    if (!toast) return;
     toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+    toast.style.pointerEvents = 'none';
 }
 
 function applyUpdate() {
     if (newWorker) {
-        newWorker.postMessage('SKIP_WAITING');
+        newWorker.postMessage({ type: 'SKIP_WAITING' });
     }
-    // 監聽 controllerchange，當新的 SW 接管後重整頁面
+
+    // ✅ 先把提示窗關掉，避免卡住
+    dismissUpdate();
+
     navigator.serviceWorker.addEventListener('controllerchange', () => {
         window.location.reload();
     });
+
+    // ✅ 若 2 秒內沒換 controller，就強制刷新
+    setTimeout(() => {
+        window.location.reload();
+    }, 2000);
 }
 
     </script>
-    <div id="pwa-update-toast" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:w-80 z-[1000] transform translate-y-32 opacity-0 transition-all duration-500 pointer-events-none">
+<div id="pwa-update-toast" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:w-80 z-[1000] transform translate-y-32 opacity-0 transition-all duration-500 pointer-events-none pointer-events-auto">
     <div class="glass-panel p-5 rounded-[24px] border border-theme-primary/30 shadow-2xl flex flex-col gap-4">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center text-theme-primary">

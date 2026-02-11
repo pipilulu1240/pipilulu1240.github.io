@@ -15,11 +15,14 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then((keys) => {
-            return Promise.all(
-                keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-            );
-        })
+        Promise.all([
+            caches.keys().then((keys) => {
+                return Promise.all(
+                    keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+                );
+            }),
+            self.clients.claim()
+        ])
     );
 });
 
@@ -33,7 +36,10 @@ self.addEventListener('fetch', (event) => {
 
 // 監聽來自頁面的更新指令
 self.addEventListener('message', (event) => {
-    if (event.data === 'SKIP_WAITING') {
+    if (
+        event.data === 'SKIP_WAITING' ||
+        (event.data && event.data.type === 'SKIP_WAITING')
+    ) {
         self.skipWaiting();
     }
 });
