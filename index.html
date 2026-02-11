@@ -1691,6 +1691,25 @@ const contractData = {
 
 const hasEmail = (data.email || "").trim() !== "";
 
+// ✅ 如果有填 email，就寄出副本
+if (hasEmail) {
+    const html = generateContractHTML(contractData);
+
+    await fetch("https://vmjczgepqlefbsfarogk.supabase.co/functions/v1/resend-email", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+        },
+body: JSON.stringify({
+    to: data.email,
+    html,
+    petNames: data.pet_name || "毛孩"
+})
+    });
+}
+
 showSuccessPage(contractData, hasEmail);
 return;
     } catch (err) {
