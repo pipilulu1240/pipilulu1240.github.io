@@ -1,10 +1,9 @@
 // sw.js
-const CACHE_NAME = 'shiba-studio-v' + new Date().getTime(); // 自動產生版本號
+const CACHE_NAME = 'shiba-studio-v' + new Date().getTime(); 
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
-    '/logo (2).jpg',
-    // 加入其他你需要離線瀏覽的靜態資源
+    'https://vmjczgepqlefbsfarogk.supabase.co/storage/v1/object/public/logo/logo__2_-removebg-preview.png'
 ];
 
 self.addEventListener('install', (event) => {

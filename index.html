@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>大柴小熊寵物美容 | 專業美容・安親住宿</title>
     
-    <link rel="icon" href="logo (2).jpg" type="image/jpeg">
-    <link rel="manifest" href="manifest.json">
+<link rel="icon" href="https://vmjczgepqlefbsfarogk.supabase.co/storage/v1/object/public/logo/logo__2_-removebg-preview.png" type="image/png">    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;700;900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -16,7 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.1/dist/umd/supabase.js"></script>
 
     <script>
-        /* --- 色系設定：從 logo (2).jpg 提取的莫蘭迪綠 --- */
         const themeColors = {
             primary: '#A5C4AE',   // Logo 的底色 (抹茶綠/鼠尾草綠)
             dark: '#769A82',      // 漸層用的深綠色
@@ -120,7 +118,7 @@
             <div class="px-6 py-4 flex justify-between items-center max-w-lg mx-auto">
                 <div class="flex items-center gap-3" onclick="router('home')">
                     <div class="w-9 h-9 rounded-full bg-theme-bg border border-theme-primary/30 flex items-center justify-center overflow-hidden">
-                         <img src="logo (2).jpg" class="w-full h-full object-cover">
+<img src="https://vmjczgepqlefbsfarogk.supabase.co/storage/v1/object/public/logo/logo__2_-removebg-preview.png" class="w-full h-full object-contain">
                     </div>
                     <span class="font-bold text-lg tracking-widest text-theme-text font-serif">大柴小熊</span>
                 </div>
@@ -142,7 +140,7 @@
                 <div class="relative z-10 mb-6 flex justify-center">
 <div id="home-logo" class="w-44 h-44 rounded-full p-2 bg-gradient-to-br from-white/90 to-white/40 shadow-xl border border-white flex items-center justify-center animate-float ring-1 ring-white/60 cursor-pointer">
                         <div class="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center relative shadow-inner">
-                            <img src="logo (2).jpg" alt="Logo" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105">
+<img src="https://vmjczgepqlefbsfarogk.supabase.co/storage/v1/object/public/logo/logo__2_-removebg-preview.png" alt="Logo" class="w-full h-full object-contain">
                         </div>
                     </div>
                 </div>
@@ -1687,7 +1685,8 @@ const contractData = {
     signature_url: signatureUrl,
     pet_photo_url: petUrl,
     vaccine_photo_url: vaccineUrl,
-    created_at: new Date().toISOString()
+    created_at: new Date().toISOString(),
+    signed_at: signatureTime ? signatureTime.toISOString() : new Date().toISOString()
 };
 
 const hasEmail = (data.email || "").trim() !== "";
@@ -2341,7 +2340,7 @@ function showTerms() {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         // 註冊 sw.js (根據你的需求，index 用 sw.js)
-        navigator.serviceWorker.register('sw.js?v=2').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=3').then(reg => {
             reg.addEventListener('updatefound', () => {
                 newWorker = reg.installing;
                 newWorker.addEventListener('statechange', () => {
@@ -2408,7 +2407,7 @@ function backToHomeFromSuccess() {
 
 function openSimpleContract() {
     if (!lastContractData) return;
-    const html = generateSimpleContractHTML(lastContractData);
+    const html = generateContractHTML(lastContractData);
     const win = window.open("", "_blank");
     if (win) {
         win.document.write(html);
@@ -2418,57 +2417,249 @@ function openSimpleContract() {
     }
 }
 
-function generateSimpleContractHTML(payload) {
-    const { type, data, signature_url, created_at } = payload;
+function generateContractHTML(payload) {
+    const { type, data, signature_url, pet_photo_url, vaccine_photo_url, created_at, signed_at } = payload;
+
+const LOGO_URL = "https://vmjczgepqlefbsfarogk.supabase.co/storage/v1/object/public/logo/logo__2_-removebg-preview.png";
+
+    const isBoarding = type === "boarding";
+    const isDaycare = !!data.daycare_date;
+
+    const formatList = (v) => Array.isArray(v) ? v.join("、") : (v || "無");
+
+    function calcAge() {
+        if (data.pet_age) return parseFloat(data.pet_age);
+        if (data.pet_birthday) {
+            const birth = new Date(data.pet_birthday);
+            const now = new Date();
+            return (now - birth) / (1000 * 60 * 60 * 24 * 365);
+        }
+        return 0;
+    }
+    const age = calcAge();
+    const isHighRisk = (age >= 8) || (age > 0 && age < 0.42) || (data.history_check === "有病史");
+
+    const signTime = signed_at || created_at;
+
     return `
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>契約副本</title>
+<title>大柴小熊 - 契約副本</title>
 <style>
-body{font-family:"Noto Sans TC",sans-serif;background:#f5f9f6;color:#4a5d50;padding:20px;}
-h1{text-align:center;margin-bottom:6px;}
+body{font-family:"Noto Sans TC",sans-serif;background:#f5f9f6;color:#4a5d50;padding:24px;}
+.container{max-width:900px;margin:auto;background:white;border-radius:24px;padding:32px;box-shadow:0 8px 32px rgba(74,93,80,0.08);border:1px solid #e1ebe4;}
+.header{text-align:center;border-bottom:2px solid #A5C4AE;padding-bottom:18px;margin-bottom:24px;}
+.logo{width:120px;margin-bottom:8px;}
+h1{margin:0;font-size:22px;font-weight:800;letter-spacing:2px;}
+.small{font-size:12px;color:#8C9E92;}
+.section{margin-bottom:24px;}
+.section-title{font-size:16px;font-weight:800;color:#4A5D50;border-left:4px solid #A5C4AE;padding-left:10px;margin-bottom:10px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;}
 .card{border:1px solid #dfe8e2;border-radius:16px;padding:16px;margin-bottom:12px;background:#fff;}
-.small{font-size:12px;color:#6f8076;}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:bold;background:#A5C4AE;color:white;}
+.terms{background:#f9fbf9;border:1px solid #dfe8e2;border-radius:16px;padding:16px;font-size:12px;line-height:1.7;}
+.vendor-card{
+  background:#f9fbf9;
+  border:1px solid #dfe8e2;
+  border-radius:16px;
+  padding:14px 18px;
+  margin:0 auto 16px;
+  max-width:620px;
+  text-align:left;   /* ✅ 內容靠左 */
+}
+.vendor-title{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:#8C9E92;
+  margin-bottom:10px;
+}
+.vendor-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 18px;
+  font-size:12px;
+}
+.vendor-item{
+  text-align:left;
+}
+.vendor-item span.label{
+  display:block;
+  font-size:10px;
+  color:#8C9E92;
+}
+.vendor-item span.value{
+  display:block;
+  font-weight:700;
+  color:#4A5D50;
+}
+.vendor-full{
+  grid-column:1 / -1;
+}
+.signature{margin-top:16px;text-align:center;}
+.signature img{max-width:240px;border-bottom:2px solid #555;padding-bottom:6px;}
+.highlight{color:#c53030;font-weight:bold;}
 </style>
 </head>
 <body>
-  <h1>大柴小熊寵物美容</h1>
-  <div class="small" style="text-align:center;margin-bottom:20px;">契約副本（開發中未完成）</div>
+<div class="container">
 
-  <div class="card">
-    <b>飼主資料</b><br>
-    姓名：${data.owner_name || "-"}<br>
-    電話：${data.phone || "-"}<br>
-    Email：${data.email || "-"}<br>
-    地址：${data.address || "-"}<br>
+  <div class="header">
+    <img src="${LOGO_URL}" class="logo">
+    <h1>大柴小熊寵物美容</h1>
+    <div class="small">數位契約副本</div>
   </div>
 
-  <div class="card">
-    <b>寵物資料</b><br>
-    名字：${data.pet_name || "-"}<br>
-    品種：${data.pet_breed || "-"}<br>
-    體重：${data.pet_weight || "-"} kg<br>
-    服務類型：${type === "grooming" ? "美容" : "住宿/安親"}<br>
+  <div class="section">
+    <div class="section-title">飼主資料</div>
+    <div class="grid">
+      <div>姓名：${data.owner_name || "-"}</div>
+      <div>電話：${data.phone || "-"}</div>
+      <div>Email：${data.email || "-"}</div>
+      <div>身分證：${data.id_number || "-"}</div>
+      <div>緊急聯絡人：${data.emergency_contact || "-"}</div>
+      <div>緊急電話：${data.emergency_phone || "-"}</div>
+    </div>
+    <div class="small" style="margin-top:6px;">地址：${data.address || "-"}</div>
   </div>
 
-  <div class="card">
-    <b>提交時間</b><br>
-    ${new Date(created_at).toLocaleString("zh-TW")}
+  <div class="section">
+    <div class="section-title">寵物資料</div>
+    <div class="grid">
+      <div>種類：${data.pet_type || "-"}</div>
+      <div>名字：${data.pet_name || "-"}</div>
+      <div>品種：${data.pet_breed || "-"}</div>
+      <div>體重：${data.pet_weight || "-"} kg</div>
+      <div>年齡：${data.pet_age || "-"}</div>
+      <div>生日：${data.pet_birthday || "-"}</div>
+      <div>性別：${data.gender || "-"}</div>
+      <div>結紮：${data.neuter || "-"}</div>
+      <div>晶片：${data.microchip_status || "-"}</div>
+      <div>晶片號碼：${data.microchip_number || "-"}</div>
+      <div>攻擊性：${data.aggression || "-"}</div>
+      <div>與狗相處：${data.dog_social || "-"}</div>
+      <div>性情評估：${data.temperament || "-"}</div>
+      <div>病史：${data.history_check || "-"}</div>
+    </div>
+    <div class="small" style="margin-top:6px;">病史詳述：${data.history_detail || "無"}<br>指定醫院：${data.specified_hospital || "依店家指定"}</div>
   </div>
 
-  ${signature_url ? `
-  <div class="card">
-    <b>簽名</b><br>
-    <img src="${signature_url}" style="max-width:200px;border:1px solid #ccc;border-radius:8px;">
+  <div class="section">
+    <div class="section-title">服務類型</div>
+    <span class="tag">${isBoarding ? (isDaycare ? "安親" : "住宿") : "美容"}</span>
+  </div>
+
+  ${type === "grooming" ? `
+  <div class="section card">
+    <b>美容內容</b><br>
+    基本服務：${formatList(data.service)}<br>
+    升級服務：${formatList(data.upgrade_service)}<br>
+    其他需求：${data.other_service_text || "無"}<br>
+    打結處理：${data.matting_suspected ? "有" : "無"}<br>
+打結方案：${
+  data.matting_choice === "方案一" 
+    ? "方案一｜拆結處理（另外計費）" 
+    : data.matting_choice === "方案二" 
+      ? "方案二｜不拆結，直接修剪" 
+      : "無"
+}<br>
+  </div>
+  ` : ""}
+
+  ${type === "boarding" ? `
+  <div class="section card">
+    <b>住宿/安親內容</b><br>
+    入住日期：${data.checkin_date || "-"}<br>
+    退房日期：${data.checkout_date || "-"}<br>
+    安親日期：${data.daycare_date || "-"}<br>
+    抵達時間：${data.arrive_time || "-"}<br>
+    接回時間：${data.leave_time || "-"}<br>
+    驅蟲狀況：${data.deworming || "-"}<br>
+    驅蟲牌子：${data.deworming_brand || "-"}<br>
+    是否吠叫：${data.barking || "-"}<br>
+    吠叫備註：${data.barking_note || "-"}<br>
+    是否護食：${data.food_guard || "-"}<br>
+    護食備註：${data.food_guard_note || "-"}<br>
+    是否使用尿布墊：${data.toilet || "-"}<br>
+    廁所備註：${data.toilet_note || "-"}<br>
+    疫苗狀態：${data.vaccine || "-"}<br>
+    備註：${data.boarding_note || "無"}<br>
+  </div>
+  ` : ""}
+
+  <div class="section">
+    <div class="section-title">附件</div>
+    <div class="small">寵物照片：${pet_photo_url ? `<a href="${pet_photo_url}" target="_blank">檢視</a>` : "無"}</div>
+    <div class="small">疫苗手冊：${vaccine_photo_url ? `<a href="${vaccine_photo_url}" target="_blank">檢視</a>` : "無"}</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">完整條款</div>
+    <div class="terms">
+      ${type === "grooming" ? TERMS_CONTENT.grooming : ""}
+      ${type === "boarding" ? TERMS_CONTENT.boarding : ""}
+${isHighRisk ? `
+  <div style="margin-top:16px;padding:12px;border:2px solid #e53e3e;border-radius:12px;background:#fff5f5;line-height:1.7;">
+    <b class="highlight">⚠ 高風險寵物特別條款</b><br>
+    1. 本人已知悉高齡、幼齡、或患有慢性疾病（如心臟病、癲癇、呼吸道疾病等）之寵物，
+    在美容／住宿過程中可能因環境緊迫、情緒緊張或身體狀況不佳而發生突發狀況。<br>
+    2. 若寵物於服務期間突發不適，乙方得依狀況緊急送醫處置，相關醫療及交通費用由甲方全額負擔。<br>
+    3. 若經判定乙方無疏失，甲方同意不對乙方提出任何損害賠償或法律追訴。
   </div>` : ""}
-
-  <div class="small" style="text-align:center;margin-top:20px;">
+    </div>
   </div>
+
+  <div class="section signature">
+
+    <div class="vendor-card">
+      <div class="vendor-title">乙方（店家）資訊</div>
+      <div class="vendor-grid">
+        <div class="vendor-item">
+          <span class="label">店家名稱</span>
+          <span class="value">大柴小熊寵物美容</span>
+        </div>
+        <div class="vendor-item">
+          <span class="label">負責人</span>
+          <span class="value">陳亞琪</span>
+        </div>
+        <div class="vendor-item">
+          <span class="label">特寵業字號</span>
+          <span class="value">S1130033 號</span>
+        </div>
+        <div class="vendor-item">
+          <span class="label">統一編號</span>
+          <span class="value">94536765</span>
+        </div>
+        <div class="vendor-item">
+          <span class="label">聯絡電話</span>
+          <span class="value">0981-681-349</span>
+        </div>
+        <div class="vendor-item">
+          <span class="label">營業時間</span>
+          <span class="value">10:00–19:00</span>
+        </div>
+        <div class="vendor-item vendor-full">
+          <span class="label">營業地址</span>
+          <span class="value">臺中市北屯區平德路82巷5號</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="small">甲方（飼主）數位簽署</div>
+    ${signature_url ? `<img src="${signature_url}">` : ""}
+
+    <div class="small" style="margin-top:8px;color:#8C9E92;">
+      簽署時間：${new Date(signTime).toLocaleString("zh-TW")}
+    </div>
+  </div>
+
+</div>
 </body>
-</html>`;
+</html>
+`;
 }
 
 function checkTermsScroll(el) {
