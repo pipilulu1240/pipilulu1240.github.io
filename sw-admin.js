@@ -3,7 +3,7 @@ const ASSETS_TO_CACHE = [
   "./",
   "admin.html",
   "manifest-admin.json",
-  "logo (2).jpg"
+  "https://vmjczgepqlefbsfarogk.supabase.co/storage/v1/object/public/logo/logo__2_-removebg-preview.png"
 ];
 
 self.addEventListener("install", (event) => {
