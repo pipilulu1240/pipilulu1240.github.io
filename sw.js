@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_NAME = 'shiba-studio-v' + new Date().getTime(); 
+const CACHE_NAME = "shiba-studio-v2024-10-01"; 
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',

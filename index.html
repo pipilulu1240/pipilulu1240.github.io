@@ -2354,30 +2354,42 @@ function showTerms() {
                 modal.classList.add('hidden');
             }, 300);
         }
-let newWorker;
+/* ====== PWA 更新處理（前台 index）====== */
+const PWA_SW_VERSION = "shiba-studio-v2024-10-01"; // 必須跟 sw.js 的 CACHE_NAME 一樣
+let newWorker = null;
+let refreshing = false;
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-        const reg = await navigator.serviceWorker.register('sw.js?v=5');
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js?v=5").then((reg) => {
 
-        // 如果已經有 waiting 的 SW（新版已下載）
-        if (reg.waiting) {
-            newWorker = reg.waiting;
-            showUpdateToast();
-        }
+            // 如果已經有 waiting 的新版
+            if (reg.waiting) {
+                newWorker = reg.waiting;
+                showUpdateToast();
+            }
 
-        // 如果有新的更新發現
-        reg.addEventListener('updatefound', () => {
-            newWorker = reg.installing;
-            newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    showUpdateToast();
-                }
+            // 主動檢查更新
+            reg.update();
+            setInterval(() => reg.update(), 1000 * 60 * 10);
+
+            reg.addEventListener("updatefound", () => {
+                newWorker = reg.installing;
+                if (!newWorker) return;
+
+                newWorker.addEventListener("statechange", () => {
+                    if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                        showUpdateToast();
+                    }
+                });
             });
         });
 
-        // 也可以定時檢查更新（可選）
-        setInterval(() => reg.update(), 1000 * 60 * 10);
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+        });
     });
 }
 let lastContractData = null;
@@ -2701,30 +2713,35 @@ function checkTermsScroll(el) {
     }
 }
 function showUpdateToast() {
-    const toast = document.getElementById('pwa-update-toast');
+    // ✅ 如果已經更新過這個版本，就不再跳
+    if (localStorage.getItem("pwa_sw_version") === PWA_SW_VERSION) return;
+
+    const toast = document.getElementById("pwa-update-toast");
     if (!toast) return;
-    toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
-    toast.classList.add('pointer-events-auto');
-    toast.style.pointerEvents = 'auto';
+    toast.classList.remove("translate-y-32", "opacity-0", "pointer-events-none");
+    toast.classList.add("pointer-events-auto");
+    toast.style.pointerEvents = "auto";
     lucide.createIcons();
 }
 
 function dismissUpdate() {
-    const toast = document.getElementById('pwa-update-toast');
+    const toast = document.getElementById("pwa-update-toast");
     if (!toast) return;
-    toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
-    toast.style.pointerEvents = 'none';
+    toast.classList.add("translate-y-32", "opacity-0", "pointer-events-none");
+    toast.style.pointerEvents = "none";
 }
 
 function applyUpdate() {
-    if (newWorker) {
-        newWorker.postMessage({ type: 'SKIP_WAITING' });
-    }
+    // ✅ 記錄已更新版本
+    localStorage.setItem("pwa_sw_version", PWA_SW_VERSION);
 
-    // ✅ 先把提示窗關掉，避免卡住
     dismissUpdate();
 
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (newWorker) {
+        newWorker.postMessage({ type: "SKIP_WAITING" });
+    }
+
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
         window.location.reload();
     });
 

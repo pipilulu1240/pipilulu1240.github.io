@@ -1,4 +1,4 @@
-const CACHE_NAME = "admin-cache-v2024-10-01";
+const CACHE_NAME = "admin-cache-v2024-10-02";
 const ASSETS_TO_CACHE = [
   "./",
   "admin.html",
